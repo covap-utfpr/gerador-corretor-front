@@ -1,5 +1,6 @@
 import { useState } from "react";
-import useFetch from "../useFetch";
+import usePost from "../hooks/usePost";
+import useGet from "../hooks/useGet";
 
 const FormularioQuestao = () => {
 
@@ -7,19 +8,20 @@ const FormularioQuestao = () => {
     const [ enunciado, setEnunciado ] = useState("");
     const [ submit, setSubmit ] = useState(false);
 
-    // const requestOptions = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json', 
-    //     },
-    //     // Convertendo o objeto de dados em uma string JSON
-    //     body: JSON.stringify({
-    //         'titulo': titulo,
-    //         'enunciado': enunciado
-    //     }), 
-    // };
-
-    // const { data, isLoading, error } = useFetch(`http://localhost:8080/questao/criar`, requestOptions, submit);
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', 
+        },
+        // Convertendo o objeto de dados em uma string JSON
+        body: JSON.stringify({
+            'titulo': titulo,
+            'enunciado': enunciado,
+            'imagem': ''
+        }), 
+    };
+    const { data, isLoading, Error } = useGet("http://localhost:8080/questao/ler");
+    // const { data, isLoading, error } = usePost(`http://localhost:8080/questao/criar`, requestOptions, submit);
     
     // if(data) {
     //     console.log(data);
