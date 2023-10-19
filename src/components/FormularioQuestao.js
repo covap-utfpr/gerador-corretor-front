@@ -20,14 +20,14 @@ const FormularioQuestao = () => {
             'imagem': ''
         }), 
     };
-    const { data, isLoading, Error } = useGet("http://localhost:8080/questao/ler");
-    // const { data, isLoading, error } = usePost(`http://localhost:8080/questao/criar`, requestOptions, submit);
+
+    const { data, isLoading, error } = usePost(`http://localhost:8080/questao/criar`, requestOptions, submit);
     
-    // if(data) {
-    //     console.log(data);
-    // } else if (error) {
-    //     console.log(error);
-    // } 
+    if(data) {
+        console.log(data);
+    } else if (error) {
+        console.log(error);
+    } 
 
     function handleSubmit(event) {
 
