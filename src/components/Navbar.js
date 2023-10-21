@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom';
-import useGet from '../hooks/useGet';
-import { useState } from 'react';
+import { getUrlLogin } from '../api/autenticacao';
 
 const Navbar = () => {
 
-    const [ submit, setSubmit ] = useState();
+    async function handleLogin() {
 
-    const { data, isLoading, error } = useGet("http://localhost:8080/login/", submit);
+        const response = await getUrlLogin();
+        
+        if(response.data) { 
 
-    if(data) {
-        window.location.href = data;
-    } else if(error) {
-        console.error(error);
-    } 
+            window.location.href = response.data;
+
+        } else if(response.error) {
+
+            console.error(response.error);
+        } 
+    }
    
     return (
         <nav className="navbar">
@@ -20,7 +23,7 @@ const Navbar = () => {
             <div className="links">
                 <Link to="/">Home</Link>
                 <Link to="/criar-questao"> Nova Questao</Link>
-                 <button onClick={ () => setSubmit(true) }>Login</button>
+                 <button onClick={() => handleLogin()}>Login</button>
             </div>
         </nav>
     )
