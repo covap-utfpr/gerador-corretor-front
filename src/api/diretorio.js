@@ -1,4 +1,5 @@
 import resolver from "./resolver";
+import Cookies from 'js-cookie';
 
 export async function postDiretorio(nome) {
     
@@ -6,6 +7,7 @@ export async function postDiretorio(nome) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json', 
+            'Authorization': Cookies.get('token')
         },
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({

@@ -7,7 +7,8 @@ import Cookies from 'js-cookie';
 
 function App() {
 
-  const isAuthenticated = Cookies.get("token")
+  //Verificando presença do token de autenticaçao
+  const isAuthenticated = Cookies.get("token");
 
   return (
     <div>

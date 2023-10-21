@@ -10,8 +10,10 @@ const FormularioQuestao = () => {
 
     async function handleSubmit(event) {
 
+        //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
 
+        //obtem 
         const idDiretorio = await postDiretorio("Matematica");
         
         if(idDiretorio.data) {
@@ -35,11 +37,13 @@ const FormularioQuestao = () => {
         }
     }
 
+    //funçao que reseta o state titulo a cada mudança ocorrida no campo
     function handleTituloChange(event) {
 
         setTitulo(event.target.value);
     }
 
+    //funçao que reseta o state enunciado a cada mudança ocorrida no campo
     function handleEnunciadoChange(event) {
         
         setEnunciado(event.target.value);

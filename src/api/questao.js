@@ -1,11 +1,13 @@
 import resolver from "./resolver";
+import Cookies from 'js-cookie';
 
 export async function postQuestao(titulo, enunciado, imagem, diretorio) {
-    
+
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json', 
+            'Authorization': Cookies.get('token')
         },
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({

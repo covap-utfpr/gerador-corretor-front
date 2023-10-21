@@ -3,17 +3,20 @@ import { getUrlLogin } from '../api/autenticacao';
 
 const Navbar = () => {
 
+    //ao clicar no botao login
     async function handleLogin() {
 
-        const response = await getUrlLogin();
+        //chama funçao que retorna aurl externa para login com google
+        const url = await getUrlLogin();
         
-        if(response.data) { 
+        //se retornou url, redireciona o usuario para fazer login
+        if(url.data) { 
+            
+            window.location.href = url.data;
 
-            window.location.href = response.data;
+        } else if(url.error) {
 
-        } else if(response.error) {
-
-            console.error(response.error);
+            console.error(url.error);
         } 
     }
    
