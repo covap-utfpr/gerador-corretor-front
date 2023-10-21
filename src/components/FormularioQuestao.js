@@ -1,38 +1,38 @@
 import { useState } from "react";
-import usePost from "../hooks/usePost";
-import useGet from "../hooks/useGet";
+import { postDiretorio } from '../api/diretorio';
+import { postQuestao } from '../api/questao';
+
 
 const FormularioQuestao = () => {
 
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
-    const [ submit, setSubmit ] = useState(false);
 
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json', 
-        },
-        // Convertendo o objeto de dados em uma string JSON
-        body: JSON.stringify({
-            'titulo': titulo,
-            'enunciado': enunciado,
-            'imagem': ''
-        }), 
-    };
-
-    const { data, isLoading, error } = usePost(`http://localhost:8080/questao/criar`, requestOptions, submit);
-    
-    if(data) {
-        console.log(data);
-    } else if (error) {
-        console.log(error);
-    } 
-
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
 
         event.preventDefault();
-        setSubmit(true);
+
+        const idDiretorio = await postDiretorio("Matematica");
+        
+        if(idDiretorio.data) {
+
+            console.log("Diretorio criado, id: " + idDiretorio.data);
+            
+            const idQuestao = await postQuestao(titulo, enunciado, "", idDiretorio.data);
+
+            if(idQuestao.data) {
+
+                console.log("Questao criada, id: " + idQuestao.data);
+            
+            } else if(idQuestao.error){
+
+                console.error(idQuestao.error);
+            }
+        
+        } else if(idDiretorio.error) {
+
+            console.error(idDiretorio.error);
+        }
     }
 
     function handleTituloChange(event) {
