@@ -27,3 +27,26 @@ export async function postDiretorio(nome) {
         })
     )
 }
+
+export async function readDiretorio(nome) {
+    
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/diretorio/ler/${nome}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw Error("Nao foi possivel ler diretorio");
+            }
+            
+            return res.text();
+        })
+    )
+}
+

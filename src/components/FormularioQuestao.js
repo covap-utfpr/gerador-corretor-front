@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { postDiretorio } from '../api/diretorio';
+import { postDiretorio, readDiretorio } from '../api/diretorio';
 import { postQuestao } from '../api/questao';
 
 
@@ -14,12 +14,21 @@ const FormularioQuestao = () => {
         event.preventDefault();
 
         //obtem 
-        const idDiretorio = await postDiretorio("Matematica");
+        let idDiretorio = await readDiretorio("Matematica");
         
         if(idDiretorio.data) {
 
-            console.log("Diretorio criado, id: " + idDiretorio.data);
-            
+            console.log("Diretorio recuperado, id: " + idDiretorio.data);
+        
+        } else if(idDiretorio.error) {
+
+            console.error(idDiretorio.error);
+
+            idDiretorio = await postDiretorio("Matematica");
+        }
+
+        if(idDiretorio.data) {
+
             const idQuestao = await postQuestao(titulo, enunciado, "", idDiretorio.data);
 
             if(idQuestao.data) {
@@ -30,11 +39,12 @@ const FormularioQuestao = () => {
 
                 console.error(idQuestao.error);
             }
-        
+
         } else if(idDiretorio.error) {
 
             console.error(idDiretorio.error);
         }
+      
     }
 
     //funçao que reseta o state titulo a cada mudança ocorrida no campo
