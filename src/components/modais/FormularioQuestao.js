@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { postDiretorio, readDiretorio } from '../api/diretorio';
-import { postQuestao } from '../api/questao';
-
+import { postDiretorio, readDiretorio } from '../../api/diretorio';
+import { postQuestao } from '../../api/questao';
 
 const FormularioQuestao = () => {
 
@@ -59,7 +58,7 @@ const FormularioQuestao = () => {
     }
 
     return (
-        <nav className="formulario-questao">
+        <div className="formulario-questao">
             
             <form onSubmit={(event) => handleSubmit(event)}>
 
@@ -83,7 +82,7 @@ const FormularioQuestao = () => {
                 <button type="submit">Enviar</button>
 
             </form>
-        </nav>
+        </div>
     )
 }
 
