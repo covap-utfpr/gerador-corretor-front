@@ -1,4 +1,4 @@
-import resolver from "./resolver";
+import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 
 export async function postDiretorio(nome) {

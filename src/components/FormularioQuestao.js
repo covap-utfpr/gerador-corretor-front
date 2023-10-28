@@ -23,7 +23,6 @@ const FormularioQuestao = () => {
         } else if(idDiretorio.error) {
 
             console.error(idDiretorio.error);
-
             idDiretorio = await postDiretorio("Matematica");
         }
 

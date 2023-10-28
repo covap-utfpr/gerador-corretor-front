@@ -1,4 +1,4 @@
-import resolver from "./resolver";
+import resolver from "../utils/resolver";
 
 export async function getUrlLogin() {
     
