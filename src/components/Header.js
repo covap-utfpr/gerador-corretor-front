@@ -24,7 +24,9 @@ const Header = () => {
         //se o login foi bem sucedido, verifica existencia do diretorio raiz do app
         if(Cookies.get("token")) {
 
-            await checkRootDirectory();
+            const idDiretorio = await checkRootDirectory();
+
+            Cookies.set("diretorioApp", idDiretorio);
         }
         
     }
