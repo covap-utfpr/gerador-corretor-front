@@ -1,7 +1,7 @@
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 
-export async function postDiretorio(nome) {
+export async function postDiretorio(nome, pai) {
     
     const requestOptions = {
         method: 'POST',
@@ -12,6 +12,7 @@ export async function postDiretorio(nome) {
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({
             'nome': nome,
+            'pai': pai
         }), 
     };
 
