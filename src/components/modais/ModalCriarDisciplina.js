@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { postDiretorio } from "../../api/diretorio";
-import Cookies from "js-cookie";
+import { useAtomValue , useSetAtom} from "jotai";
+import { idDiretorioPaiAtom, listaDisciplinasAtom } from "../../states/directoryState";
+import { postDiretorio, readDiretorios } from "../../api/diretorio";
 
 const ModalCriarDisciplina = () => {
 
+    const idDiretorioPai = useAtomValue(idDiretorioPaiAtom);
+    const setDisciplinas = useSetAtom(listaDisciplinasAtom);
     const [nome, setNome] = useState("");
 
     async function handleSubmit(event) {
@@ -11,14 +14,20 @@ const ModalCriarDisciplina = () => {
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
 
-        const idDiretorioApp =  Cookies.get("diretorioApp");
-
-        let idDisciplina = await postDiretorio(nome, idDiretorioApp);
+        const idDisciplina = await postDiretorio(nome, idDiretorioPai);
         
         if(idDisciplina.data) {
 
-            console.log("Disciplina criada com sucesso");
-            console.log(idDisciplina.data);
+            const listaDisciplinas = await readDiretorios(idDiretorioPai);
+        
+            if(listaDisciplinas.data) {
+        
+                setDisciplinas(listaDisciplinas.data);
+        
+            } else if (listaDisciplinas.error) {
+        
+                console.error(listaDisciplinas.error);
+            }   
 
         } else if (idDisciplina.error) {
 

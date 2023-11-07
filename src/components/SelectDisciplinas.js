@@ -1,38 +1,36 @@
-import { useEffect , useState } from "react";
+import { useAtomValue, useAtom } from "jotai";
+import { listaDisciplinasAtom, idDiretorioPaiAtom } from "../states/directoryState";
 import { readDiretorios } from "../api/diretorio";
-import Cookies from "js-cookie";
 
 const SelectDisciplinas = () => {
 
-    const [ diretorios, setDiretorios ] = useState([]);
+    const idDiretorioPai = useAtomValue(idDiretorioPaiAtom);
+    const [ disciplinas, setDisciplinas ] = useAtom(listaDisciplinasAtom);
 
-    useEffect(() => {
+    async function fetchDisciplinas() {
 
-        async function fetchDiretorios() {
-
-            const idDiretorioApp = Cookies.get("diretorioApp");
-
-            const listaDiretorios = await readDiretorios(idDiretorioApp);
-            
-            if(listaDiretorios.data) {
+        const listaDisciplinas = await readDiretorios(idDiretorioPai);
         
-                setDiretorios(listaDiretorios.data);
-        
-            } else if (listaDiretorios.error) {
-        
-                console.error(listaDiretorios.error);
-            }   
-        }
+        if(listaDisciplinas.data) {
+    
+            setDisciplinas(listaDisciplinas.data);
+    
+        } else if (listaDisciplinas.error) {
+    
+            console.error(listaDisciplinas.error);
+        }   
+    }
 
-        fetchDiretorios();
+    if(disciplinas.length === 0) {
 
-    }, []);
+        fetchDisciplinas();
+    }
 
     return (
         <div className="select-disciplinas">
             <h2>Disciplinas: </h2>
             <select name="disciplinas" id="disciplinas">
-                {diretorios.map((diretorio, index) => (
+                {disciplinas.map((diretorio, index) => (
                     <option key={index} value={diretorio.name}>
                     {diretorio.name}
                     </option>

@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 import { getUrlLogin } from '../api/autenticacao';
-import Cookies from 'js-cookie';
-import { checkRootDirectory } from '../utils/checkRootDirectory';
 
 const Header = () => {
 
@@ -20,13 +18,6 @@ const Header = () => {
 
             console.error(url.error);
         } 
-
-        //se o login foi bem sucedido, verifica existencia do diretorio raiz do app
-        if(Cookies.get("token")) {
-
-            const idDiretorio = await checkRootDirectory();
-            Cookies.set("diretorioApp", idDiretorio);
-        }
         
     }
    

@@ -1,5 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import Cookies from 'js-cookie';
+import { useEffect } from "react";
+
+import { useAtomValue , useSetAtom } from "jotai";
+import { tokenAtom } from "./states/userState";
+import { idDiretorioPaiAtom } from "./states/directoryState";
+
+import { checkRootDirectory } from "./utils/checkRootDirectory";
 import RotaPrivada from "./components/rotaPrivada";
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -10,8 +16,27 @@ import Sobre from "./pages/Sobre";
 
 function App() {
 
-  //Verificando presença do token de autenticaçao
-  const isAuthenticated = Cookies.get("token");
+  //utilizando states globais tokenAtom e idDiretorioPaiAtom
+  const token = useAtomValue(tokenAtom);
+  const setIdDiretorio = useSetAtom(idDiretorioPaiAtom);
+
+  //useEffect: executa sempre que o componente App é montado
+  useEffect(() => {
+    //verificacao de existencia do diretorio raiz do app
+      //se o ususario estiver autenticado
+    if(token) {
+      checkRootDirectory()
+        .then(idDiretorio => {
+          //atualiza state global isDiretorioAtom 
+          setIdDiretorio(idDiretorio);
+          //atualiza o localStorage
+          localStorage.setItem("IdDiretorioPai", JSON.stringify(idDiretorio));
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  });
   
   return (
     <div>
@@ -21,7 +46,7 @@ function App() {
           <Route 
             path="criar-avaliacao"
             element={
-              <RotaPrivada isAuthenticated={isAuthenticated}>
+              <RotaPrivada isAuthenticated={token}>
                 <CriarAvaliacao />
               </RotaPrivada>
             }
@@ -29,7 +54,7 @@ function App() {
           <Route 
             path="editar"
             element={
-              <RotaPrivada isAuthenticated={isAuthenticated}>
+              <RotaPrivada isAuthenticated={token}>
                 <Editar />
               </RotaPrivada>
             }
@@ -37,7 +62,7 @@ function App() {
           <Route 
             path="corretor"
             element={
-              <RotaPrivada isAuthenticated={isAuthenticated}>
+              <RotaPrivada isAuthenticated={token}>
                 <Corretor />
               </RotaPrivada>
             }
@@ -45,7 +70,7 @@ function App() {
           <Route 
             path="sobre"
             element={
-              <RotaPrivada isAuthenticated={isAuthenticated}>
+              <RotaPrivada isAuthenticated={token}>
                 <Sobre />
               </RotaPrivada>
             }
