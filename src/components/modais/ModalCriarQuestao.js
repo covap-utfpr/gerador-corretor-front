@@ -2,7 +2,7 @@ import { useState } from "react";
 import { postDiretorio, readDiretorio } from '../../api/diretorio';
 import { postQuestao } from '../../api/questao';
 
-const FormularioQuestao = () => {
+const ModalCriarQuestao = () => {
 
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
@@ -12,9 +12,8 @@ const FormularioQuestao = () => {
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
 
-        //obtem 
         let idDiretorio = await readDiretorio("Matematica");
-        
+
         if(idDiretorio.data) {
 
             console.log("Diretorio recuperado, id: " + idDiretorio.data);
@@ -86,4 +85,4 @@ const FormularioQuestao = () => {
     )
 }
 
-export default FormularioQuestao;
+export default ModalCriarQuestao;

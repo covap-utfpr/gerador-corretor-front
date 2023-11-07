@@ -1,9 +1,14 @@
 import ModalCriarDisciplina from "../components/modais/ModalCriarDisciplina";
+import SelectDisciplinas from "../components/SelectDisciplinas";
+
 
 const Editar = () => {
 
     return (
-        <div></div>   
+        <div>
+            <SelectDisciplinas />
+            <ModalCriarDisciplina />
+        </div>   
     )
 }
 

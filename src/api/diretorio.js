@@ -51,3 +51,23 @@ export async function readDiretorio(nome) {
     )
 }
 
+export async function readDiretorios(pai) {
+    
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/diretorio/ler?pai=${pai}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw Error("Nao foi possivel ler diretorio");
+            }
+            return res.json();
+        })
+    )
+}

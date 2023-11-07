@@ -25,7 +25,6 @@ const Header = () => {
         if(Cookies.get("token")) {
 
             const idDiretorio = await checkRootDirectory();
-
             Cookies.set("diretorioApp", idDiretorio);
         }
         
