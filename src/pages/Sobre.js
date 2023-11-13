@@ -1,7 +1,9 @@
 const Sobre = () => {
 
     return (
-        <p>Sobre</p>
+        <main>
+            <p>Sobre</p>
+        </main>
     )
 }
 

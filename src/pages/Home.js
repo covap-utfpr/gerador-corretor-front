@@ -1,7 +1,9 @@
 const Home = () => {
 
     return (
-        <p>Seja bem vindo(a)!</p>
+        <main>
+            <p>Seja bem vindo(a)!</p>
+        </main>
     )
 }
 

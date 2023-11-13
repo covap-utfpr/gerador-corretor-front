@@ -1,7 +1,9 @@
 const CriarAvaliacao = () => {
 
     return (
-        <p>Crie nova avaliaçao</p>
+        <main>
+            <p>Crie nova avaliaçao</p>
+        </main>
     )
 }
 

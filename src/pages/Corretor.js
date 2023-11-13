@@ -1,7 +1,9 @@
 const Corretor = () => {
 
     return (
-        <p>Corretor</p>
+        <main>
+            <p>Corretor</p>
+        </main>
     )
 }
 

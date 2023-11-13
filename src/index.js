@@ -9,9 +9,10 @@ import App from "./App";
 
 //selecionando raiz do index e renderizando App dentro
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  //renderiz app 2 vezes
+  //<React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>
+  //</React.StrictMode>
 );

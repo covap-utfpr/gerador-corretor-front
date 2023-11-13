@@ -1,30 +1,24 @@
 import { useState } from "react";
-import { postDiretorio, readDiretorio } from '../../api/diretorio';
+import { readDiretorio } from '../../api/diretorio';
 import { postQuestao } from '../../api/questao';
+import SelectDisciplinas from "../SelectDisciplinas";
 
 const ModalCriarQuestao = () => {
 
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
+    const [ disciplina, setDisciplina ] = useState("");
 
     async function handleSubmit(event) {
 
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
-
-        let idDiretorio = await readDiretorio("Matematica");
+        console.log(disciplina);
+        let idDiretorio = await readDiretorio(disciplina);
 
         if(idDiretorio.data) {
 
             console.log("Diretorio recuperado, id: " + idDiretorio.data);
-        
-        } else if(idDiretorio.error) {
-
-            console.error(idDiretorio.error);
-            idDiretorio = await postDiretorio("Matematica");
-        }
-
-        if(idDiretorio.data) {
 
             const idQuestao = await postQuestao(titulo, enunciado, "", idDiretorio.data);
 
@@ -36,17 +30,15 @@ const ModalCriarQuestao = () => {
 
                 console.error(idQuestao.error);
             }
-
+        
         } else if(idDiretorio.error) {
 
             console.error(idDiretorio.error);
-        }
-      
+        }    
     }
 
     //funçao que reseta o state titulo a cada mudança ocorrida no campo
     function handleTituloChange(event) {
-
         setTitulo(event.target.value);
     }
 
@@ -56,10 +48,16 @@ const ModalCriarQuestao = () => {
         setEnunciado(event.target.value);
     }
 
+    function handleDisciplinaChange(event) {
+        setDisciplina(event.target.value);
+    }
+
     return (
         <div className="formulario-questao">
-            
+            <h2>Nova Questao</h2>
             <form onSubmit={(event) => handleSubmit(event)}>
+
+                <SelectDisciplinas handleFunction={handleDisciplinaChange}/>
 
                 <label htmlFor="titulo">Titulo da Questao</label>
                 <input 
