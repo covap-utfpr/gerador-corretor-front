@@ -1,10 +1,13 @@
+import { useAtomValue } from "jotai";
+import { idDiretorioRaizAtom } from "../../states/directoryState";
 import { useState } from "react";
-import { readDiretorio } from '../../api/diretorio';
-import { postQuestao } from '../../api/questao';
+import { lerUmDiretorio } from '../../api/diretorio';
+import { criarUmaQuestao } from '../../api/questao';
 import SelectDisciplinas from "../SelectDisciplinas";
 
 const ModalCriarQuestao = () => {
 
+    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
     const [ disciplina, setDisciplina ] = useState("");
@@ -13,14 +16,17 @@ const ModalCriarQuestao = () => {
 
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
+        
         console.log(disciplina);
-        let idDiretorio = await readDiretorio(disciplina);
 
-        if(idDiretorio.data) {
+        const idDisciplina = await lerUmDiretorio(disciplina, idDiretorioRaiz);
 
-            console.log("Diretorio recuperado, id: " + idDiretorio.data);
+        if(idDisciplina.data) {
 
-            const idQuestao = await postQuestao(titulo, enunciado, "", idDiretorio.data);
+            console.log("Diretorio recuperado, id: " + idDisciplina.data);
+
+            
+            const idQuestao = await criarUmaQuestao(titulo, enunciado, "", idDisciplina.data);
 
             if(idQuestao.data) {
 
@@ -31,9 +37,9 @@ const ModalCriarQuestao = () => {
                 console.error(idQuestao.error);
             }
         
-        } else if(idDiretorio.error) {
+        } else if(idDisciplina.error) {
 
-            console.error(idDiretorio.error);
+            console.error(idDisciplina.error);
         }    
     }
 

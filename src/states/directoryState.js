@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
 
-export const idDiretorioPaiAtom = atom((JSON.parse(localStorage.getItem("IdDiretorioPai"))));
+export const idDiretorioRaizAtom = atom((JSON.parse(localStorage.getItem("IdDiretorioRaiz"))));
 
 export const listaDisciplinasAtom = atom([]);

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useAtomValue , useSetAtom} from "jotai";
-import { idDiretorioPaiAtom, listaDisciplinasAtom } from "../../states/directoryState";
-import { postDiretorio, readDiretorios } from "../../api/diretorio";
+import { idDiretorioRaizAtom, listaDisciplinasAtom } from "../../states/directoryState";
+import { criarUmDiretorio, lerVariosDiretorios } from "../../api/diretorio";
 
 const ModalCriarDisciplina = () => {
 
-    const idDiretorioPai = useAtomValue(idDiretorioPaiAtom);
+    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
     const setDisciplinas = useSetAtom(listaDisciplinasAtom);
     const [nome, setNome] = useState("");
 
@@ -14,11 +14,15 @@ const ModalCriarDisciplina = () => {
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
 
-        const idDisciplina = await postDiretorio(nome, idDiretorioPai);
-        
-        if(idDisciplina.data) {
+        const idDisciplina = await criarUmDiretorio(nome, idDiretorioRaiz);
 
-            const listaDisciplinas = await readDiretorios(idDiretorioPai);
+        if(idDisciplina.data) {
+            
+            let [idDiretorioQuestoes, idDiretorioAvaliacoes, listaDisciplinas] = await Promise.all([
+                criarUmDiretorio("Questoes", idDisciplina.data),
+                criarUmDiretorio("Avaliacoes", idDisciplina.data),
+                lerVariosDiretorios(idDiretorioRaiz), 
+            ]);
         
             if(listaDisciplinas.data) {
         

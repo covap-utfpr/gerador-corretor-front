@@ -1,7 +1,7 @@
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 
-export async function postDiretorio(nome, pai) {
+export async function criarUmDiretorio(nome, pai) {
     
     const requestOptions = {
         method: 'POST',
@@ -29,7 +29,7 @@ export async function postDiretorio(nome, pai) {
     )
 }
 
-export async function readDiretorio(nome) {
+export async function lerUmDiretorio(nome, pai) {
     
     const requestOptions = {
         method: 'GET',
@@ -38,7 +38,7 @@ export async function readDiretorio(nome) {
         },
     };
 
-    return await resolver(fetch(`http://localhost:8080/diretorio/ler/${nome}`, requestOptions)
+    return await resolver(fetch(`http://localhost:8080/diretorio/ler/${nome}?pai=${pai}`, requestOptions)
         
         .then(res => {
             
@@ -51,7 +51,7 @@ export async function readDiretorio(nome) {
     )
 }
 
-export async function readDiretorios(pai) {
+export async function lerVariosDiretorios(pai) {
     
     const requestOptions = {
         method: 'GET',

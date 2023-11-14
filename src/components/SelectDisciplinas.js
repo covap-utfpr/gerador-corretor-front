@@ -1,16 +1,16 @@
 import { useAtomValue, useAtom } from "jotai";
-import { listaDisciplinasAtom, idDiretorioPaiAtom } from "../states/directoryState";
-import { readDiretorios } from "../api/diretorio";
+import { listaDisciplinasAtom, idDiretorioRaizAtom } from "../states/directoryState";
+import { lerVariosDiretorios } from "../api/diretorio";
 import { useState } from "react";
 
 const SelectDisciplinas = ({ handleFunction }) => {
 
-    const idDiretorioPai = useAtomValue(idDiretorioPaiAtom);
+    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
     const [ disciplinas, setDisciplinas ] = useAtom(listaDisciplinasAtom);
 
     async function fetchDisciplinas() {
 
-        const listaDisciplinas = await readDiretorios(idDiretorioPai);
+        const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
         
         if(listaDisciplinas.data) {
     

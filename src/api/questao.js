@@ -1,7 +1,7 @@
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 
-export async function postQuestao(titulo, enunciado, imagem, diretorio) {
+export async function criarUmaQuestao(titulo, enunciado, imagem, disciplina) {
 
     const requestOptions = {
         method: 'POST',
@@ -14,7 +14,7 @@ export async function postQuestao(titulo, enunciado, imagem, diretorio) {
             'titulo': titulo,
             'enunciado': enunciado,
             'imagem': imagem,
-            'diretorio': diretorio
+            'disciplina': disciplina
         }), 
     };
 

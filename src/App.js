@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 import { useAtomValue , useSetAtom } from "jotai";
 import { tokenAtom } from "./states/userState";
-import { idDiretorioPaiAtom } from "./states/directoryState";
+import { idDiretorioRaizAtom } from "./states/directoryState";
 
 import { checkRootDirectory } from "./utils/checkRootDirectory";
 import RotaPrivada from "./components/rotaPrivada";
@@ -16,9 +16,9 @@ import Sobre from "./pages/Sobre";
 
 function App() {
 
-  //utilizando states globais tokenAtom e idDiretorioPaiAtom
+  //utilizando states globais tokenAtom e idDiretorioRaizAtom
   const token = useAtomValue(tokenAtom);
-  const setIdDiretorio = useSetAtom(idDiretorioPaiAtom);
+  const setIdDiretorio = useSetAtom(idDiretorioRaizAtom);
 
   //useEffect: executa sempre que o componente App é montado
   useEffect(() => {
@@ -30,13 +30,13 @@ function App() {
           //atualiza state global isDiretorioAtom 
           setIdDiretorio(idDiretorio);
           //atualiza o localStorage
-          localStorage.setItem("IdDiretorioPai", JSON.stringify(idDiretorio));
+          localStorage.setItem("IdDiretorioRaiz", JSON.stringify(idDiretorio));
         })
         .catch(error => {
           console.log(error);
         })
     }
-  }, []);
+  });
   
   return (
     <div>

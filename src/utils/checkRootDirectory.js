@@ -1,9 +1,9 @@
-import { postDiretorio, readDiretorio } from '../api/diretorio';
+import { criarUmDiretorio, lerUmDiretorio } from '../api/diretorio';
 
 //verifica existencia do diretorio raiz do app
 export async function checkRootDirectory() {
 
-    let idDiretorio = await readDiretorio("Gerador-Corretor-Avaliacoes");
+    let idDiretorio = await lerUmDiretorio("Gerador-Corretor-Avaliacoes", "");
     
     if (idDiretorio.data) {
         //retorna id do diretorio raiz
@@ -13,7 +13,7 @@ export async function checkRootDirectory() {
     } else if (idDiretorio.error) {
         
         //cria novo diretorio raiz
-        idDiretorio = await postDiretorio("Gerador-Corretor-Avaliacoes");
+        idDiretorio = await criarUmDiretorio("Gerador-Corretor-Avaliacoes");
 
         if(idDiretorio.data) {
 
