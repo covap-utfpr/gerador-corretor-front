@@ -18,7 +18,7 @@ const ModalCriarDisciplina = () => {
 
         if(idDisciplina.data) {
             
-            let [idDiretorioQuestoes, idDiretorioAvaliacoes, listaDisciplinas] = await Promise.all([
+            let [ idDiretorioQuestoes, idDiretorioAvaliacoes, listaDisciplinas ] = await Promise.all([
                 criarUmDiretorio("Questoes", idDisciplina.data),
                 criarUmDiretorio("Avaliacoes", idDisciplina.data),
                 lerVariosDiretorios(idDiretorioRaiz), 
@@ -48,7 +48,6 @@ const ModalCriarDisciplina = () => {
         <div className="modal-criar-disciplina">
             <h2>Nova Disciplina</h2>
             <div className="formulario-disciplina">
-            
                 <form onSubmit={(event) => handleSubmit(event)}>
 
                     <label htmlFor="nome">Nome da Disciplina</label>
@@ -59,7 +58,7 @@ const ModalCriarDisciplina = () => {
                         onChange={(event) => handleNomeChange(event)}
                     />
 
-                    <button className="salvar" type="submit">Salvar</button>
+                    <button className="eviar" type="submit">Enviar</button>
                 </form>
             </div>
         </div>

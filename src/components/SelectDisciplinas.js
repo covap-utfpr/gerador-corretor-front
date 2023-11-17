@@ -1,7 +1,6 @@
 import { useAtomValue, useAtom } from "jotai";
 import { listaDisciplinasAtom, idDiretorioRaizAtom } from "../states/directoryState";
 import { lerVariosDiretorios } from "../api/diretorio";
-import { useState } from "react";
 
 const SelectDisciplinas = ({ handleFunction }) => {
 
@@ -33,7 +32,7 @@ const SelectDisciplinas = ({ handleFunction }) => {
             <select name="disciplinas" id="disciplinas" onChange={(event) => { handleFunction(event) }}>
                 {disciplinas.map((diretorio, index) => (
                     <option key={index} value={diretorio.name}>
-                    {diretorio.name}
+                        {diretorio.name}
                     </option>
                 ))}
             </select>
