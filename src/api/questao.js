@@ -1,5 +1,6 @@
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
+import ServerException from "../utils/serverException";
 
 export async function criarUmaQuestao(titulo, enunciado, imagem, disciplina) {
 
@@ -23,10 +24,31 @@ export async function criarUmaQuestao(titulo, enunciado, imagem, disciplina) {
         .then(res => {
             
             if(!res.ok) {
-                throw Error("Nao foi possivel criar questao");
+                throw new ServerException(res.statusText, res.status);
             }
             
             return res.text();
+        })
+    )
+}
+
+export async function lerVariasQuestoes(disciplina, diretorioRaiz) {
+    
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/questao/ler?disciplina=${disciplina}&diretorioRaiz=${diretorioRaiz}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw new ServerException(res.statusText, res.status);
+            }
+            return res.json();
         })
     )
 }

@@ -1,5 +1,6 @@
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
+import ServerException from "../utils/serverException";
 
 export async function criarUmDiretorio(nome, pai) {
     
@@ -21,7 +22,7 @@ export async function criarUmDiretorio(nome, pai) {
         .then(res => {
             
             if(!res.ok) {
-                throw Error("Nao foi possivel criar diretorio");
+                throw new ServerException(res.statusText, res.status);
             }
             
             return res.text();
@@ -43,7 +44,7 @@ export async function lerUmDiretorio(nome, pai) {
         .then(res => {
             
             if(!res.ok) {
-                throw Error("Nao foi possivel ler diretorio");
+                throw new ServerException(res.statusText, res.status);
             }
             
             return res.text();
@@ -65,7 +66,7 @@ export async function lerVariosDiretorios(pai) {
         .then(res => {
             
             if(!res.ok) {
-                throw Error("Nao foi possivel ler diretorio");
+                throw new ServerException(res.statusText, res.status);
             }
             return res.json();
         })

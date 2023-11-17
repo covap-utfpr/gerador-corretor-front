@@ -1,4 +1,5 @@
 import resolver from "../utils/resolver";
+import ServerException from "../utils/serverException";
 
 export async function getUrlLogin() {
     
@@ -7,7 +8,8 @@ export async function getUrlLogin() {
         .then(res => {
             
             if(!res.ok) {
-                throw Error("Nao foi possivel recuperar url de login");
+                console.log(res)
+                throw new ServerException(res, res.status);
             }
             
             return res.text();
