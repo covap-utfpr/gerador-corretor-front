@@ -2,12 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
 import { useAtomValue , useSetAtom } from "jotai";
-import { tokenAtom } from "./states/userState";
-import { idDiretorioRaizAtom } from "./states/directoryState";
+import { tokenAtom } from "./storages/authStorage";
+import { idDiretorioRaizAtom } from "./storages/diretorioStorage";
 
 import { checkRootDirectory } from "./utils/checkRootDirectory";
-import RotaPrivada from "./components/rotaPrivada";
-import Header from './components/Header';
+import RotaPrivada from "./components/gerais/rotaPrivada";
+import Header from './components/gerais/Header';
 import Home from './pages/Home';
 import Editar from "./pages/Editar";
 import CriarAvaliacao from "./pages/CriarAvaliacao";
@@ -29,8 +29,6 @@ function App() {
         .then(idDiretorio => {
           //atualiza state global isDiretorioAtom 
           setIdDiretorio(idDiretorio);
-          //atualiza o localStorage
-          localStorage.setItem("IdDiretorioRaiz", JSON.stringify(idDiretorio));
         })
         .catch(error => {
           console.log(error);

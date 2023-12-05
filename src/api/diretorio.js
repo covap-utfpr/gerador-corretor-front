@@ -52,7 +52,7 @@ export async function lerUmDiretorio(nome, pai) {
     )
 }
 
-export async function lerVariosDiretorios(pai) {
+export async function lerVariosDiretorios(pai, inicial) {
     
     const requestOptions = {
         method: 'GET',
@@ -61,7 +61,7 @@ export async function lerVariosDiretorios(pai) {
         },
     };
 
-    return await resolver(fetch(`http://localhost:8080/diretorio/ler?pai=${pai}`, requestOptions)
+    return await resolver(fetch(`http://localhost:8080/diretorio/ler?pai=${pai}&quantidade=10&inicial=${inicial}`, requestOptions)
         
         .then(res => {
             

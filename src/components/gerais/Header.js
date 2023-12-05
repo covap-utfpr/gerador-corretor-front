@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { getUrlLogin } from '../api/autenticacao';
+import { getUrlLogin } from '../../api/autenticacao';
 
 const Header = () => {
 

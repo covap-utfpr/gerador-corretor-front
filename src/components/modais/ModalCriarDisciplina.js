@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useAtomValue , useSetAtom} from "jotai";
-import { idDiretorioRaizAtom, listaDisciplinasAtom } from "../../states/directoryState";
-import { criarUmDiretorio, lerVariosDiretorios } from "../../api/diretorio";
+import { useAtomValue } from "jotai";
+import { idDiretorioRaizAtom, listaDisciplinasAtom } from "../../storages/diretorioStorage";
+import { criarUmDiretorio } from "../../api/diretorio";
 
-const ModalCriarDisciplina = () => {
+const ModalCriarDisciplina = ( { ativar } ) => {
 
     const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
-    const setDisciplinas = useSetAtom(listaDisciplinasAtom);
-    const [nome, setNome] = useState("");
+    const setDisciplinasStorage  = useAtomValue(listaDisciplinasAtom);
+    const [nome, setNome] = useState();
 
     async function handleSubmit(event) {
 
@@ -18,20 +18,23 @@ const ModalCriarDisciplina = () => {
 
         if(idDisciplina.data) {
             
-            let [ idDiretorioQuestoes, idDiretorioAvaliacoes, listaDisciplinas ] = await Promise.all([
+            let [ idDiretorioQuestoes, idDiretorioAvaliacoes ] = await Promise.all([
                 criarUmDiretorio("Questoes", idDisciplina.data),
                 criarUmDiretorio("Avaliacoes", idDisciplina.data),
-                lerVariosDiretorios(idDiretorioRaiz), 
             ]);
         
-            if(listaDisciplinas.data) {
+            if(idDiretorioQuestoes.data && idDiretorioAvaliacoes.data) {
         
-                setDisciplinas(listaDisciplinas.data);
+                setDisciplinasStorage(idDisciplina.data);
+
+            } else if (idDiretorioQuestoes.error) {
         
-            } else if (listaDisciplinas.error) {
-        
-                console.error(listaDisciplinas.error);
-            }   
+                console.error(idDiretorioQuestoes.error);
+
+            } else if (idDiretorioAvaliacoes.error){
+
+                console.error(idDiretorioAvaliacoes.error);
+            }
 
         } else if (idDisciplina.error) {
 
@@ -45,20 +48,22 @@ const ModalCriarDisciplina = () => {
     }
 
     return (
-        <div className="modal-criar-disciplina">
+        <div className="modal">
             <h2>Nova Disciplina</h2>
             <div className="formulario-disciplina">
                 <form onSubmit={(event) => handleSubmit(event)}>
-
-                    <label htmlFor="nome">Nome da Disciplina</label>
-                    <input 
-                        type="text"
-                        name="nome"
-                        id="nome"
-                        onChange={(event) => handleNomeChange(event)}
-                    />
-
-                    <button className="eviar" type="submit">Enviar</button>
+                    <div className="campo-form">
+                        <label htmlFor="nome">Nome da Disciplina</label>
+                        <input 
+                            type="text"
+                            name="nome"
+                            id="nome"
+                            required
+                            onChange={(event) => handleNomeChange(event)}
+                        />
+                    </div>
+                    <button className="enviar" type="submit">Enviar</button>
+                    <button className="fechar" onClick={() => ativar(false)}>Fechar</button>
                 </form>
             </div>
         </div>

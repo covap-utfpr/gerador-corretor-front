@@ -1,46 +1,31 @@
-import { useAtomValue } from "jotai";
-import { idDiretorioRaizAtom } from "../../states/directoryState";
+import { useAtom, useAtomValue } from "jotai";
+import { listasQuestoesAtom } from "../../storages/questaoStorage";
 import { useState } from "react";
-import { lerUmDiretorio } from '../../api/diretorio';
 import { criarUmaQuestao } from '../../api/questao';
-import SelectDisciplinas from "../SelectDisciplinas";
+import SelectDisciplinas from "../gerais/SelectDisciplinas";
 
-const ModalCriarQuestao = () => {
+const ModalCriarQuestao = ( { ativar } ) => {
 
-    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
+    const [ questoesStorage , setQuestoesStorage ] = useAtom(listasQuestoesAtom);
+    const [ disciplina, setDisciplina ] = useState("");
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
-    const [ disciplina, setDisciplina ] = useState("");
+    const [ alternativas, setAlternativas ] = useState([]);
 
     async function handleSubmit(event) {
 
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
-        
-        console.log(disciplina);
-
-        const idDisciplina = await lerUmDiretorio(disciplina, idDiretorioRaiz);
-
-        if(idDisciplina.data) {
-
-            console.log("Diretorio recuperado, id: " + idDisciplina.data);
-
             
-            const idQuestao = await criarUmaQuestao(titulo, enunciado, "", idDisciplina.data);
+        const idQuestao = await criarUmaQuestao(titulo, enunciado, alternativas, "", disciplina);
 
-            if(idQuestao.data) {
-
-                console.log("Questao criada, id: " + idQuestao.data);
-            
-            } else if(idQuestao.error){
-
-                console.error(idQuestao.error);
-            }
+        if(idQuestao.data) {
+            console.log(idQuestao.data)
         
-        } else if(idDisciplina.error) {
+        } else if(idQuestao.error){
 
-            console.error(idDisciplina.error);
-        }    
+            console.error(idQuestao.error);
+        }
     }
 
     //funçao que reseta o state titulo a cada mudança ocorrida no campo
@@ -54,36 +39,66 @@ const ModalCriarQuestao = () => {
         setEnunciado(event.target.value);
     }
 
+    function handleAlternativasChange(event) {
+        
+        const alternativa = event.target.value;
+        setAlternativas(array => [...array, alternativa]);
+    }
+
     function handleDisciplinaChange(event) {
         setDisciplina(event.target.value);
     }
 
     return (
-        <div className="formulario-questao">
+        <div className="modal">
+            
             <h2>Nova Questao</h2>
+
             <form onSubmit={(event) => handleSubmit(event)}>
 
                 <SelectDisciplinas handleFunction={handleDisciplinaChange}/>
+               
+                <div className="campo-form">
+                    <label htmlFor="titulo">Titulo da Questao</label>
+                    <input 
+                        type="text"
+                        name="titulo"
+                        id="titulo"
+                        required
+                        onChange={(event) => handleTituloChange(event)}
+                    />
+                </div>
 
-                <label htmlFor="titulo">Titulo da Questao</label>
-                <input 
-                    type="text"
-                    name="titulo"
-                    id="titulo"
-                    onChange={(event) => handleTituloChange(event)}
-                />
+                <div className="campo-form">
+                    <label htmlFor="enunciado">Enunciado</label>
+                    <textarea 
+                        name="enunciado" 
+                        id="enunciado" 
+                        cols="30" 
+                        rows="10"
+                        required
+                        onChange={(event) => handleEnunciadoChange(event)}
+                    ></textarea>
+                </div>
 
-                <label htmlFor="enunciado">Enunciado:</label>
-                <textarea 
-                    name="enunciado" 
-                    id="enunciado" 
-                    cols="30" 
-                    rows="10"
-                    onChange={(event) => handleEnunciadoChange(event)}
-                ></textarea>
+                <h3>Alternativas</h3>
+
+                <div className="campo-form">
+                    {[...Array(5)].map((el, i) => 
+                        <textarea 
+                            name="alternativa" 
+                            key={`alternativa-${i}`} 
+                            id={`alternativa-${i}`} 
+                            cols="30" 
+                            rows="3"
+                            required
+                            onChange={(event) => handleAlternativasChange(event)}
+                        ></textarea> 
+                    )}
+                </div>
 
                 <button type="submit">Enviar</button>
-
+                <button className="fechar" onClick={() => {ativar(false)}}>Fechar</button>
             </form>
         </div>
     )

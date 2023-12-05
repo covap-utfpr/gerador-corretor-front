@@ -1,23 +1,20 @@
-
-// Definindo cores
-    $color_background: #1A1A1A;
-    $color_components: #222222;
-    $color_modals: #D9D9D9;
-    $color_primary_button: #4F56FF;
-    $color_secondary_button: #7187FF;
-    $color_titles: #AFBCFF;
-    $color_details: #424148;
-    $color_negative: #FF7C7C;
-    $color_positive: #83FF81;
+@import 'utils';
 
 * {
     margin: 0;
     padding: 0;
+    font-family: $font_default;
+}
+
+h1, h2, h3 {
+    font-family: $font_titles;
+    color: $color_titles;
+    text-align: center;
 }
 
 body {
     color: $color_modals;
-    background-color: #1A1A1A;
+    background-color: $color_background;
 }
 
 header {
@@ -31,10 +28,6 @@ header {
     border-bottom: 1px solid  $color_details;
     background: $color_components;
     box-shadow: 0px 11px 10px 0px rgba(0, 0, 0, 0.17);
-
-    h1 {
-        color: #AFBCFF;
-    }
 
     a {
         text-decoration: none;
@@ -56,11 +49,110 @@ header {
 
 main {
     display: flex;
+    justify-content: center;
+    gap: 3rem;
+    padding: 2rem;
 }
 
 form {
-    width: 400px;
-    padding: 40px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+
+    input[type=text]{
+        min-width: 50px;
+        max-width: 100px;
+    }
+}
+
+button {
+    align-self: center;
+    padding: 0.5rem;
+    max-width: 100px;
+}
+
+.select-disciplinas {
+    display: flex;
+    gap: 0.5rem;
+
+    h3 {
+        color: $color_modals;
+    }
+}
+
+.modulo {
+    min-width: 400px;
+    max-width: 500px;
+
+    h1, h2 {
+        margin-bottom: 1rem;
+    }
+
+    .form, .lista {
+        display: flex;
+        padding: 40px 30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        border-radius: 20px;
+        border: 1px solid $color_details;
+        background-color: $color_components;
+    }
+}
+
+.modal {
+    max-width: 30%;
+    text-align: center;
+    color: $color_components;
+    background-color: $color_modals;
+    border-radius: 20px;
+    position: absolute;
+    top: 15px;
+    left: 35%;
+    padding: 1rem;
+    z-index: 3;
+
+    h2, h3 {
+        color: $color_primary_button;
+    }
+}
+
+.fundo-modal.ativo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+.campo-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.gerando-avaliacao, .visualizando-avaliacao {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lista-questoes-avaliacao {
+
+    li {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        margin: 5px;
+        border: dotted $color_details 2px;
+    }
+
+    input, select {
+        max-width: 50px;
+    }
 }
