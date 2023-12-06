@@ -13,7 +13,7 @@ const SelectDisciplinas = ({ handleFunction }) => {
         const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
 
         if(listaDisciplinas.data) {
-    
+
             setDisciplinasStorage(listaDisciplinas.data);
             //handleFunction(disciplinasStorage[0].id);
     
@@ -36,7 +36,7 @@ const SelectDisciplinas = ({ handleFunction }) => {
             <select name="disciplinas" id="disciplinas" onChange={(event) => { handleFunction(event) }}>
                 {disciplinasStorage.map((disciplina, index) => (
                     <option key={index} value={disciplina.id}>
-                        {disciplina.name}
+                        {disciplina.nome}
                     </option>
                 ))}
             </select>

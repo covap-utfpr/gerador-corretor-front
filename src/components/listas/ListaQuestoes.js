@@ -6,7 +6,7 @@ import { listasQuestoesAtom } from "../../storages/questaoStorage";
 import { questoesAvaliacaoAtom } from "../../storages/avaliacaoStorage";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 
-const ListaQuestoes = () => {
+const ListaQuestoes = ( { prova }) => {
     
     const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
     const [ questoesStorage, setQuestoesStorage] = useAtom(listasQuestoesAtom);
@@ -63,9 +63,9 @@ const ListaQuestoes = () => {
             <SelectDisciplinas handleFunction={handleDisciplinaChange} />
             <ul>
                 {questoes && questoes.questoes.map((questao, index) => (
-                    <li key={index} value={questao.name}>
-                        {questao.name}
-                        <button onClick={() => handleQuestaoAvaliacao(questao.id, questao.name)}>+</button>
+                    <li key={index} value={questao.nome}>
+                        {questao.nome}
+                        {prova && <button onClick={() => handleQuestaoAvaliacao(questao.id, questao.nome)}>+</button>}
                     </li>
                 ))}
             </ul>

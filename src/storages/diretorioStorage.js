@@ -12,7 +12,7 @@ export const idDiretorioRaizAtom = atom(
     },
   )
 
-const listaDisciplinas= atom(JSON.parse(localStorage.getItem("listaDisciplinas")) ?? []);
+const listaDisciplinas = atom(JSON.parse(localStorage.getItem("listaDisciplinas")) ?? []);
 
 export const listaDisciplinasAtom = atom(
   (get) => get(listaDisciplinas),
@@ -22,3 +22,14 @@ export const listaDisciplinasAtom = atom(
   },
 )
 
+export function adicionarDisciplinaStorage(nome, id) {
+
+  const disciplinas = JSON.parse(localStorage.getItem("listaDisciplinas"));
+
+  disciplinas.push({
+    nome: nome,
+    id: id
+  })
+
+  return disciplinas;
+}

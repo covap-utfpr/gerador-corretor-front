@@ -39,8 +39,11 @@ const FormularioCabecalho = ({ handleFunction }) => {
 
     return (
         <div className="modulo">
-            <h2>Cabeçalho</h2>
+
             <form className="form" onSubmit={(event) => handleSubmit(event)} >
+
+                <h2>Cabeçalho</h2>
+
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 

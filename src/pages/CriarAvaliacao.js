@@ -56,9 +56,9 @@ const CriarAvaliacao = () => {
 
                 <h1>Gerando sua avaliação</h1> 
                 <div className="modulo">
-                    <h2>Questões Disponíveis</h2>
                     <div className="lista">
-                        <ListaQuestoes />
+                        <h2>Questões Disponíveis</h2>   
+                        <ListaQuestoes prova={true}/>
                         <button onClick={() => setCriarQuestao(true)}>Criar nova questao</button>
                         { criarQuestao && <ModalCriarQuestao ativar={setCriarQuestao}/> }
                     </div>
@@ -66,10 +66,11 @@ const CriarAvaliacao = () => {
 
                 <FormularioCabecalho handleFunction={handleCabecalho}/>
                 <FormularioConfiguracoes handleFunction={handleConfiguracoes}/>
+
+                <button onClick={(event) => {handleSubmit(event)}}>Gerar Avaliaçao</button>
                 
             </section>
 
-            <button onClick={(event) => {handleSubmit(event)}}>Gerar Avaliaçao</button>
         </main>
     )
 }

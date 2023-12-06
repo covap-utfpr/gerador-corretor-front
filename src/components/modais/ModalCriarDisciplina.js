@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useAtomValue } from "jotai";
-import { idDiretorioRaizAtom, listaDisciplinasAtom } from "../../storages/diretorioStorage";
+import { useAtomValue, useSetAtom} from "jotai";
+import { idDiretorioRaizAtom, adicionarDisciplinaStorage, listaDisciplinasAtom } from "../../storages/diretorioStorage";
 import { criarUmDiretorio } from "../../api/diretorio";
 
 const ModalCriarDisciplina = ( { ativar } ) => {
 
     const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
-    const setDisciplinasStorage  = useAtomValue(listaDisciplinasAtom);
+    const setDisciplinasStorage = useSetAtom(listaDisciplinasAtom);
     const [nome, setNome] = useState();
 
     async function handleSubmit(event) {
@@ -24,8 +24,8 @@ const ModalCriarDisciplina = ( { ativar } ) => {
             ]);
         
             if(idDiretorioQuestoes.data && idDiretorioAvaliacoes.data) {
-        
-                setDisciplinasStorage(idDisciplina.data);
+                
+                setDisciplinasStorage(adicionarDisciplinaStorage(nome, idDisciplina.data));
 
             } else if (idDiretorioQuestoes.error) {
         

@@ -7,7 +7,7 @@ const ListaQuestoesAvaliacao = () => {
 
     return (
         <div className="lista-questoes-avaliacao">
-            <h3>Questões Adicionadas</h3>
+            <h2>Questões Adicionadas</h2>
             <ul>
                 {questoesAvaliacaoStorage && questoesAvaliacaoStorage.map((questao, index) => (
                     <li key={index} value={questao.nome}>

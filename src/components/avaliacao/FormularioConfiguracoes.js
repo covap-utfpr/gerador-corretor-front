@@ -39,9 +39,9 @@ const FormularioConfiguracoes= ({ handleFunction }) => {
     return (
         <div className="modulo">
 
-            <h2>Configurações Gerais</h2>
-
             <form className="form" onSubmit={(event) => handleSubmit(event)}>
+                
+                <h2>Configurações Gerais</h2>
 
                 <div className="campo-form">
                     <fieldset onChange={(event) => {handleDisposicaoChange(event)}}>

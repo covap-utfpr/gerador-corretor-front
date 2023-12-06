@@ -20,7 +20,7 @@ const ModalCriarQuestao = ( { ativar } ) => {
         const idQuestao = await criarUmaQuestao(titulo, enunciado, alternativas, "", disciplina);
 
         if(idQuestao.data) {
-            console.log(idQuestao.data)
+            
         
         } else if(idQuestao.error){
 

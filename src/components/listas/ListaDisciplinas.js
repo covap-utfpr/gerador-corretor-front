@@ -8,33 +8,34 @@ const ListaDisciplinas = () => {
     const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
     const [ disciplinasStorage, setDisciplinasStorage ] = useAtom(listaDisciplinasAtom);
 
-    async function fetchDisciplinas() {
+    // async function fetchDisciplinas() {
 
-        const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
+    //     const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
         
-        if(listaDisciplinas.data) {
+    //     if(listaDisciplinas.data) {
     
-            setDisciplinasStorage(listaDisciplinas.data);
+    //         setDisciplinasStorage(listaDisciplinas.data);
 
-        } else if (listaDisciplinas.error) {
+    //     } else if (listaDisciplinas.error) {
     
-            console.error(listaDisciplinas.error);
-        }   
-    }
+    //         console.error(listaDisciplinas.error);
+    //     }   
+    // }
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        if(disciplinasStorage.length === 0) {
-            fetchDisciplinas();
-        }
-    },);
+    //     // if(disciplinasStorage.length === 0) {
+    //     //     console.log("lista")
+    //     //     fetchDisciplinas();
+    //     // }
+    // },);
     
     return (
         <div className="lista-disciplinas">
             <ul>
                 {disciplinasStorage && disciplinasStorage.map((disciplina, index) => (
                     <li key={index} value={disciplina.name}>
-                        {disciplina.name}
+                        {disciplina.nome}
                     </li>
                 ))}
             </ul>
