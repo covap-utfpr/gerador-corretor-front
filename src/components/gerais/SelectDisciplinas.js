@@ -1,21 +1,20 @@
-import { useAtomValue, useAtom } from "jotai";
-import { listaDisciplinasAtom, idDiretorioRaizAtom } from "../../storages/diretorioStorage";
+import DiretorioStorage from "../../storages/diretorioStorage";
 import { lerVariosDiretorios } from "../../api/diretorio";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SelectDisciplinas = ({ handleFunction }) => {
 
-    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
-    const [ disciplinasStorage, setDisciplinasStorage ] = useAtom(listaDisciplinasAtom);
+    const diretorioStorage = new DiretorioStorage();
+    const [disciplinas, setDisciplinas ] = useState(diretorioStorage.obterStorage());
 
     async function fetchDisciplinas() {
 
-        const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
+        const listaDisciplinas = await lerVariosDiretorios(diretorioStorage.obterDiretorioRaiz());
 
         if(listaDisciplinas.data) {
-
-            setDisciplinasStorage(listaDisciplinas.data);
-            //handleFunction(disciplinasStorage[0].id);
+            
+            setDisciplinas(listaDisciplinas.data);
+            diretorioStorage.atualizarStorage(listaDisciplinas.data);
     
         } else if (listaDisciplinas.error) {
     
@@ -25,16 +24,17 @@ const SelectDisciplinas = ({ handleFunction }) => {
 
     useEffect(() => {
         
-        if(disciplinasStorage.length === 0) {
+        if(disciplinas.length === 0) {
             fetchDisciplinas();
         }
-    },);
+        
+    }, [disciplinas]);
 
     return (
         <div className="select-disciplinas">
             <h3>Disciplina</h3>
             <select name="disciplinas" id="disciplinas" onChange={(event) => { handleFunction(event) }}>
-                {disciplinasStorage.map((disciplina, index) => (
+                {disciplinas.map((disciplina, index) => (
                     <option key={index} value={disciplina.id}>
                         {disciplina.nome}
                     </option>

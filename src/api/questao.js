@@ -42,7 +42,7 @@ export async function lerVariasQuestoes(idDisciplina, diretorioRaiz, inicial) {
         },
     };
 
-    return await resolver(fetch(`http://localhost:8080/questao/ler?idDisciplina=${idDisciplina}&quantidade=10&inicial=${inicial}`, requestOptions)
+    return await resolver(fetch(`http://localhost:8080/questao/ler?idDisciplina=${idDisciplina}&quantidade=50&inicial=${inicial}`, requestOptions)
         
         .then(res => {
             

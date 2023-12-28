@@ -1,15 +1,15 @@
-import { useAtomValue } from "jotai";
-import { questoesAvaliacaoAtom } from "../../storages/avaliacaoStorage";
+import AvaliacaoAtualStorage from "../../storages/avaliacaoAtualStorage";
 
 const ListaQuestoesAvaliacao = () => {
     
-    const questoesAvaliacaoStorage = useAtomValue(questoesAvaliacaoAtom);
+    const avaliacaoAtualStorage = new AvaliacaoAtualStorage();
+    const questoes = avaliacaoAtualStorage.obterQuestoes();
 
     return (
         <div className="lista-questoes-avaliacao">
             <h2>Questões Adicionadas</h2>
             <ul>
-                {questoesAvaliacaoStorage && questoesAvaliacaoStorage.map((questao, index) => (
+                {questoes && questoes.map((questao, index) => (
                     <li key={index} value={questao.nome}>
                         <span>{index}</span>
                         <span>{questao.nome}</span> 

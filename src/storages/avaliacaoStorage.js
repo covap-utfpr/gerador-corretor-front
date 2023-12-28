@@ -1,14 +1,41 @@
-import { atom } from 'jotai';
-
-const questoesAvaliacao = atom(JSON.parse(localStorage.getItem("questoesAvaliacao")) ?? []);
-
-export const questoesAvaliacaoAtom = atom(
-    (get) => get(questoesAvaliacao),
-    (get, set, param) => {
-        const current = get(questoesAvaliacao);
-        const updated = [...current, param];
+class AvaliacaoStorage {
     
-        set(questoesAvaliacao, updated);
-        localStorage.setItem('questoesAvaliacao', JSON.stringify(updated));
-    },
-)
+    constructor() {
+  
+        this.key = "listaAvaliacoes";
+        this.keyQuestoes = "questoesProva";
+    }
+  
+    obterStorage() {
+  
+        return JSON.parse(localStorage.getItem(this.key) || []);
+    }
+  
+    atualizarStorage(arrayListas) {
+        
+        localStorage.setItem(this.key, JSON.stringify(arrayListas));
+    }
+
+    // adicionarListaAvaliacoes(lista) {
+        
+    //     const storage = this.obterStorage();
+
+    //     storage.push(lista);
+
+    //     this.atualizarStorage(storage);
+    // }
+
+    // obterQuestao(idDisciplina, idQuestao) {
+
+    //     const storage = this.obterStorage();
+
+    //     const listaDisciplina = storage.find((lista) => lista.idDisciplina === idDisciplina);
+    //     const questao = listaDisciplina.questoes.find((questao) => questao.id === idQuestao);
+
+    //     return questao;
+    // }
+
+  }
+  
+  export default AvaliacaoStorage;
+  

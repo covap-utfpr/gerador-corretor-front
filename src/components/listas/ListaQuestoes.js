@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import { lerVariasQuestoes } from "../../api/questao";
-import { useAtom, useAtomValue } from "jotai";
-import { idDiretorioRaizAtom } from "../../storages/diretorioStorage";
-import { listasQuestoesAtom } from "../../storages/questaoStorage";
-import { questoesAvaliacaoAtom } from "../../storages/avaliacaoStorage";
+import DiretorioStorage from "../../storages/diretorioStorage";
+import QuestaoStorage from "../../storages/questaoStorage";
+import AvaliacaoAtualStorage from "../../storages/avaliacaoAtualStorage";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 
 const ListaQuestoes = ( { prova }) => {
     
-    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
-    const [ questoesStorage, setQuestoesStorage] = useAtom(listasQuestoesAtom);
-    const [ questoesAvaliacoesStorage, setQuestoesAvaliacoesStorage] = useAtom(questoesAvaliacaoAtom);
+    const diretorioStorage = new DiretorioStorage();
+    const questaoStorage = new QuestaoStorage();
+    const avaliacaoAtualStorage = new AvaliacaoAtualStorage();
     const [ questoes, setQuestoes ] = useState();
     const [ disciplina, setDisciplina ] = useState();
 
     async function fetchQuestoes() {
 
-        const listaQuestoes = await lerVariasQuestoes(disciplina, idDiretorioRaiz);
+        const listaQuestoes = await lerVariasQuestoes(disciplina, diretorioStorage.obterDiretorioRaiz());
 
         if(listaQuestoes.data) {
 
             setQuestoes(listaQuestoes.data);
 
-            setQuestoesStorage(listaQuestoes.data);
+            questaoStorage.adicionarListaQuestoes(listaQuestoes.data);
 
         } else if (listaQuestoes.error) {
 
@@ -32,12 +31,12 @@ const ListaQuestoes = ( { prova }) => {
 
     useEffect(() => {
 
-        if (questoesStorage.length !== 0) {
+        if (questaoStorage.obterStorage().length !== 0) {
 
-            const res = questoesStorage.find((listaQuest) => listaQuest.idDisciplina === disciplina);
+            const lista = questaoStorage.obterListaQuestoes(disciplina);
 
-            if(res) {
-                setQuestoes(res);
+            if(lista) {
+                setQuestoes(lista);
             } else {
                 fetchQuestoes();   
             }
@@ -47,7 +46,6 @@ const ListaQuestoes = ( { prova }) => {
             fetchQuestoes();   
         }
 
-
     }, [disciplina]);
 
     function handleDisciplinaChange(event) {
@@ -55,7 +53,7 @@ const ListaQuestoes = ( { prova }) => {
     }
 
     function handleQuestaoAvaliacao(idQuestao, nomeQuestao) {
-        setQuestoesAvaliacoesStorage({id: idQuestao, nome: nomeQuestao});
+        avaliacaoAtualStorage.adicionarQuestao({id: idQuestao, nome: nomeQuestao});
     }
 
     return (

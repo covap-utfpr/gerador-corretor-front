@@ -1,10 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
-import { useAtomValue , useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { tokenAtom } from "./storages/authStorage";
-import { idDiretorioRaizAtom } from "./storages/diretorioStorage";
-
+import DiretorioStorage from "./storages/diretorioStorage";
 import { checkRootDirectory } from "./utils/checkRootDirectory";
 import RotaPrivada from "./components/gerais/rotaPrivada";
 import Header from './components/gerais/Header';
@@ -18,7 +17,7 @@ function App() {
 
   //utilizando states globais tokenAtom e idDiretorioRaizAtom
   const token = useAtomValue(tokenAtom);
-  const setIdDiretorio = useSetAtom(idDiretorioRaizAtom);
+  const diretorioStorage = new DiretorioStorage();
 
   //useEffect: executa sempre que o componente App é montado
   useEffect(() => {
@@ -28,7 +27,7 @@ function App() {
       checkRootDirectory()
         .then(idDiretorio => {
           //atualiza state global isDiretorioAtom 
-          setIdDiretorio(idDiretorio);
+          diretorioStorage.atualizarDiretorioRaiz(idDiretorio);
         })
         .catch(error => {
           console.log(error);

@@ -1,35 +1,46 @@
-import { atom } from 'jotai';
+class DiretorioStorage {
+    
+  constructor() {
 
-const idDiretorioRaiz = atom(
-    JSON.parse(localStorage.getItem("IdDiretorioRaiz"))
-);
+      this.key = "listaDisciplinas";
+  }
 
-export const idDiretorioRaizAtom = atom(
-    (get) => get(idDiretorioRaiz),
-    (get, set, param) => {
-      set(idDiretorioRaiz, param);
-      localStorage.setItem('IdDiretorioRaiz', JSON.stringify(param));
-    },
-  )
+  obterDiretorioRaiz() {
+    return JSON.parse(localStorage.getItem("idDiretorioRaiz"));
+  }
 
-const listaDisciplinas = atom(JSON.parse(localStorage.getItem("listaDisciplinas")) ?? []);
+  atualizarDiretorioRaiz(id) {
 
-export const listaDisciplinasAtom = atom(
-  (get) => get(listaDisciplinas),
-  (get, set, param) => {
-    set(listaDisciplinas, param);
-    localStorage.setItem('listaDisciplinas', JSON.stringify(param));
-  },
-)
+    localStorage.setItem("idDiretorioRaiz", JSON.stringify(id));
+  }
 
-export function adicionarDisciplinaStorage(nome, id) {
+  obterStorage() {
+      
+      return JSON.parse(localStorage.getItem(this.key)) || [];
+  }
 
-  const disciplinas = JSON.parse(localStorage.getItem("listaDisciplinas"));
+  atualizarStorage(lista) {
+      
+      localStorage.setItem(this.key, JSON.stringify(lista));
+  }
 
-  disciplinas.push({
-    nome: nome,
-    id: id
-  })
+  adicionarDiretorio(diretorio) {
+      
+      const storage = this.obterStorage();
 
-  return disciplinas;
+      storage.push(diretorio);
+
+      this.atualizarStorage(storage);
+  }
+
+  obterDiretorio(id) {
+
+      const storage = this.obterStorage();
+
+      const diretorio = storage.find((diretorio) => diretorio.id === id);
+
+      return diretorio;
+  }
 }
+
+module.exports = DiretorioStorage;

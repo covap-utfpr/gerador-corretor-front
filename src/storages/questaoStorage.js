@@ -1,30 +1,56 @@
-import { atom } from 'jotai';
-
-const listasQuestoes = atom(JSON.parse(localStorage.getItem("listasQuestoes")) ?? []);
-
-export const listasQuestoesAtom = atom(
-    (get) => get(listasQuestoes),
-    (get, set, param) => {
-        const currentListasQuestoes = get(listasQuestoes);
-        const updatedListasQuestoes = [...currentListasQuestoes, param];
+class QuestaoStorage {
     
-        set(listasQuestoes, updatedListasQuestoes);
-        localStorage.setItem('listasQuestoes', JSON.stringify(updatedListasQuestoes));
-    },
-)
+    constructor() {
 
-export function adicionarQuestaoStorage(nome, idQuestao, idDisciplina) {
+        this.key = "listasQuestoes";
+    }
 
-    const listas = JSON.parse(localStorage.getItem("listasQuestoes"));
-    
-    const i = listas.findIndex((lista) => lista.idDisciplina === idDisciplina);
+    obterStorage() {
+        return JSON.parse(localStorage.getItem(this.key)) || [];
+    }
 
-    listas[i].questoes.push({
-      nome: nome,
-      id: idQuestao
-    })
-    
-    localStorage.setItem('listasQuestoes', JSON.stringify(listas));
+    atualizarStorage(arrayListas) {
+        
+        localStorage.setItem(this.key, JSON.stringify(arrayListas));
+    }
 
-    return {lista: listas[i], indice: i};
+    adicionarListaQuestoes(lista) {
+        
+        const storage = this.obterStorage();
+
+        storage.push(lista);
+
+        this.atualizarStorage(storage);
+    }
+
+    obterListaQuestoes(idDisciplina) {
+        
+        const storage = this.obterStorage();
+
+        const lista = storage.find((listaQuest) => listaQuest.idDisciplina === idDisciplina);
+
+        return lista;
+    }
+
+
+    obterQuestao(idDisciplina, idQuestao) {
+
+        const storage = this.obterStorage();
+
+        const listaDisciplina = storage.find((lista) => lista.idDisciplina === idDisciplina);
+        const questao = listaDisciplina.questoes.find((questao) => questao.id === idQuestao);
+
+        return questao;
+    }
+
+    adicionarQuestao(idDisciplina, questao) {
+        
+        const storage = this.obterStorage();
+
+        const i = storage.findIndex((lista) => lista.idDisciplina === idDisciplina);
+        
+        storage[i].questoes.push(questao);
+    }
 }
+
+export default QuestaoStorage;

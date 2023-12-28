@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useAtomValue, useSetAtom} from "jotai";
-import { idDiretorioRaizAtom, adicionarDisciplinaStorage, listaDisciplinasAtom } from "../../storages/diretorioStorage";
 import { criarUmDiretorio } from "../../api/diretorio";
+import DiretorioStorage from "../../storages/diretorioStorage";
 
 const ModalCriarDisciplina = ( { ativar } ) => {
 
-    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
-    const setDisciplinasStorage = useSetAtom(listaDisciplinasAtom);
+    const diretorioStorage = new DiretorioStorage();
     const [nome, setNome] = useState();
 
     async function handleSubmit(event) {
@@ -14,7 +12,7 @@ const ModalCriarDisciplina = ( { ativar } ) => {
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
 
-        const idDisciplina = await criarUmDiretorio(nome, idDiretorioRaiz);
+        const idDisciplina = await criarUmDiretorio(nome, diretorioStorage.obterDiretorioRaiz());
 
         if(idDisciplina.data) {
             
@@ -25,7 +23,7 @@ const ModalCriarDisciplina = ( { ativar } ) => {
         
             if(idDiretorioQuestoes.data && idDiretorioAvaliacoes.data) {
                 
-                setDisciplinasStorage(adicionarDisciplinaStorage(nome, idDisciplina.data));
+                diretorioStorage.adicionarDiretorio({nome: nome, id: idDisciplina});
 
             } else if (idDiretorioQuestoes.error) {
         
@@ -63,7 +61,7 @@ const ModalCriarDisciplina = ( { ativar } ) => {
                         />
                     </div>
                     <button className="enviar" type="submit">Enviar</button>
-                    <button className="fechar" onClick={() => ativar(false)}>Fechar</button>
+                    <button type="button" className="fechar" onClick={() => ativar(false)}>Fechar</button>
                 </form>
             </div>
         </div>

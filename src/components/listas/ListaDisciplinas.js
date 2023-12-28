@@ -1,12 +1,11 @@
-import { useAtomValue, useAtom } from "jotai";
-import { listaDisciplinasAtom, idDiretorioRaizAtom } from "../../storages/diretorioStorage";
 import { lerVariosDiretorios } from "../../api/diretorio";
 import { useEffect } from "react";
+import DiretorioStorage from "../../storages/diretorioStorage";
 
 const ListaDisciplinas = () => {
 
-    const idDiretorioRaiz = useAtomValue(idDiretorioRaizAtom);
-    const [ disciplinasStorage, setDisciplinasStorage ] = useAtom(listaDisciplinasAtom);
+    const diretorioStorage = new DiretorioStorage;
+    const disciplinas = diretorioStorage.obterStorage();
 
     // async function fetchDisciplinas() {
 
@@ -33,7 +32,7 @@ const ListaDisciplinas = () => {
     return (
         <div className="lista-disciplinas">
             <ul>
-                {disciplinasStorage && disciplinasStorage.map((disciplina, index) => (
+                {disciplinas && disciplinas.map((disciplina, index) => (
                     <li key={index} value={disciplina.name}>
                         {disciplina.nome}
                     </li>

@@ -1,12 +1,11 @@
-import { useAtom, useAtomValue } from "jotai";
-import { listasQuestoesAtom } from "../../storages/questaoStorage";
+import QuestaoStorage from "../../storages/questaoStorage";
 import { useState } from "react";
 import { criarUmaQuestao } from '../../api/questao';
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 
 const ModalCriarQuestao = ( { ativar } ) => {
 
-    const [ questoesStorage , setQuestoesStorage ] = useAtom(listasQuestoesAtom);
+    const questaoStorage = new QuestaoStorage();
     const [ disciplina, setDisciplina ] = useState("");
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
@@ -21,6 +20,7 @@ const ModalCriarQuestao = ( { ativar } ) => {
 
         if(idQuestao.data) {
             
+            questaoStorage.adicionarQuestao(disciplina, {nome: titulo, id: idQuestao.data})
         
         } else if(idQuestao.error){
 
