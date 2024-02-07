@@ -1,43 +1,47 @@
+import { useContext, useEffect, useState } from "react";
 import { lerVariosDiretorios } from "../../api/diretorio";
-import { useEffect } from "react";
-import DiretorioStorage from "../../storages/diretorioStorage";
+import { GlobalContext } from "../gerais/Global";
+import ModalCriarDisciplina from "../modais/ModalCriarDisciplina";
 
 const ListaDisciplinas = () => {
 
-    const diretorioStorage = new DiretorioStorage;
-    const disciplinas = diretorioStorage.obterStorage();
+    const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas } = useContext(GlobalContext);
+    const [ modal, setModal ] = useState(false);
 
-    // async function fetchDisciplinas() {
+    async function fetchDisciplinas() {
 
-    //     const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
+        const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
+
+        if(listaDisciplinas.data) {
+            
+            dispatchListaDisciplinas({type:'atualizarListaDisciplinas', payload: listaDisciplinas.data});
+    
+        } else if (listaDisciplinas.error) {
+    
+            console.error(listaDisciplinas.error);
+        }   
+    }
+
+    useEffect(() => {
         
-    //     if(listaDisciplinas.data) {
-    
-    //         setDisciplinasStorage(listaDisciplinas.data);
-
-    //     } else if (listaDisciplinas.error) {
-    
-    //         console.error(listaDisciplinas.error);
-    //     }   
-    // }
-
-    // useEffect(() => {
+        if(listaDisciplinas.length === 0) {
+            fetchDisciplinas();
+        }
         
-    //     // if(disciplinasStorage.length === 0) {
-    //     //     console.log("lista")
-    //     //     fetchDisciplinas();
-    //     // }
-    // },);
-    
+    }, [ listaDisciplinas ]);
+
     return (
-        <div className="lista-disciplinas">
+        <div className="lista">
+            <h2>Disciplinas</h2>
             <ul>
-                {disciplinas && disciplinas.map((disciplina, index) => (
-                    <li key={index} value={disciplina.name}>
+                {listaDisciplinas && listaDisciplinas.map((disciplina, index) => (
+                    <li key={index} value={disciplina.nome}>
                         {disciplina.nome}
                     </li>
                 ))}
             </ul>
+            <button onClick={() => setModal(true)}>Criar nova disciplina</button>
+            { modal && <ModalCriarDisciplina setModal={setModal}/>}
         </div>
     )
 }

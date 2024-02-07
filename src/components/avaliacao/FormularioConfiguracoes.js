@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { GlobalContext } from "../gerais/Global";
 
-const FormularioConfiguracoes= ({ handleFunction }) => {
+const FormularioConfiguracoes = () => {
+
+    const { dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
     const [disposicao, setDisposicao ] = useState();
     const [gabarito, setGabarito ] = useState();
@@ -23,26 +26,27 @@ const FormularioConfiguracoes= ({ handleFunction }) => {
     function handleEspaco(event) {
         setEspaco(event.target.value)
     }
+    
     function handleSubmit(event) {
 
         event.preventDefault();
-
-        handleFunction({
+        
+        dispatchAvaliacaoAtual({type: 'adicionarConfiguracoes', payload:  {
             disposicao: disposicao,
             gabarito: gabarito,
             fonte: fonte,
             tamanhoFonte: tamanhoFonte,
             espaco: espaco,
-        });
+        }});
     }
 
     return (
-        <div className="modulo">
+        <div className="form">
 
-            <form className="form" onSubmit={(event) => handleSubmit(event)}>
+            <h2>Configurações Gerais</h2>
+
+            <form onSubmit={(event) => handleSubmit(event)}>
                 
-                <h2>Configurações Gerais</h2>
-
                 <div className="campo-form">
                     <fieldset onChange={(event) => {handleDisposicaoChange(event)}}>
                         <legend>Disposição das questões</legend>

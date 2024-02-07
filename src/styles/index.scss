@@ -6,31 +6,32 @@
     font-family: $font_default;
 }
 
-h1, h2, h3 {
-    font-family: $font_titles;
-    color: $color_titles;
-    text-align: center;
-}
-
-body {
+html, body {
     color: $color_modals;
     background-color: $color_background;
 }
 
 header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     align-content: center;
     gap: 1rem;
-    flex-wrap: wrap;
-    padding: 15px 20px;
+    padding: 1.5rem 2rem;
     border-bottom: 1px solid  $color_details;
     background: $color_components;
     box-shadow: 0px 11px 10px 0px rgba(0, 0, 0, 0.17);
 
-    a {
-        text-decoration: none;
+    #title {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+        #logo {
+            min-width: 30px;
+            max-width: 60px;
+        }
     }
 
     nav {
@@ -39,8 +40,9 @@ header {
     }
 
     nav a {
-        display: block;
-        padding: 10px;
+        display: flex;
+        align-items: center;
+        padding: 0.8rem;
         border-radius: 10px;
         color: $color_components;
         background-color: $color_modals;
@@ -49,27 +51,59 @@ header {
 
 main {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 3rem;
     padding: 2rem;
+}
+
+h1, h2 {
+    font-family: $font_titles;
+    text-align: center;
+    font-size: 1.6rem;
+    color: $color_titles;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: $color_titles_secondary;
 }
 
 form {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
 
     input[type=text]{
-        min-width: 50px;
-        max-width: 100px;
+        width: 300px;
     }
+}
+
+section {
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #292929;
+    background-color: $color_components;
 }
 
 button {
     align-self: center;
     padding: 0.5rem;
     max-width: 100px;
+    color: $color_font_button;
+    background-color: $color_secondary_button;
+    border: none;
+}
+
+ul {
+    li {
+        list-style: none;
+    }
+}
+
+a {
+    text-decoration: none;
 }
 
 .select-disciplinas {
@@ -81,57 +115,94 @@ button {
     }
 }
 
+.editar .modulo {
+    padding: 1rem;
+}
+
 .modulo {
-    min-width: 400px;
-    max-width: 500px;
+    max-width: 400px;
+    border-radius: 20px;
+    border: 1px solid #292929;
+    background-color: $color_components;
 
     h1, h2 {
         margin-bottom: 1rem;
     }
 
     .form, .lista {
+        min-width: 300px;
+        text-align: center;
         display: flex;
-        padding: 40px 30px;
+        padding: 2rem 1rem;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
-        gap: 40px;
-        border-radius: 20px;
-        border: 1px solid $color_details;
-        background-color: $color_components;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .form {
+
+        form {
+            text-align: left;
+        }
+    }
+    
+    .lista {
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            li {
+                border: dashed 2px $color_details;
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+
     }
 }
 
 .modal {
-    max-width: 30%;
+    display: block;
     text-align: center;
     color: $color_components;
     background-color: $color_modals;
     border-radius: 20px;
     position: absolute;
-    top: 15px;
-    left: 35%;
     padding: 1rem;
+    top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
     z-index: 3;
+    max-width: 500px;
+    animation: surgir 0.5s;
+    animation-iteration-count: 1;
+
 
     h2, h3 {
         color: $color_primary_button;
     }
+
+    @keyframes surgir {
+        from {
+            transform: scale(0.5);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
 }
 
-.fundo-modal.ativo {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    background-color: rgb(0, 0, 0, 0.5);
-}
 
 .campo-form {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
     gap: 0.5rem;
 }

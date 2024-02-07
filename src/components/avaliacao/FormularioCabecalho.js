@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
+import { GlobalContext } from "../gerais/Global";
 
-const FormularioCabecalho = ({ handleFunction }) => {
+const FormularioCabecalho = () => {
+
+    const { dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
     const [titulo, setTitulo ] = useState()
     const [instituicao, setInstituicao ] = useState()
@@ -24,26 +27,26 @@ const FormularioCabecalho = ({ handleFunction }) => {
     function handleInstrucoes(event) {
         setInstrucoes(event.target.value);
     }
+    
     function handleSubmit(event) {
 
         event.preventDefault();
 
-        handleFunction({
+        dispatchAvaliacaoAtual({type: 'adicionarCabecalho', payload: {
             titulo: titulo,
             instituicao: instituicao,
             disciplina: disciplina,
             data: data,
             instrucoes: instrucoes
-        });
+        }});
     }
 
     return (
-        <div className="modulo">
+        <div className="form">
 
-            <form className="form" onSubmit={(event) => handleSubmit(event)} >
+            <h2>Cabeçalho</h2>
 
-                <h2>Cabeçalho</h2>
-
+            <form onSubmit={(event) => handleSubmit(event)} >
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 

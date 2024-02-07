@@ -1,8 +1,9 @@
+import { GlobalContext } from "../gerais/Global";
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
 
-export async function criarUmaAvaliacao(cabecalho, configuracoes, questoes) {
+export async function criarUmaAvaliacao(avaliacao) {
 
     const requestOptions = {
         method: 'POST',
@@ -12,9 +13,7 @@ export async function criarUmaAvaliacao(cabecalho, configuracoes, questoes) {
         },
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({
-            'cabecalho': cabecalho,
-            'configuracoes': configuracoes,
-            'questoes': questoes
+            'avaliacao': avaliacao 
         }), 
     };
 

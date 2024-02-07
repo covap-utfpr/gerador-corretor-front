@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { criarUmDiretorio } from "../../api/diretorio";
-import DiretorioStorage from "../../storages/diretorioStorage";
+import { GlobalContext } from "../gerais/Global";
 
-const ModalCriarDisciplina = ( { ativar } ) => {
+const ModalCriarDisciplina = ( {setModal} ) => {
 
-    const diretorioStorage = new DiretorioStorage();
+    const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas  } = useContext(GlobalContext);
     const [nome, setNome] = useState();
 
     async function handleSubmit(event) {
@@ -12,7 +12,7 @@ const ModalCriarDisciplina = ( { ativar } ) => {
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
 
-        const idDisciplina = await criarUmDiretorio(nome, diretorioStorage.obterDiretorioRaiz());
+        const idDisciplina = await criarUmDiretorio(nome, idDiretorioRaiz);
 
         if(idDisciplina.data) {
             
@@ -23,7 +23,15 @@ const ModalCriarDisciplina = ( { ativar } ) => {
         
             if(idDiretorioQuestoes.data && idDiretorioAvaliacoes.data) {
                 
-                diretorioStorage.adicionarDiretorio({nome: nome, id: idDisciplina});
+                dispatchListaDisciplinas(
+                    {
+                        type: 'adicionarDisciplina', 
+                        payload: {
+                            nome: nome,
+                            id: idDisciplina.data
+                        }
+                    }
+                );
 
             } else if (idDiretorioQuestoes.error) {
         
@@ -61,7 +69,7 @@ const ModalCriarDisciplina = ( { ativar } ) => {
                         />
                     </div>
                     <button className="enviar" type="submit">Enviar</button>
-                    <button type="button" className="fechar" onClick={() => ativar(false)}>Fechar</button>
+                    <button type="button" className="fechar" onClick={() => {setModal(false)}}>Fechar</button>
                 </form>
             </div>
         </div>

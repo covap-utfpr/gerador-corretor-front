@@ -1,20 +1,18 @@
-import DiretorioStorage from "../../storages/diretorioStorage";
 import { lerVariosDiretorios } from "../../api/diretorio";
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
+import { GlobalContext } from './Global';
 
 const SelectDisciplinas = ({ handleFunction }) => {
 
-    const diretorioStorage = new DiretorioStorage();
-    const [disciplinas, setDisciplinas ] = useState(diretorioStorage.obterStorage());
+    const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas } = useContext(GlobalContext);
 
     async function fetchDisciplinas() {
 
-        const listaDisciplinas = await lerVariosDiretorios(diretorioStorage.obterDiretorioRaiz());
+        const listaDisciplinas = await lerVariosDiretorios(idDiretorioRaiz);
 
         if(listaDisciplinas.data) {
             
-            setDisciplinas(listaDisciplinas.data);
-            diretorioStorage.atualizarStorage(listaDisciplinas.data);
+            dispatchListaDisciplinas({type:'atualizarListaDisciplinas', payload: listaDisciplinas.data});
     
         } else if (listaDisciplinas.error) {
     
@@ -24,17 +22,17 @@ const SelectDisciplinas = ({ handleFunction }) => {
 
     useEffect(() => {
         
-        if(disciplinas.length === 0) {
+        if(listaDisciplinas.length === 0) {
             fetchDisciplinas();
         }
         
-    }, [disciplinas]);
+    }, [ listaDisciplinas ]);
 
     return (
         <div className="select-disciplinas">
             <h3>Disciplina</h3>
             <select name="disciplinas" id="disciplinas" onChange={(event) => { handleFunction(event) }}>
-                {disciplinas.map((disciplina, index) => (
+                {listaDisciplinas.map((disciplina, index) => (
                     <option key={index} value={disciplina.id}>
                         {disciplina.nome}
                     </option>

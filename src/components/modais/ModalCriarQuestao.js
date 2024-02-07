@@ -1,11 +1,9 @@
-import QuestaoStorage from "../../storages/questaoStorage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { criarUmaQuestao } from '../../api/questao';
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 
-const ModalCriarQuestao = ( { ativar } ) => {
+const ModalCriarQuestao = ( { setModal } ) => {
 
-    const questaoStorage = new QuestaoStorage();
     const [ disciplina, setDisciplina ] = useState("");
     const [ titulo, setTitulo ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
@@ -20,7 +18,7 @@ const ModalCriarQuestao = ( { ativar } ) => {
 
         if(idQuestao.data) {
             
-            questaoStorage.adicionarQuestao(disciplina, {nome: titulo, id: idQuestao.data})
+            //questaoStorage.adicionarQuestao(disciplina, {nome: titulo, id: idQuestao.data})
         
         } else if(idQuestao.error){
 
@@ -98,7 +96,7 @@ const ModalCriarQuestao = ( { ativar } ) => {
                 </div>
 
                 <button type="submit">Enviar</button>
-                <button className="fechar" onClick={() => {ativar(false)}}>Fechar</button>
+                <button className="fechar" onClick={() => {setModal(false)}}>Fechar</button>
             </form>
         </div>
     )

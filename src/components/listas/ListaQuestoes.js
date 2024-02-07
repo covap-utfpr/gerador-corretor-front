@@ -1,44 +1,37 @@
-import { useEffect, useState } from "react";
-import { lerVariasQuestoes } from "../../api/questao";
-import DiretorioStorage from "../../storages/diretorioStorage";
-import QuestaoStorage from "../../storages/questaoStorage";
-import AvaliacaoAtualStorage from "../../storages/avaliacaoAtualStorage";
+import { useContext, useEffect, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
+import { GlobalContext } from "../gerais/Global";
+import { obterListaQuestoes } from "../../storage/questoesStorage";
+import { requisitarListasQuestoes } from "../../utils/requisitarListasQuestoes";
+import ModalCriarQuestao from "../modais/ModalCriarQuestao";
 
 const ListaQuestoes = ( { prova }) => {
     
-    const diretorioStorage = new DiretorioStorage();
-    const questaoStorage = new QuestaoStorage();
-    const avaliacaoAtualStorage = new AvaliacaoAtualStorage();
-    const [ questoes, setQuestoes ] = useState();
+    const [ modal, setModal ] = useState(false);
+
+    const { listaDisciplinas, listasQuestoes, dispatchListasQuestoes, dispatchAvaliacaoAtual } = useContext(GlobalContext);
+
     const [ disciplina, setDisciplina ] = useState();
+    const [ questoes, setQuestoes ] = useState();
 
     async function fetchQuestoes() {
 
-        const listaQuestoes = await lerVariasQuestoes(disciplina, diretorioStorage.obterDiretorioRaiz());
+        const listas = await requisitarListasQuestoes(listaDisciplinas);
 
-        if(listaQuestoes.data) {
-
-            setQuestoes(listaQuestoes.data);
-
-            questaoStorage.adicionarListaQuestoes(listaQuestoes.data);
-
-        } else if (listaQuestoes.error) {
-
-            console.error(listaQuestoes.error);
+        if(listas) {
+            console.log(listas)
+            dispatchListasQuestoes({type: 'atualizarListasQuestoes', payload: listas})
         }
     }    
 
     useEffect(() => {
 
-        if (questaoStorage.obterStorage().length !== 0) {
-
-            const lista = questaoStorage.obterListaQuestoes(disciplina);
+        if (listasQuestoes.length !== 0) {
+            
+            const lista = obterListaQuestoes(listasQuestoes, disciplina);
 
             if(lista) {
                 setQuestoes(lista);
-            } else {
-                fetchQuestoes();   
             }
 
         } else {
@@ -53,20 +46,30 @@ const ListaQuestoes = ( { prova }) => {
     }
 
     function handleQuestaoAvaliacao(idQuestao, nomeQuestao) {
-        avaliacaoAtualStorage.adicionarQuestao({id: idQuestao, nome: nomeQuestao});
+
+        dispatchAvaliacaoAtual(
+            {   type: 'adicionarQuestaoAvaliacaoAtual', 
+                payload: {
+                    nome: nomeQuestao, 
+                    id: idQuestao
+            }}
+        );
     }
 
     return (
-        <div className="lista-questoes">
+        <div className="lista">
+            <h2>Questões {prova && "Disponiveis"}</h2>
             <SelectDisciplinas handleFunction={handleDisciplinaChange} />
             <ul>
-                {questoes && questoes.questoes.map((questao, index) => (
+                {questoes && questoes.map((questao, index) => (
                     <li key={index} value={questao.nome}>
-                        {questao.nome}
+                        <span>{questao.nome}</span>
                         {prova && <button onClick={() => handleQuestaoAvaliacao(questao.id, questao.nome)}>+</button>}
                     </li>
                 ))}
             </ul>
+            <button onClick={() => setModal(true)}>Criar nova questao</button>
+            {modal && <ModalCriarQuestao setModal={setModal}/>}
         </div>
     )
 }
