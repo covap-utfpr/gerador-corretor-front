@@ -103,7 +103,8 @@ export { reducerQuestoes, obterListaQuestoes, obterQuantidadeQuestoes, obterQues
             idDisciplina, 
             qnt, 
             questoes: [ 
-                {   nome, 
+                {   
+                    nome, 
                     id
                 }, 
                 {...} 

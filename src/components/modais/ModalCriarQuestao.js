@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { criarUmaQuestao } from '../../api/questao';
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
+import { estadoInicialQuestaoAtual, reducerQuestaoAtual } from "../../storage/questaoAtualStorage";
+import { GlobalContext } from "../gerais/Global";
 
 const ModalCriarQuestao = ( { setModal } ) => {
 
-    const [ disciplina, setDisciplina ] = useState("");
-    const [ titulo, setTitulo ] = useState("");
-    const [ enunciado, setEnunciado ] = useState("");
-    const [ alternativas, setAlternativas ] = useState([]);
+    const {  dispatchListasQuestoes } = useContext(GlobalContext);
+
+    const [ questaoAtual, dispatchQuestaoAtual ] = useReducer(reducerQuestaoAtual, estadoInicialQuestaoAtual());
 
     async function handleSubmit(event) {
-
+        
         //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
-            
-        const idQuestao = await criarUmaQuestao(titulo, enunciado, alternativas, "", disciplina);
+          
+        const idQuestao = await criarUmaQuestao(questaoAtual);
 
         if(idQuestao.data) {
             
-            //questaoStorage.adicionarQuestao(disciplina, {nome: titulo, id: idQuestao.data})
+            dispatchListasQuestoes({type: 'adicionarQuestao', payload: { idDisciplina: questaoAtual.idDisciplina, questao: {nome: questaoAtual.titulo, id: idQuestao.data}}});
         
         } else if(idQuestao.error){
 
@@ -28,23 +29,20 @@ const ModalCriarQuestao = ( { setModal } ) => {
 
     //funçao que reseta o state titulo a cada mudança ocorrida no campo
     function handleTituloChange(event) {
-        setTitulo(event.target.value);
+        dispatchQuestaoAtual({type: 'adicionarTitulo', payload: event.target.value});
     }
 
     //funçao que reseta o state enunciado a cada mudança ocorrida no campo
     function handleEnunciadoChange(event) {
-        
-        setEnunciado(event.target.value);
+        dispatchQuestaoAtual({type: 'adicionarEnunciado', payload: event.target.value});
     }
 
     function handleAlternativasChange(event) {
-        
-        const alternativa = event.target.value;
-        setAlternativas(array => [...array, alternativa]);
+        dispatchQuestaoAtual({type:'atualizarAlternativa', payload: event.target.value});
     }
 
     function handleDisciplinaChange(event) {
-        setDisciplina(event.target.value);
+        dispatchQuestaoAtual({type:'atualizarIdDisciplina', payload: event.target.value});
     }
 
     return (
@@ -62,6 +60,7 @@ const ModalCriarQuestao = ( { setModal } ) => {
                         type="text"
                         name="titulo"
                         id="titulo"
+                        value={questaoAtual.titulo}
                         required
                         onChange={(event) => handleTituloChange(event)}
                     />
@@ -74,6 +73,7 @@ const ModalCriarQuestao = ( { setModal } ) => {
                         id="enunciado" 
                         cols="30" 
                         rows="10"
+                        value={questaoAtual.enunciado}
                         required
                         onChange={(event) => handleEnunciadoChange(event)}
                     ></textarea>

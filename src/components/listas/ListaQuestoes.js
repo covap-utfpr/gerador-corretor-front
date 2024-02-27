@@ -19,7 +19,6 @@ const ListaQuestoes = ( { prova }) => {
         const listas = await requisitarListasQuestoes(listaDisciplinas);
 
         if(listas) {
-            console.log(listas)
             dispatchListasQuestoes({type: 'atualizarListasQuestoes', payload: listas})
         }
     }    

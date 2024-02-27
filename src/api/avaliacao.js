@@ -1,4 +1,3 @@
-import { GlobalContext } from "../gerais/Global";
 import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
