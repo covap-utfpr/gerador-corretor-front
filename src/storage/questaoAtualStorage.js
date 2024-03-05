@@ -4,9 +4,8 @@ const estadoInicialQuestaoAtual = () => {
     
     const storage = JSON.parse(localStorage.getItem('QuestaoAtual'));
 
-    return storage ? storage : new Questao("", "", "", [], "", "");
+    return storage ? storage : new Questao("", "", "", ["","","","",""], "", "");
 }
-
 
 const reducerQuestaoAtual = ( state, action ) => {
 
@@ -81,13 +80,7 @@ const atualizarAlternativa = (state, action) => {
     
     const novoEstado = {...state}
 
-    const index = novoEstado.alternativas.findIndex((alternativa) => alternativa.id === action.payload.id)
-
-    if(index) {
-        novoEstado.alternativa[index] = action.payload.alternativa;
-    } else {
-        novoEstado.alternativas.push(action.payload.alternativa);
-    }
+    novoEstado.alternativas[+action.payload.id] = action.payload.alternativa;
 
     localStorage.setItem('QuestaoAtual', JSON.stringify(novoEstado));
 

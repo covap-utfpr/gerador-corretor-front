@@ -6,10 +6,9 @@ import { GlobalContext } from './Global';
 //componente rota privada recebe verificador de autenticaçao e componentes filhos
 const RotaPrivada = ({ children }) => {
    
-    const { logado } = useContext(GlobalContext);
-    console.log("aqui")
+    const { logado, idDiretorioRaiz } = useContext(GlobalContext);
 
-    return (logado ? children : <Navigate to="/" replace />);
+    return (logado && idDiretorioRaiz ? children : <Navigate to="/" replace />);
 };
 
 export default RotaPrivada;

@@ -1,4 +1,4 @@
-import { useContext, useReducer, useState } from "react";
+import { useContext, useReducer } from "react";
 import { criarUmaQuestao } from '../../api/questao';
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { estadoInicialQuestaoAtual, reducerQuestaoAtual } from "../../storage/questaoAtualStorage";
@@ -38,7 +38,7 @@ const ModalCriarQuestao = ( { setModal } ) => {
     }
 
     function handleAlternativasChange(event) {
-        dispatchQuestaoAtual({type:'atualizarAlternativa', payload: event.target.value});
+        dispatchQuestaoAtual({type:'atualizarAlternativa', payload: {alternativa: event.target.value, id: event.target.id}});
     }
 
     function handleDisciplinaChange(event) {
@@ -86,7 +86,7 @@ const ModalCriarQuestao = ( { setModal } ) => {
                         <textarea 
                             name="alternativa" 
                             key={`alternativa-${i}`} 
-                            id={`alternativa-${i}`} 
+                            id={i} 
                             cols="30" 
                             rows="3"
                             required

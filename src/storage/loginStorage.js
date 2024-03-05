@@ -19,6 +19,7 @@ const verificarLogin = () => {
     if(token) {
         return true;
     }
+    
     return false;
 }
 

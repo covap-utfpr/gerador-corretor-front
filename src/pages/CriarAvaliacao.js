@@ -3,14 +3,18 @@ import ListaQuestoesAvaliacao from "../components/listas/ListaQuestoesAvaliacao"
 import FormularioCabecalho from "../components/avaliacao/FormularioCabecalho";
 import FormularioConfiguracoes from "../components/avaliacao/FormularioConfiguracoes";
 import { criarUmaAvaliacao } from "../api/avaliacao";
+import { GlobalContext } from "../components/gerais/Global";
+import { useContext } from "react";
 
 const CriarAvaliacao = () => {
+
+    const { avaliacaoAtual } = useContext(GlobalContext);
 
     async function handleSubmit(event) {
 
         event.preventDefault();
 
-        const idAvaliacao = await criarUmaAvaliacao();
+        const idAvaliacao = await criarUmaAvaliacao(avaliacaoAtual);
 
         if(idAvaliacao.data) {
 
