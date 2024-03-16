@@ -71,6 +71,7 @@ const adicionarQuestao = ( state, action ) => {
 // Getters
 
 const obterListaQuestoes = (state, idDisciplina) => {
+    
     const lista = state.find(lista => lista.idDisciplina == idDisciplina);
 
     if(lista) {

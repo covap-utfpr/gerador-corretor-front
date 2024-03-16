@@ -123,6 +123,7 @@ const atualizarQuestaoAvaliacaoAtual = (state, action) => {
 
 //Getters
 
+
 export { reducerAvaliacaoAtual, estadoInicialAvaliacaoAtual };
 
 

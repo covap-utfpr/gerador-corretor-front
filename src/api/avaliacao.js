@@ -28,3 +28,25 @@ export async function criarUmaAvaliacao(avaliacao) {
         })
     )
 }
+
+
+export async function lerVariaAvaliacoes(idDisciplina, inicial) {
+    
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/avaliacao/ler?idDisciplina=${idDisciplina}&quantidade=10&inicial=${inicial}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw new ServerException(res.statusText, res.status);
+            }
+            return res.json();
+        })
+    )
+}

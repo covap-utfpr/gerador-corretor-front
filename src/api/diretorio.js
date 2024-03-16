@@ -72,3 +72,4 @@ export async function lerVariosDiretorios(pai, inicial) {
         })
     )
 }
+

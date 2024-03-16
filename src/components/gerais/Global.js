@@ -20,7 +20,7 @@ const Global = ({ children }) => {
     
     useEffect(() => {
 
-        const verificarLogin = async () => {
+        const verificaDiretorioRaiz = async () => {
             if (logado) {
                 try {
                     const idDiretorio = await checkRootDirectory();
@@ -31,7 +31,7 @@ const Global = ({ children }) => {
             }
         };
 
-        verificarLogin();
+        verificaDiretorioRaiz();
     }, []);
 
     return (
@@ -42,3 +42,5 @@ const Global = ({ children }) => {
 };
 
 export { GlobalContext, Global };
+
+

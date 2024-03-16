@@ -43,3 +43,4 @@ const SelectDisciplinas = ({ handleFunction }) => {
 }
 
 export default SelectDisciplinas;
+

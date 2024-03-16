@@ -90,4 +90,8 @@ const atualizarAlternativa = (state, action) => {
 
 //Getters
 
+
+
+
+
 export { reducerQuestaoAtual, estadoInicialQuestaoAtual };

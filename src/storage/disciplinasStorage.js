@@ -30,3 +30,4 @@ const adicionarDisciplina = (action, state) => {
 }
 
 export default reducerDisciplinas;
+

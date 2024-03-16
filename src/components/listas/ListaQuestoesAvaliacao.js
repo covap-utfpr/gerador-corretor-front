@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../gerais/Global";
+import { useEffect } from "react";
 
 const ListaQuestoesAvaliacao = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
-    const [tipo, setTipo ] = useState()
-    const [valor, setValor ] = useState()
+    const [tipo, setTipo ] = useState([])
+    const [valor, setValor ] = useState([])
+    const [ordem, setOrdem ] = useState()
 
     function handleTipo(event) {
         setTipo(event.target.value);
@@ -13,6 +15,10 @@ const ListaQuestoesAvaliacao = () => {
     function handleValor(event) {
         setValor(event.target.value);
     }  
+
+    useEffect(() => {
+        
+    }, [avaliacaoAtual]);
 
     function handleSubmit(event) {
 

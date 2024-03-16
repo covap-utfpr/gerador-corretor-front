@@ -31,6 +31,8 @@ const ListaQuestoes = ( { prova }) => {
 
             if(lista) {
                 setQuestoes(lista);
+            } else {
+                setQuestoes(false);
             }
 
         } else {
@@ -67,6 +69,9 @@ const ListaQuestoes = ( { prova }) => {
                     </li>
                 ))}
             </ul>
+            {!questoes && 
+                <p>Sem questoes</p>
+            }
             <button onClick={() => setModal(true)}>Criar nova questao</button>
             {modal && <ModalCriarQuestao setModal={setModal}/>}
         </div>

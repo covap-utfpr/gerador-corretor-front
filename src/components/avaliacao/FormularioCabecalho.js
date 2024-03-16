@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
+import Cabecalho from "../../modelos/Cabecalho";
 
 const FormularioCabecalho = () => {
 
@@ -32,13 +33,11 @@ const FormularioCabecalho = () => {
 
         event.preventDefault();
 
-        dispatchAvaliacaoAtual({type: 'adicionarCabecalho', payload: {
-            titulo: titulo,
-            instituicao: instituicao,
-            disciplina: disciplina,
-            data: data,
-            instrucoes: instrucoes
-        }});
+        dispatchAvaliacaoAtual(
+            {
+                type: 'adicionarCabecalho', payload: new Cabecalho(titulo, instituicao, disciplina, data, instrucoes, "")
+            }
+        )
     }
 
     return (

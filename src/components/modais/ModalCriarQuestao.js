@@ -80,7 +80,6 @@ const ModalCriarQuestao = ( { setModal } ) => {
                 </div>
 
                 <h3>Alternativas</h3>
-
                 <div className="campo-form">
                     {[...Array(5)].map((el, i) => 
                         <textarea 
