@@ -51,11 +51,11 @@ const FormularioConfiguracoes = () => {
                     <fieldset onChange={(event) => {handleDisposicaoChange(event)}}>
                         <legend>Disposição das questões</legend>
                         <div>
-                            <input type="radio" id="duas" name="duas" value="duas" />
+                            <input type="radio" id="duas" name="duas" value="2" />
                             <label htmlFor="duas">Duas colunas</label>  
                         </div>
                         <div>
-                            <input type="radio" id="uma" name="uma" value="uma" />
+                            <input type="radio" id="uma" name="uma" value="1" />
                             <label htmlFor="uma">Uma coluna</label>  
                         </div>
                     </fieldset>
