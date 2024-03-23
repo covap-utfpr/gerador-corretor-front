@@ -1,17 +1,18 @@
 import { useContext, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
-import Cabecalho from "../../modelos/Cabecalho";
+import CabecalhoAvaliacao from "../../modelos/CabecalhoAvalicao";
 
 const FormularioCabecalho = () => {
 
-    const { dispatchAvaliacaoAtual } = useContext(GlobalContext);
+    const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
     const [titulo, setTitulo ] = useState()
     const [instituicao, setInstituicao ] = useState()
     const [disciplina, setDisciplina ] = useState()
     const [data, setData ] = useState()
     const [instrucoes, setInstrucoes] = useState()
+    const [valor, setValor] = useState()
 
     function handleTitulo(event) {
         setTitulo(event.target.value);
@@ -28,14 +29,29 @@ const FormularioCabecalho = () => {
     function handleInstrucoes(event) {
         setInstrucoes(event.target.value);
     }
+    function handleValor(event) {
+        setValor(event.target.value);
+    }
     
     function handleSubmit(event) {
 
         event.preventDefault();
 
+        avaliacaoAtual.questoes.forEach((questao, index) => {
+            console.log(index)
+            dispatchAvaliacaoAtual({
+                type: 'atualizarQuestaoAvaliacaoAtual',
+                payload: {
+                    index: index,
+                    valor: '0'
+                }
+            })
+        })
+
         dispatchAvaliacaoAtual(
             {
-                type: 'adicionarCabecalho', payload: new Cabecalho(titulo, instituicao, disciplina, data, instrucoes, "")
+                type: 'adicionarCabecalho', 
+                payload: new CabecalhoAvaliacao(titulo, instituicao, disciplina, data, instrucoes, valor)
             }
         )
     }
@@ -49,6 +65,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 
+                        value={avaliacaoAtual.cabecalho.titulo}
                         type="text"
                         name="titulo"
                         id="titulo"
@@ -59,6 +76,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="instituicao">Instituição de Ensino</label>
                     <input 
+                        value={avaliacaoAtual.cabecalho.instituicao} 
                         type="text"
                         name="instituicao"
                         id="instituicao"
@@ -71,6 +89,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="data">Data de realização / Prazo</label>
                     <input 
+                        value={avaliacaoAtual.cabecalho.data}
                         type="date"
                         name="data"
                         id="data"
@@ -78,10 +97,21 @@ const FormularioCabecalho = () => {
                         onChange={(event) => handleData(event)}
                     />
                 </div>
-
+                <div className="campo-form">
+                    <label htmlFor="valor">Valor</label>
+                    <input 
+                        value={avaliacaoAtual.cabecalho.valor}
+                        type="number"
+                        name="valor"
+                        id="valor"
+                        required
+                        onChange={(event) => handleValor(event)}
+                    />
+                </div>
                 <div className="campo-form">
                     <label htmlFor="instrucoes">Instruções para os alunos</label>
                     <textarea 
+                        value={avaliacaoAtual.cabecalho.instrucoes}
                         name="instrucoes" 
                         id="instrucoes" 
                         cols="30" 

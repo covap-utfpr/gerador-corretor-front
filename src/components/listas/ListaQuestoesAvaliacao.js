@@ -1,50 +1,74 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GlobalContext } from "../gerais/Global";
-import { useEffect } from "react";
 
 const ListaQuestoesAvaliacao = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
-    const [tipo, setTipo ] = useState([])
-    const [valor, setValor ] = useState([])
-    const [ordem, setOrdem ] = useState()
 
-    function handleTipo(event) {
-        setTipo(event.target.value);
-    }  
-    function handleValor(event) {
-        setValor(event.target.value);
-    }  
+    function valorValido(valor, indexQuestao) {
 
-    useEffect(() => {
+        const valorTotalAvaliacao = avaliacaoAtual.cabecalho.valor;
+
+        let soma = 0;
         
-    }, [avaliacaoAtual]);
+        avaliacaoAtual.questoes.forEach((questao, index) => {
 
-    function handleSubmit(event) {
+            if(index != indexQuestao) 
+                soma += +questao.valor;
+        });
 
-        event.preventDefault();
+        console.log(soma);
+
+        const valorMaxQuestao = valorTotalAvaliacao - soma;
+
+        return valor > valorMaxQuestao ? false : true;
+    }  
+
+    function handleTipo(event, index) {
 
         dispatchAvaliacaoAtual(
             {
                 type: 'atualizarQuestaoAvaliacaoAtual', 
                 payload: {
-                    tipo: tipo,
-                    valor: valor,
+                    index: index,
+                    tipo: event.target.value,
                 }
-            });
+            }
+        );
+    }
+    
+    function handleValor(event, index) {
+
+        const valor = event.target.value;
+
+        if(valorValido(valor, index)) {
+
+            dispatchAvaliacaoAtual(
+                {
+                    type: 'atualizarQuestaoAvaliacaoAtual', 
+                    payload: {
+                        index: index,
+                        valor: valor,
+                    }
+                }
+            );
+
+        } else {
+            console.error("Valor invalido");
+        }
     }
 
     return (
         <div className="lista-questoes-avaliacao">
             <h2>Questões Adicionadas</h2>
             <ul>
-                <form className="form" onSubmit={(event) => handleSubmit(event)} >
+                <form className="form" >
                     {avaliacaoAtual.questoes && avaliacaoAtual.questoes.map((questao, index) => (
                         <li key={index} value={questao.nome}>
                             <span>{index}</span>
                             <span>{questao.nome}</span> 
                             <div className="campo-form">
-                                <select name="tipo" id="tipo" onChange={(event) => {handleTipo(event)}}>
+                                <select name="tipo" id="tipo" value={questao.tipo} onChange={(event) => { handleTipo(event, index)}}>
                                     <option key={1} value="vf">V/F</option>
                                     <option key={2} value="escolha">a,b</option>
                                     <option key={3} value="descritiva">desc</option>
@@ -52,15 +76,16 @@ const ListaQuestoesAvaliacao = () => {
                             </div>
                             <div className="campo-form">
                                 <input 
-                                    type="text"
+                                    value={questao.valor}
+                                    type="number"
                                     name="valor"
                                     id="valor"
-                                    onChange={(event) => {handleValor(event)}}
+                                    min="0"
+                                    onChange={(event) => {handleValor(event, index)}}
                                 />
                             </div>
                         </li>
                     ))}
-                    <button type="submit">Editar</button>
                 </form>
             </ul>
         </div>

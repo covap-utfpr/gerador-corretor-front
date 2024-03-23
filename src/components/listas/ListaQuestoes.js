@@ -4,6 +4,7 @@ import { GlobalContext } from "../gerais/Global";
 import { obterListaQuestoes } from "../../storage/questoesStorage";
 import { requisitarListasQuestoes } from "../../utils/requisitarListasQuestoes";
 import ModalCriarQuestao from "../modais/ModalCriarQuestao";
+import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
 
 const ListaQuestoes = ( { prova }) => {
     
@@ -50,10 +51,8 @@ const ListaQuestoes = ( { prova }) => {
 
         dispatchAvaliacaoAtual(
             {   type: 'adicionarQuestaoAvaliacaoAtual', 
-                payload: {
-                    nome: nomeQuestao, 
-                    id: idQuestao
-            }}
+                payload: new QuestaoAvaliacao(idQuestao, nomeQuestao, "", "", "")
+            }
         );
     }
 

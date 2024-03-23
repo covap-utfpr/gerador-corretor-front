@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../gerais/Global";
+import ConfiguracoesAvaliacao from "../../modelos/ConfiguracoesAvaliacao";
 
 const FormularioConfiguracoes = () => {
 
-    const { dispatchAvaliacaoAtual } = useContext(GlobalContext);
+    const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
     const [disposicao, setDisposicao ] = useState();
     const [gabarito, setGabarito ] = useState();
@@ -31,13 +32,7 @@ const FormularioConfiguracoes = () => {
 
         event.preventDefault();
         
-        dispatchAvaliacaoAtual({type: 'adicionarConfiguracoes', payload:  {
-            disposicao: disposicao,
-            gabarito: gabarito,
-            fonte: fonte,
-            tamanhoFonte: tamanhoFonte,
-            espaco: espaco,
-        }});
+        dispatchAvaliacaoAtual({type: 'adicionarConfiguracoes', payload: new ConfiguracoesAvaliacao(disposicao, gabarito, fonte, tamanhoFonte, espaco) });
     }
 
     return (
@@ -48,14 +43,14 @@ const FormularioConfiguracoes = () => {
             <form onSubmit={(event) => handleSubmit(event)}>
                 
                 <div className="campo-form">
-                    <fieldset onChange={(event) => {handleDisposicaoChange(event)}}>
+                    <fieldset value={avaliacaoAtual.configuracoes.disposicao} onChange={(event) => {handleDisposicaoChange(event)}}>
                         <legend>Disposição das questões</legend>
                         <div>
-                            <input type="radio" id="duas" name="duas" value="duas" />
+                            <input type="radio" id="duas" name="duas" value="2" />
                             <label htmlFor="duas">Duas colunas</label>  
                         </div>
                         <div>
-                            <input type="radio" id="uma" name="uma" value="uma" />
+                            <input type="radio" id="uma" name="uma" value="1" />
                             <label htmlFor="uma">Uma coluna</label>  
                         </div>
                     </fieldset>
@@ -77,14 +72,16 @@ const FormularioConfiguracoes = () => {
 
                 <div className="campo-form">
                     <label htmlFor="fonte">Fonte</label>
-                    <select name="fonte" id="fonte" onChange={(event) => {handleFonte(event)}} >
+                    <select value={avaliacaoAtual.configuracoes.fonte} name="fonte" id="fonte" onChange={(event) => {handleFonte(event)}} >
                         <option key={1} value="Arial">Arial</option>
+                        <option key={1} value="Arial">Times New Roman</option>
                     </select>
                 </div>
 
                 <div className="campo-form">
                     <label htmlFor="font-size">Tamanho da fonte</label>
                     <input 
+                        value={avaliacaoAtual.configuracoes.tamanhoFonte}
                         type="number"
                         name="font-size"
                         id="font-size"
@@ -97,6 +94,7 @@ const FormularioConfiguracoes = () => {
                 <div className="campo-form">
                     <label htmlFor="espaco">Espaço para rascunho</label>
                     <input 
+                        value={avaliacaoAtual.configuracoes.espaco}
                         type="number"
                         name="espaco"
                         id="espaco"
