@@ -1,78 +1,91 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GlobalContext } from "../gerais/Global";
-import { useEffect } from "react";
 
 const ListaQuestoesAvaliacao = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
-    const [tipo, setTipo ] = useState([])
-    const [valor, setValor ] = useState([])
-   
-    let somaValorQuestoes = 0;
-    let valoresQuestoes = [];
 
-    function handleTipo(event) {
-        setTipo(event.target.value);
-    }  
-    function handleValor(event, indexQuestao){
-        if(somaValorQuestoes + (event.target.value - valoresQuestoes[indexQuestao]) <= avaliacaoAtual.cabecalho.valor){
-            somaValorQuestoes += (event.target.value - valoresQuestoes[indexQuestao]);
-            valoresQuestoes[indexQuestao] = event.target.value;
-        } else{
-            console.log("Valor da avaliação excedido")
-            event.target.value = 0;
-        }
-    }  
+    function valorValido(valor, indexQuestao) {
 
-    useEffect(() => {
+        const valorTotalAvaliacao = avaliacaoAtual.cabecalho.valor;
+
+        let soma = 0;
         
-    }, [avaliacaoAtual]);
+        avaliacaoAtual.questoes.forEach((questao, index) => {
 
-    function handleSubmit(event) {
+            if(index != indexQuestao) 
+                soma += +questao.valor;
+        });
 
-        event.preventDefault();
+        console.log(soma);
+
+        const valorMaxQuestao = valorTotalAvaliacao - soma;
+
+        return valor > valorMaxQuestao ? false : true;
+    }  
+
+    function handleTipo(event, index) {
 
         dispatchAvaliacaoAtual(
             {
                 type: 'atualizarQuestaoAvaliacaoAtual', 
                 payload: {
-                    tipo: tipo,
-                    valor: valor,
+                    index: index,
+                    tipo: event.target.value,
                 }
-            });
+            }
+        );
+    }
+    
+    function handleValor(event, index) {
+
+        const valor = event.target.value;
+
+        if(valorValido(valor, index)) {
+
+            dispatchAvaliacaoAtual(
+                {
+                    type: 'atualizarQuestaoAvaliacaoAtual', 
+                    payload: {
+                        index: index,
+                        valor: valor,
+                    }
+                }
+            );
+
+        } else {
+            console.error("Valor invalido");
+        }
     }
 
     return (
         <div className="lista-questoes-avaliacao">
             <h2>Questões Adicionadas</h2>
             <ul>
-                <form className="form" onSubmit={(event) => handleSubmit(event)} >
-                    {avaliacaoAtual.questoes && avaliacaoAtual.questoes.map((questao, index) => {
-                        valoresQuestoes.push(0);
-                        return(
-                            <li key={index} value={questao.nome}>
-                                <span>{index}</span>
-                                <span>{questao.nome}</span> 
-                                <div className="campo-form">
-                                    <select name="tipo" id="tipo" onChange={(event) => {handleTipo(event)}}>
-                                        <option key={1} value="vf">V/F</option>
-                                        <option key={2} value="escolha">a,b</option>
-                                        <option key={3} value="descritiva">desc</option>
-                                    </select>
-                                </div>
-                                <div className="campo-form">
-                                    <input 
-                                        type="number"
-                                        name="valor"
-                                        id="valor"
-                                        min="0"
-                                        onChange={(event) => {handleValor(event, index)}}
-                                    />
-                                </div>
-                            </li>
-                        )
-                    })}
-                    <button type="submit">Editar</button>
+                <form className="form" >
+                    {avaliacaoAtual.questoes && avaliacaoAtual.questoes.map((questao, index) => (
+                        <li key={index} value={questao.nome}>
+                            <span>{index}</span>
+                            <span>{questao.nome}</span> 
+                            <div className="campo-form">
+                                <select name="tipo" id="tipo" value={questao.tipo} onChange={(event) => { handleTipo(event, index)}}>
+                                    <option key={1} value="vf">V/F</option>
+                                    <option key={2} value="escolha">a,b</option>
+                                    <option key={3} value="descritiva">desc</option>
+                                </select>
+                            </div>
+                            <div className="campo-form">
+                                <input 
+                                    value={questao.valor}
+                                    type="number"
+                                    name="valor"
+                                    id="valor"
+                                    min="0"
+                                    onChange={(event) => {handleValor(event, index)}}
+                                />
+                            </div>
+                        </li>
+                    ))}
                 </form>
             </ul>
         </div>

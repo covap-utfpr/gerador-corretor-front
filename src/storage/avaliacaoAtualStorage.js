@@ -1,3 +1,5 @@
+import AvaliacaoAtual from "../modelos/AvaliacaoAtual";
+
 const estadoInicialAvaliacaoAtual = () => {
     
     const storage = JSON.parse(localStorage.getItem('AvaliacaoAtual'));
@@ -6,23 +8,7 @@ const estadoInicialAvaliacaoAtual = () => {
         return storage
     }
 
-    const inicial  = {
-        questoes: [],
-        configuracoes: {
-            disposicaoQuestoes: "",
-            posicaoGabarito: "",
-            fonte: "",
-            tamanhoFonte: 12,
-            espacoRascunho: 0
-        },
-        cabecalho: {
-            titulo: "",
-            instituicao: "",
-            disciplina: "",
-            data: "",
-            instrucoes: ""
-        }
-    };
+    const inicial  = new AvaliacaoAtual("", "", "", "", "", 0, "", "", "", "", "");
 
     return inicial;
 }
@@ -67,7 +53,6 @@ const atualizarAvaliacaoAtual = (action) => {
 const adicionarQuestaoAvaliacaoAtual = (state, action) => {
     
     const novoEstado = {...state};
-    console.log(novoEstado)
 
     novoEstado.questoes.push(action.payload);
 
@@ -102,7 +87,7 @@ const atualizarQuestaoAvaliacaoAtual = (state, action) => {
     
     const novoEstado = {...state}
 
-    const index = novoEstado.questoes.findIndex((questao) => questao.id === action.payload.id)
+    const index = action.payload.index;
 
     if(action.payload.ordem) {
         novoEstado.questoes[index].ordem = action.payload.ordem;
@@ -123,36 +108,6 @@ const atualizarQuestaoAvaliacaoAtual = (state, action) => {
 
 //Getters
 
-
 export { reducerAvaliacaoAtual, estadoInicialAvaliacaoAtual };
 
 
-/*
-    AvaliacaoAtual = {
-        questoes: [
-            {   
-                nome,
-                id,
-                ordem,
-                tipo,
-                valor,
-                ...
-            },
-            {...}
-        ],
-        configuracoes: {
-            disposicaoQuestoes,
-            posicaoGabarito,
-            fonte,
-            tamanhoFonte,
-            espacoRascunho
-        },
-        cabecalho: {
-            titulo,
-            instituicao,
-            disciplina,
-            data,
-            instrucoes
-        }
-    }
-*/

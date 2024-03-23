@@ -1,4 +1,4 @@
-class Cabecalho {
+class CabecalhoAvaliacao {
     
     constructor(titulo, instituicao, disciplina, data, instrucoes, valor) {
         this.titulo = titulo;
@@ -10,4 +10,4 @@ class Cabecalho {
     }
 }
 
-export default Cabecalho;
+export default CabecalhoAvaliacao;
