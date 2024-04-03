@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import reducerLogin from '../../storage/loginStorage';
 import reducerDiretorioRaiz from '../../storage/diretorioRaizStorage';
-import reducerDisciplinas from '../../storage/disciplinasStorage';
+import { reducerDisciplinas } from '../../storage/disciplinasStorage';
 import { reducerQuestoes } from '../../storage/questoesStorage';
 import { reducerAvaliacoes } from '../../storage/avaliacoesStorage';
 import { estadoInicialAvaliacaoAtual, reducerAvaliacaoAtual } from '../../storage/avaliacaoAtualStorage';

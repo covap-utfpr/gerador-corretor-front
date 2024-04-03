@@ -9,11 +9,11 @@ import criarPDF from "../utils/criarPDF";
 
 const CriarAvaliacao = () => {
 
-    const { avaliacaoAtual } = useContext(GlobalContext);
+    const { listaDisciplinas, avaliacaoAtual } = useContext(GlobalContext);
 
     async function handleSubmit(event) {
 
-        criarPDF( avaliacaoAtual );
+        criarPDF( listaDisciplinas, avaliacaoAtual );
 
         event.preventDefault();
 

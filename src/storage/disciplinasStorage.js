@@ -29,5 +29,14 @@ const adicionarDisciplina = (action, state) => {
   return [...state, action.payload];
 }
 
-export default reducerDisciplinas;
+
+//Getters
+
+const obterNomeDisciplina = (state, idDisciplina) => {
+
+  const disciplina = state.find(disciplina => disciplina.id == idDisciplina);
+  return disciplina.nome;
+}
+
+export {reducerDisciplinas, obterNomeDisciplina};
 

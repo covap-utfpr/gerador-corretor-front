@@ -7,12 +7,12 @@ const FormularioCabecalho = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
-    const [titulo, setTitulo ] = useState()
-    const [instituicao, setInstituicao ] = useState()
-    const [disciplina, setDisciplina ] = useState()
-    const [data, setData ] = useState()
-    const [instrucoes, setInstrucoes] = useState()
-    const [valor, setValor] = useState()
+    const [titulo, setTitulo ] = useState(avaliacaoAtual.cabecalho.titulo)
+    const [instituicao, setInstituicao ] = useState(avaliacaoAtual.cabecalho.instituicao)
+    const [disciplina, setDisciplina ] = useState(avaliacaoAtual.cabecalho.disciplina)
+    const [data, setData ] = useState(avaliacaoAtual.cabecalho.data)
+    const [instrucoes, setInstrucoes] = useState(avaliacaoAtual.cabecalho.instrucoes)
+    const [valor, setValor] = useState(avaliacaoAtual.cabecalho.valor)
 
     function handleTitulo(event) {
         setTitulo(event.target.value);
@@ -65,7 +65,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 
-                        value={avaliacaoAtual.cabecalho.titulo}
+                        value={titulo}
                         type="text"
                         name="titulo"
                         id="titulo"
@@ -76,7 +76,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="instituicao">Instituição de Ensino</label>
                     <input 
-                        value={avaliacaoAtual.cabecalho.instituicao} 
+                        value={instituicao} 
                         type="text"
                         name="instituicao"
                         id="instituicao"
@@ -89,7 +89,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="data">Data de realização / Prazo</label>
                     <input 
-                        value={avaliacaoAtual.cabecalho.data}
+                        value={data}
                         type="date"
                         name="data"
                         id="data"
@@ -100,7 +100,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="valor">Valor</label>
                     <input 
-                        value={avaliacaoAtual.cabecalho.valor}
+                        value={valor}
                         type="number"
                         name="valor"
                         id="valor"
@@ -111,7 +111,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="instrucoes">Instruções para os alunos</label>
                     <textarea 
-                        value={avaliacaoAtual.cabecalho.instrucoes}
+                        value={instrucoes}
                         name="instrucoes" 
                         id="instrucoes" 
                         cols="30" 
