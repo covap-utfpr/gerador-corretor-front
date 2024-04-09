@@ -6,11 +6,11 @@ const FormularioConfiguracoes = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
-    const [disposicao, setDisposicao ] = useState(avaliacaoAtual.configuracoes.disposicao);
-    const [gabarito, setGabarito ] = useState(avaliacaoAtual.configuracoes.gabarito);
-    const [fonte, setFonte ] = useState(avaliacaoAtual.configuracoes.fonte);
-    const [tamanhoFonte, setTamanhoFonte ] = useState(avaliacaoAtual.configuracoes.tamanhoFonte);
-    const [espaco, setEspaco ] = useState(avaliacaoAtual.configuracoes.espaco);
+    const [ disposicao, setDisposicao ] = useState(avaliacaoAtual.configuracoes.disposicao);
+    const [ gabarito, setGabarito ] = useState(avaliacaoAtual.configuracoes.gabarito);
+    const [ fonte, setFonte ] = useState(avaliacaoAtual.configuracoes.fonte);
+    const [ tamanhoFonte, setTamanhoFonte ] = useState(avaliacaoAtual.configuracoes.tamanhoFonte);
+    const  [espaco, setEspaco ] = useState(avaliacaoAtual.configuracoes.espaco);
 
     function handleDisposicaoChange(event) {
         setDisposicao(event.target.value);
@@ -32,7 +32,15 @@ const FormularioConfiguracoes = () => {
 
         event.preventDefault();
         
-        dispatchAvaliacaoAtual({type: 'adicionarConfiguracoes', payload: new ConfiguracoesAvaliacao(disposicao, gabarito, fonte, tamanhoFonte, espaco) });
+        dispatchAvaliacaoAtual(
+            {
+                type: 'adicionarSecao', 
+                payload: {
+                    secao: 'configuracoes',
+                    conteudo: new ConfiguracoesAvaliacao(disposicao, gabarito, fonte, tamanhoFonte, espaco) 
+                }
+            }
+        );
     }
 
     return (

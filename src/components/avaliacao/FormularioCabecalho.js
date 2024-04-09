@@ -38,9 +38,9 @@ const FormularioCabecalho = () => {
         event.preventDefault();
 
         avaliacaoAtual.questoes.forEach((questao, index) => {
-            console.log(index)
+
             dispatchAvaliacaoAtual({
-                type: 'atualizarQuestaoAvaliacaoAtual',
+                type: 'atualizarQuestao',
                 payload: {
                     index: index,
                     valor: '0'
@@ -50,8 +50,11 @@ const FormularioCabecalho = () => {
 
         dispatchAvaliacaoAtual(
             {
-                type: 'adicionarCabecalho', 
-                payload: new CabecalhoAvaliacao(titulo, instituicao, disciplina, data, instrucoes, valor)
+                type: 'adicionarSecao', 
+                payload: {
+                    secao: 'cabecalho',
+                    conteudo: new CabecalhoAvaliacao(titulo, instituicao, disciplina, data, instrucoes, valor)
+                }
             }
         )
     }

@@ -11,7 +11,7 @@ export const requisitarListasQuestoes = async (listaDisciplinas) => {
             const lista = {
                 idDisciplina: disciplina.id,
                 qnt: listaQuestoes.data.length,
-                questoes: listaQuestoes.data
+                lista: listaQuestoes.data
             }
 
             return lista;

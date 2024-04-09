@@ -1,14 +1,16 @@
 import { useContext, useReducer } from "react";
 import { criarUmaQuestao } from '../../api/questao';
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
-import { estadoInicialQuestaoAtual, reducerQuestaoAtual } from "../../storage/questaoAtualStorage";
 import { GlobalContext } from "../gerais/Global";
+import StorageQuestaoAtual from "../../storage/StorageQuestaoAtual";
 
 const ModalCriarQuestao = ( { setModal } ) => {
 
+    const storageQuestaoAtual = new StorageQuestaoAtual();
+
     const {  dispatchListasQuestoes } = useContext(GlobalContext);
 
-    const [ questaoAtual, dispatchQuestaoAtual ] = useReducer(reducerQuestaoAtual, estadoInicialQuestaoAtual());
+    const [ questaoAtual, dispatchQuestaoAtual ] = useReducer(storageQuestaoAtual.reducer, storageQuestaoAtual.obterValorInicial());
 
     async function handleSubmit(event) {
         

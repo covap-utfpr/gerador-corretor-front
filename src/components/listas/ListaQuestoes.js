@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
-import { obterListaQuestoes } from "../../storage/questoesStorage";
 import { requisitarListasQuestoes } from "../../utils/requisitarListasQuestoes";
 import ModalCriarQuestao from "../modais/ModalCriarQuestao";
 import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
+import StorageListas from "../../storage/StorageListas";
 
 const ListaQuestoes = ( { prova }) => {
+
+    const storageQuestao = new StorageListas("listasQuestoes");
     
     const [ modal, setModal ] = useState(false);
 
@@ -20,15 +22,15 @@ const ListaQuestoes = ( { prova }) => {
         const listas = await requisitarListasQuestoes(listaDisciplinas);
 
         if(listas) {
-            dispatchListasQuestoes({type: 'atualizarListasQuestoes', payload: listas})
+            dispatchListasQuestoes({type: 'atualizarStorage', payload: listas})
         }
     }    
 
     useEffect(() => {
 
         if (listasQuestoes.length !== 0) {
-            
-            const lista = obterListaQuestoes(listasQuestoes, disciplina);
+
+            const lista = storageQuestao.obterLista(listasQuestoes, disciplina);
 
             if(lista) {
                 setQuestoes(lista);
@@ -50,7 +52,7 @@ const ListaQuestoes = ( { prova }) => {
     function handleQuestaoAvaliacao(idQuestao, nomeQuestao) {
 
         dispatchAvaliacaoAtual(
-            {   type: 'adicionarQuestaoAvaliacaoAtual', 
+            {   type: 'adicionarQuestao', 
                 payload: new QuestaoAvaliacao(idQuestao, nomeQuestao, "", "", "")
             }
         );

@@ -17,7 +17,7 @@ const ListaAvaliacoes = ( { prova }) => {
         const listas = await requisitarListasQuestoes(listaDisciplinas);
 
         if(listas) {
-            dispatchListasQuestoes({type: 'atualizarListasQuestoes', payload: listas})
+            dispatchListasQuestoes({type: 'atualizarStorage', payload: listas})
         }
     }    
 

@@ -1,22 +1,28 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import reducerLogin from '../../storage/loginStorage';
-import reducerDiretorioRaiz from '../../storage/diretorioRaizStorage';
-import { reducerDisciplinas } from '../../storage/disciplinasStorage';
-import { reducerQuestoes } from '../../storage/questoesStorage';
-import { reducerAvaliacoes } from '../../storage/avaliacoesStorage';
-import { estadoInicialAvaliacaoAtual, reducerAvaliacaoAtual } from '../../storage/avaliacaoAtualStorage';
 import { checkRootDirectory } from '../../utils/checkRootDirectory';
+import StorageDisciplina from '../../storage/StorageDisciplina';
+import StorageLogin from '../../storage/StorageLogin';
+import StorageListas from '../../storage/StorageListas';
+import StorageDiretorioRaiz from '../../storage/StorageDiretorioRaiz';
+import StorageAvaliacaoAtual from '../../storage/StorageAvaliacaoAtual';
 
 const GlobalContext = createContext();
 
 const Global = ({ children }) => {
+
+    const storageLogin = new StorageLogin();
+    const storageDiretorioRaiz = new StorageDiretorioRaiz();
+    const storageDisciplina = new StorageDisciplina();
+    const storageListasQuestoes = new StorageListas('listasQuestoes');
+    const storageListasAvaliacoes = new StorageListas('listasAvaliacoes');
+    const storageAvaliacaoAtual = new StorageAvaliacaoAtual();
    
-    const [ logado, dispatchLogado ] = useReducer(reducerLogin, true);
-    const [ idDiretorioRaiz, dispatchDiretorioRaiz ] = useReducer(reducerDiretorioRaiz, JSON.parse(localStorage.getItem('idDiretorioRaiz')) || null); 
-    const [ listaDisciplinas, dispatchListaDisciplinas ] = useReducer(reducerDisciplinas, JSON.parse(localStorage.getItem('listaDisciplinas')) || []); 
-    const [ listasQuestoes, dispatchListasQuestoes ] = useReducer(reducerQuestoes, JSON.parse(localStorage.getItem('listasQuestoes')) || []);
-    const [ listasAvaliacoes, dispatchListasAvaliacoes ] = useReducer(reducerAvaliacoes, JSON.parse(localStorage.getItem('listasAvaliacoes')) || []); 
-    const [ avaliacaoAtual, dispatchAvaliacaoAtual ] = useReducer(reducerAvaliacaoAtual, estadoInicialAvaliacaoAtual());
+    const [ logado, dispatchLogado ] = useReducer(storageLogin.reducer, true);
+    const [ idDiretorioRaiz, dispatchDiretorioRaiz ] = useReducer(storageDiretorioRaiz.reducer, storageDiretorioRaiz.obterValorInicial());
+    const [ listaDisciplinas, dispatchListaDisciplinas ] = useReducer(storageDisciplina.reducer, storageDisciplina.obterValorInicial()); 
+    const [ listasQuestoes, dispatchListasQuestoes ] = useReducer(storageListasQuestoes.reducer, storageListasQuestoes.obterValorInicial());
+    const [ listasAvaliacoes, dispatchListasAvaliacoes ] = useReducer(storageListasAvaliacoes.reducer,  storageListasAvaliacoes.obterValorInicial()); 
+    const [ avaliacaoAtual, dispatchAvaliacaoAtual ] = useReducer(storageAvaliacaoAtual.reducer, storageAvaliacaoAtual.obterValorInicial());
     
     useEffect(() => {
 
