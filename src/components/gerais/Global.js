@@ -1,10 +1,11 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { checkRootDirectory } from '../../utils/checkRootDirectory';
 import StorageDisciplina from '../../storage/StorageDisciplina';
 import StorageLogin from '../../storage/StorageLogin';
 import StorageListas from '../../storage/StorageListas';
 import StorageDiretorioRaiz from '../../storage/StorageDiretorioRaiz';
 import StorageAvaliacaoAtual from '../../storage/StorageAvaliacaoAtual';
+import MensagemConfirmacao from '../modais/MensagemConfirmacao';
 
 const GlobalContext = createContext();
 
@@ -17,13 +18,20 @@ const Global = ({ children }) => {
     const storageListasAvaliacoes = new StorageListas('listasAvaliacoes');
     const storageAvaliacaoAtual = new StorageAvaliacaoAtual();
    
-    const [ logado, dispatchLogado ] = useReducer(storageLogin.reducer, true);
-    const [ idDiretorioRaiz, dispatchDiretorioRaiz ] = useReducer(storageDiretorioRaiz.reducer, storageDiretorioRaiz.obterValorInicial());
-    const [ listaDisciplinas, dispatchListaDisciplinas ] = useReducer(storageDisciplina.reducer, storageDisciplina.obterValorInicial()); 
-    const [ listasQuestoes, dispatchListasQuestoes ] = useReducer(storageListasQuestoes.reducer, storageListasQuestoes.obterValorInicial());
-    const [ listasAvaliacoes, dispatchListasAvaliacoes ] = useReducer(storageListasAvaliacoes.reducer,  storageListasAvaliacoes.obterValorInicial()); 
-    const [ avaliacaoAtual, dispatchAvaliacaoAtual ] = useReducer(storageAvaliacaoAtual.reducer, storageAvaliacaoAtual.obterValorInicial());
-    
+    const [ logado, dispatchLogado ] = useReducer(storageLogin.reducer, 
+                                                  true);
+    const [ idDiretorioRaiz, dispatchDiretorioRaiz ] = useReducer(storageDiretorioRaiz.reducer, 
+                                                                  storageDiretorioRaiz.obterValorInicial());
+    const [ listaDisciplinas, dispatchListaDisciplinas ] = useReducer(storageDisciplina.reducer, 
+                                                                      storageDisciplina.obterValorInicial()); 
+    const [ listasQuestoes, dispatchListasQuestoes ] = useReducer(storageListasQuestoes.reducer,
+                                                                  storageListasQuestoes.obterValorInicial());
+    const [ listasAvaliacoes, dispatchListasAvaliacoes ] = useReducer(storageListasAvaliacoes.reducer,  
+                                                                      storageListasAvaliacoes.obterValorInicial()); 
+    const [ avaliacaoAtual, dispatchAvaliacaoAtual ] = useReducer(storageAvaliacaoAtual.reducer, 
+                                                                  storageAvaliacaoAtual.obterValorInicial());
+    const [ mensagem, setMensagem ] = useState(false);
+
     useEffect(() => {
 
         const verificaDiretorioRaiz = async () => {
@@ -41,8 +49,9 @@ const Global = ({ children }) => {
     }, []);
 
     return (
-        <GlobalContext.Provider value={{ logado, dispatchLogado, idDiretorioRaiz, dispatchDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas, listasQuestoes, dispatchListasQuestoes, listasAvaliacoes, dispatchListasAvaliacoes, avaliacaoAtual, dispatchAvaliacaoAtual }}>    
+        <GlobalContext.Provider value={{ logado, dispatchLogado, idDiretorioRaiz, dispatchDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas, listasQuestoes, dispatchListasQuestoes, listasAvaliacoes, dispatchListasAvaliacoes, avaliacaoAtual, dispatchAvaliacaoAtual, mensagem, setMensagem }}>    
             { children }
+            { mensagem && <MensagemConfirmacao /> }
         </GlobalContext.Provider>
     );
 };

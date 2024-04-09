@@ -2,7 +2,7 @@ import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
 
-export async function criarUmaQuestao(questao) {
+export async function criarUmaQuestao(idDisciplina, titulo, enunciado, alternativas, imagem, correta) {
 
     const requestOptions = {
         method: 'POST',
@@ -11,7 +11,15 @@ export async function criarUmaQuestao(questao) {
             'Authorization': Cookies.get('token')
         },
         // Convertendo o objeto de dados em uma string JSON
-        body: JSON.stringify({'questao': questao}), 
+        body: JSON.stringify(
+            {
+                'idDisciplina': idDisciplina,
+                'titulo': titulo,
+                'enunciado': enunciado,
+                'alternativas': alternativas,
+                'imagem': imagem,
+                'correta': correta,
+            }), 
     };
 
     return await resolver(fetch("http://localhost:8080/questao/criar", requestOptions)

@@ -8,20 +8,42 @@ const ModalCriarQuestao = ( { setModal } ) => {
 
     const storageQuestaoAtual = new StorageQuestaoAtual();
 
-    const {  dispatchListasQuestoes } = useContext(GlobalContext);
+    const {  dispatchListasQuestoes, setMensagem } = useContext(GlobalContext);
 
-    const [ questaoAtual, dispatchQuestaoAtual ] = useReducer(storageQuestaoAtual.reducer, storageQuestaoAtual.obterValorInicial());
+    const [ questaoAtual, dispatchQuestaoAtual ] = useReducer(storageQuestaoAtual.reducer, 
+                                                                storageQuestaoAtual.obterValorInicial());
 
     async function handleSubmit(event) {
         
-        //impede recarregamento de pagina ao submeter formulario
         event.preventDefault();
           
-        const idQuestao = await criarUmaQuestao(questaoAtual);
+        const idQuestao = await criarUmaQuestao(questaoAtual.idDisciplina,
+                                                questaoAtual.titulo,
+                                                questaoAtual.enunciado,
+                                                questaoAtual.alternativas,
+                                                "",
+                                                ""
+                                                );
 
         if(idQuestao.data) {
-            
-            dispatchListasQuestoes({type: 'adicionarQuestao', payload: { idDisciplina: questaoAtual.idDisciplina, questao: {nome: questaoAtual.titulo, id: idQuestao.data}}});
+
+            setMensagem({
+                acao: 'criada',
+                entidade: 'questao'
+            });
+
+            dispatchListasQuestoes(
+                {
+                    type: 'adicionarElementoLista', 
+                    payload: { 
+                        idDisciplina: questaoAtual.idDisciplina, 
+                        elementoLista: {
+                            nome: questaoAtual.titulo, 
+                            id: idQuestao.data
+                        }
+                    }
+                }
+            );
         
         } else if(idQuestao.error){
 
@@ -31,20 +53,51 @@ const ModalCriarQuestao = ( { setModal } ) => {
 
     //funçao que reseta o state titulo a cada mudança ocorrida no campo
     function handleTituloChange(event) {
-        dispatchQuestaoAtual({type: 'adicionarTitulo', payload: event.target.value});
+        dispatchQuestaoAtual(
+            {
+                type: 'adicionarSecao', 
+                payload: {
+                    conteudo: event.target.value,
+                    secao: 'titulo'
+                }
+            }
+        );
     }
 
     //funçao que reseta o state enunciado a cada mudança ocorrida no campo
     function handleEnunciadoChange(event) {
-        dispatchQuestaoAtual({type: 'adicionarEnunciado', payload: event.target.value});
+        dispatchQuestaoAtual(
+            {
+                type: 'adicionarSecao', 
+                payload: {
+                    conteudo: event.target.value,
+                    secao: 'enunciado'
+                }
+            }
+        );
     }
 
     function handleAlternativasChange(event) {
-        dispatchQuestaoAtual({type:'atualizarAlternativa', payload: {alternativa: event.target.value, id: event.target.id}});
+        dispatchQuestaoAtual(
+            {
+                type:'atualizarAlternativa', 
+                payload: {
+                    alternativa: event.target.value, 
+                    id: event.target.id}
+            }
+        );
     }
 
     function handleDisciplinaChange(event) {
-        dispatchQuestaoAtual({type:'atualizarIdDisciplina', payload: event.target.value});
+        dispatchQuestaoAtual(
+            {
+                type: 'adicionarSecao', 
+                payload: {
+                    conteudo: event.target.value,
+                    secao: 'idDisciplina'
+                }
+            }
+        );
     }
 
     return (
@@ -90,6 +143,7 @@ const ModalCriarQuestao = ( { setModal } ) => {
                             id={i} 
                             cols="30" 
                             rows="3"
+                            value={questaoAtual.alternativas[i]}
                             required
                             onChange={(event) => handleAlternativasChange(event)}
                         ></textarea> 
@@ -97,7 +151,7 @@ const ModalCriarQuestao = ( { setModal } ) => {
                 </div>
 
                 <button type="submit">Enviar</button>
-                <button className="fechar" onClick={() => {setModal(false)}}>Fechar</button>
+                <button type="button" className="fechar" onClick={() => {setModal(false)}}>Fechar</button>
             </form>
         </div>
     )

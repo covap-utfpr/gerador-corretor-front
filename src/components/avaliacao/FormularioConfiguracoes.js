@@ -82,7 +82,7 @@ const FormularioConfiguracoes = () => {
                     <label htmlFor="fonte">Fonte</label>
                     <select value={fonte} name="fonte" id="fonte" onChange={(event) => {handleFonte(event)}} >
                         <option key={1} value="Arial">Arial</option>
-                        <option key={1} value="Arial">Times New Roman</option>
+                        <option key={2} value="Arial">Times New Roman</option>
                     </select>
                 </div>
 

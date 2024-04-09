@@ -12,9 +12,9 @@ export async function criarUmaAvaliacao(questoes, cabecalho, configuracoes) {
         },
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({
-            questoes: questoes, 
-            cabecalho: cabecalho, 
-            configuracoes: configuracoes
+            'questoes': questoes, 
+            'cabecalho': cabecalho, 
+            'configuracoes': configuracoes
         }), 
     };
 

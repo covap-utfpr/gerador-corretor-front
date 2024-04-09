@@ -5,10 +5,11 @@ import FormularioConfiguracoes from "../components/avaliacao/FormularioConfigura
 import { criarUmaAvaliacao } from "../api/avaliacao";
 import { GlobalContext } from "../components/gerais/Global";
 import { useContext } from "react";
+import MensagemConfirmacao from "../components/modais/MensagemConfirmacao";
 
 const CriarAvaliacao = () => {
 
-    const { listaDisciplinas, avaliacaoAtual } = useContext(GlobalContext);
+    const { avaliacaoAtual, mensagem, setMensagem} = useContext(GlobalContext);
 
     async function handleSubmit(event) {
 
@@ -17,6 +18,11 @@ const CriarAvaliacao = () => {
         const idAvaliacao = await criarUmaAvaliacao(avaliacaoAtual.questoes, avaliacaoAtual.cabecalho, avaliacaoAtual.configuracoes);
 
         if(idAvaliacao.data) {
+
+            setMensagem({
+                acao: 'criada',
+                entidade: 'avaliacao'
+            });
 
             console.log(idAvaliacao.data)
         
@@ -47,7 +53,7 @@ const CriarAvaliacao = () => {
                 <div className="modulo">
                     <FormularioConfiguracoes />
                 </div>
-                <button onClick={(event) => {handleSubmit(event)}}>Gerar Avaliaçao</button>       
+                <button onClick={(event) => {handleSubmit(event)}}>Gerar Avaliaçao</button>      
             </section>
         </main>
     )
