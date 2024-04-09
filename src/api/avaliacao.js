@@ -2,7 +2,7 @@ import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
 
-export async function criarUmaAvaliacao(avaliacao) {
+export async function criarUmaAvaliacao(questoes, cabecalho, configuracoes) {
 
     const requestOptions = {
         method: 'POST',
@@ -12,7 +12,9 @@ export async function criarUmaAvaliacao(avaliacao) {
         },
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({
-            'avaliacao': avaliacao 
+            questoes: questoes, 
+            cabecalho: cabecalho, 
+            configuracoes: configuracoes
         }), 
     };
 

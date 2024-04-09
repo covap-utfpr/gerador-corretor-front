@@ -12,7 +12,7 @@ const SelectDisciplinas = ({ handleFunction }) => {
 
         if(listaDisciplinas.data) {
             
-            dispatchListaDisciplinas({type:'atualizarListaDisciplinas', payload: listaDisciplinas.data});
+            dispatchListaDisciplinas({type:'atualizarStorage', payload: listaDisciplinas.data});
     
         } else if (listaDisciplinas.error) {
     

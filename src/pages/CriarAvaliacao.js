@@ -5,19 +5,16 @@ import FormularioConfiguracoes from "../components/avaliacao/FormularioConfigura
 import { criarUmaAvaliacao } from "../api/avaliacao";
 import { GlobalContext } from "../components/gerais/Global";
 import { useContext } from "react";
-import criarPDF from "../utils/criarPDF";
 
 const CriarAvaliacao = () => {
 
-    const { avaliacaoAtual } = useContext(GlobalContext);
+    const { listaDisciplinas, avaliacaoAtual } = useContext(GlobalContext);
 
     async function handleSubmit(event) {
 
-        criarPDF( avaliacaoAtual );
-
         event.preventDefault();
 
-        const idAvaliacao = await criarUmaAvaliacao(avaliacaoAtual);
+        const idAvaliacao = await criarUmaAvaliacao(avaliacaoAtual.questoes, avaliacaoAtual.cabecalho, avaliacaoAtual.configuracoes);
 
         if(idAvaliacao.data) {
 

@@ -28,7 +28,7 @@ const ListaQuestoesAvaliacao = () => {
 
         dispatchAvaliacaoAtual(
             {
-                type: 'atualizarQuestaoAvaliacaoAtual', 
+                type: 'atualizarQuestao', 
                 payload: {
                     index: index,
                     tipo: event.target.value,
@@ -45,7 +45,7 @@ const ListaQuestoesAvaliacao = () => {
 
             dispatchAvaliacaoAtual(
                 {
-                    type: 'atualizarQuestaoAvaliacaoAtual', 
+                    type: 'atualizarQuestao', 
                     payload: {
                         index: index,
                         valor: valor,

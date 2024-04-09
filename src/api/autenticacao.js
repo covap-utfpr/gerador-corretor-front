@@ -8,7 +8,6 @@ export async function getUrlLogin() {
         .then(res => {
             
             if(!res.ok) {
-                console.log(res)
                 throw new ServerException(res, res.status);
             }
             

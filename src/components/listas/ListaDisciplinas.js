@@ -14,7 +14,7 @@ const ListaDisciplinas = () => {
 
         if(listaDisciplinas.data) {
             
-            dispatchListaDisciplinas({type:'atualizarListaDisciplinas', payload: listaDisciplinas.data});
+            dispatchListaDisciplinas({type:'atualizarStorage', payload: listaDisciplinas.data});
     
         } else if (listaDisciplinas.error) {
     
@@ -37,6 +37,7 @@ const ListaDisciplinas = () => {
                 {listaDisciplinas && listaDisciplinas.map((disciplina, index) => (
                     <li key={index} value={disciplina.nome}>
                         {disciplina.nome}
+                        <button>excluir</button>
                     </li>
                 ))}
             </ul>

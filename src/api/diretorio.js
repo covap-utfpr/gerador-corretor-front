@@ -39,7 +39,7 @@ export async function lerUmDiretorio(nome, pai) {
         },
     };
 
-    return await resolver(fetch(`http://localhost:8080/diretorio/ler/${nome}?pai=${pai}`, requestOptions)
+    return await resolver(fetch(`http://localhost:8080/diretorio/ler/${nome}?IDdiretorioPai=${pai}`, requestOptions)
         
         .then(res => {
             
@@ -61,7 +61,7 @@ export async function lerVariosDiretorios(pai, inicial) {
         },
     };
 
-    return await resolver(fetch(`http://localhost:8080/diretorio/ler?pai=${pai}&quantidade=50&inicial=${inicial}`, requestOptions)
+    return await resolver(fetch(`http://localhost:8080/diretorio/ler?IDdiretorioPai=${pai}&quantidade=50&inicial=${inicial}`, requestOptions)
         
         .then(res => {
             

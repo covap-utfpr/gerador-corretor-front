@@ -6,11 +6,11 @@ const FormularioConfiguracoes = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
-    const [disposicao, setDisposicao ] = useState();
-    const [gabarito, setGabarito ] = useState();
-    const [fonte, setFonte ] = useState();
-    const [tamanhoFonte, setTamanhoFonte ] = useState();
-    const [espaco, setEspaco ] = useState();
+    const [ disposicao, setDisposicao ] = useState(avaliacaoAtual.configuracoes.disposicao);
+    const [ gabarito, setGabarito ] = useState(avaliacaoAtual.configuracoes.gabarito);
+    const [ fonte, setFonte ] = useState(avaliacaoAtual.configuracoes.fonte);
+    const [ tamanhoFonte, setTamanhoFonte ] = useState(avaliacaoAtual.configuracoes.tamanhoFonte);
+    const  [espaco, setEspaco ] = useState(avaliacaoAtual.configuracoes.espaco);
 
     function handleDisposicaoChange(event) {
         setDisposicao(event.target.value);
@@ -32,7 +32,15 @@ const FormularioConfiguracoes = () => {
 
         event.preventDefault();
         
-        dispatchAvaliacaoAtual({type: 'adicionarConfiguracoes', payload: new ConfiguracoesAvaliacao(disposicao, gabarito, fonte, tamanhoFonte, espaco) });
+        dispatchAvaliacaoAtual(
+            {
+                type: 'adicionarSecao', 
+                payload: {
+                    secao: 'configuracoes',
+                    conteudo: new ConfiguracoesAvaliacao(disposicao, gabarito, fonte, tamanhoFonte, espaco) 
+                }
+            }
+        );
     }
 
     return (
@@ -43,7 +51,7 @@ const FormularioConfiguracoes = () => {
             <form onSubmit={(event) => handleSubmit(event)}>
                 
                 <div className="campo-form">
-                    <fieldset value={avaliacaoAtual.configuracoes.disposicao} onChange={(event) => {handleDisposicaoChange(event)}}>
+                    <fieldset value={disposicao} onChange={(event) => {handleDisposicaoChange(event)}}>
                         <legend>Disposição das questões</legend>
                         <div>
                             <input type="radio" id="duas" name="duas" value="2" />
@@ -57,7 +65,7 @@ const FormularioConfiguracoes = () => {
                 </div>
 
                 <div className="campo-form">
-                    <fieldset onChange={(event) => {handleGabarito(event)}}>
+                    <fieldset value={gabarito} onChange={(event) => {handleGabarito(event)}}>
                         <legend>Posição do gabarito</legend>
                         <div>
                             <input type="radio" id="inicio" name="inicio" value="inicio" />
@@ -72,7 +80,7 @@ const FormularioConfiguracoes = () => {
 
                 <div className="campo-form">
                     <label htmlFor="fonte">Fonte</label>
-                    <select value={avaliacaoAtual.configuracoes.fonte} name="fonte" id="fonte" onChange={(event) => {handleFonte(event)}} >
+                    <select value={fonte} name="fonte" id="fonte" onChange={(event) => {handleFonte(event)}} >
                         <option key={1} value="Arial">Arial</option>
                         <option key={1} value="Arial">Times New Roman</option>
                     </select>
@@ -81,7 +89,7 @@ const FormularioConfiguracoes = () => {
                 <div className="campo-form">
                     <label htmlFor="font-size">Tamanho da fonte</label>
                     <input 
-                        value={avaliacaoAtual.configuracoes.tamanhoFonte}
+                        value={tamanhoFonte}
                         type="number"
                         name="font-size"
                         id="font-size"
@@ -94,7 +102,7 @@ const FormularioConfiguracoes = () => {
                 <div className="campo-form">
                     <label htmlFor="espaco">Espaço para rascunho</label>
                     <input 
-                        value={avaliacaoAtual.configuracoes.espaco}
+                        value={espaco}
                         type="number"
                         name="espaco"
                         id="espaco"
