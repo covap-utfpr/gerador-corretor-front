@@ -1,6 +1,6 @@
 import ListaQuestoes from "../components/listas/ListaQuestoes";
 import ListaDisciplinas from "../components/listas/ListaDisciplinas";
-
+import ListaAvaliacoes from "../components/listas/ListaAvaliacoes";
 const Editar = () => {
 
     return (
@@ -12,6 +12,7 @@ const Editar = () => {
                 <ListaQuestoes />
             </div>
             <div className="modulo" id="avaliacoes">
+                <ListaAvaliacoes />
             </div>   
         </main>   
     )

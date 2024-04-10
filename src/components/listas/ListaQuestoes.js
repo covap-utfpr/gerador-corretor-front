@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
-import { requisitarListasQuestoes } from "../../utils/requisitarListasQuestoes";
+import { requisitarListas } from "../../utils/requisitarListas";
 import ModalCriarQuestao from "../modais/ModalCriarQuestao";
 import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
 import StorageListas from "../../storage/StorageListas";
@@ -19,7 +19,7 @@ const ListaQuestoes = ( { prova }) => {
 
     async function fetchQuestoes() {
 
-        const listas = await requisitarListasQuestoes(listaDisciplinas);
+        const listas = await requisitarListas(listaDisciplinas, "questoes");
 
         if(listas) {
             dispatchListasQuestoes({type: 'atualizarStorage', payload: listas})

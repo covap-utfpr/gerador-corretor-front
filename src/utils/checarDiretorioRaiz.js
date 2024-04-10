@@ -1,7 +1,7 @@
 import { criarUmDiretorio, lerUmDiretorio } from '../api/diretorio';
 
 //verifica existencia do diretorio raiz do app
-export async function checkRootDirectory() {
+export async function checarDiretorioRaiz() {
 
     let idDiretorio = await lerUmDiretorio("Gerador-Corretor-Avaliacoes", "");
     

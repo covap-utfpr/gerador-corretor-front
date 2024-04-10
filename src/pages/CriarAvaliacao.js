@@ -5,11 +5,10 @@ import FormularioConfiguracoes from "../components/avaliacao/FormularioConfigura
 import { criarUmaAvaliacao } from "../api/avaliacao";
 import { GlobalContext } from "../components/gerais/Global";
 import { useContext } from "react";
-import MensagemConfirmacao from "../components/modais/MensagemConfirmacao";
 
 const CriarAvaliacao = () => {
 
-    const { avaliacaoAtual, mensagem, setMensagem} = useContext(GlobalContext);
+    const { avaliacaoAtual, dispatchListasAvaliacoes, setMensagem} = useContext(GlobalContext);
 
     async function handleSubmit(event) {
 
@@ -23,6 +22,19 @@ const CriarAvaliacao = () => {
                 acao: 'criada',
                 entidade: 'avaliacao'
             });
+
+            dispatchListasAvaliacoes(
+                {
+                    type: 'adicionarElementoLista', 
+                    payload: { 
+                        idDisciplina: avaliacaoAtual.cabecalho.disciplina, 
+                        elementoLista: {
+                            nome: avaliacaoAtual.cabecalho.titulo, 
+                            id: idAvaliacao.data
+                        }
+                    }
+                }
+            );
 
             console.log(idAvaliacao.data)
         

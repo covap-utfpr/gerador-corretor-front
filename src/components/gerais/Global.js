@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer, useState } from 'react';
-import { checkRootDirectory } from '../../utils/checkRootDirectory';
+import { checarDiretorioRaiz } from '../../utils/checarDiretorioRaiz';
 import StorageDisciplina from '../../storage/StorageDisciplina';
 import StorageLogin from '../../storage/StorageLogin';
 import StorageListas from '../../storage/StorageListas';
@@ -37,7 +37,7 @@ const Global = ({ children }) => {
         const verificaDiretorioRaiz = async () => {
             if (logado) {
                 try {
-                    const idDiretorio = await checkRootDirectory();
+                    const idDiretorio = await checarDiretorioRaiz();
                     dispatchDiretorioRaiz({ type: 'atualizarDiretorioRaiz', payload: idDiretorio });
                 } catch (error) {
                     console.log(error);

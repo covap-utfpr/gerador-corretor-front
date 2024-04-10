@@ -32,8 +32,8 @@ export async function criarUmaAvaliacao(questoes, cabecalho, configuracoes) {
 }
 
 
-export async function lerVariaAvaliacoes(idDisciplina, inicial) {
-    
+export async function lerVariasAvaliacoes(idDisciplina, inicial) {
+
     const requestOptions = {
         method: 'GET',
         headers: {

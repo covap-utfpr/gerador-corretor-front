@@ -1,39 +1,42 @@
 import { useContext, useEffect, useState } from "react";
 import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
-import { obterListaQuestoes } from "../../storage/questoesStorage";
-import { requisitarListasQuestoes } from "../../utils/requisitarListasQuestoes";
-import ModalCriarQuestao from "../modais/ModalCriarQuestao";
+import { requisitarListas } from "../../utils/requisitarListas";
+import StorageListas from "../../storage/StorageListas";
 
-const ListaAvaliacoes = ( { prova }) => {
+const ListaAvaliacoes = () => {
+
+    const storageAvaliacao = new StorageListas("listasAvaliacoes");
     
-    const { listaDisciplinas, listasAvaliacoes, dispatchListasQuestoes, dispatchAvaliacaoAtual } = useContext(GlobalContext);
+    const { listaDisciplinas, listasAvaliacoes, dispatchListasAvaliacoes, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
     const [ disciplina, setDisciplina ] = useState();
     const [ avaliacoes, setAvaliacoes ] = useState();
 
-    async function fetchQuestoes() {
+    async function fetchAvaliacoes() {
 
-        const listas = await requisitarListasQuestoes(listaDisciplinas);
+        const listas = await requisitarListas(listaDisciplinas, "avaliacao");
 
         if(listas) {
-            dispatchListasQuestoes({type: 'atualizarStorage', payload: listas})
+            dispatchListasAvaliacoes({type: 'atualizarStorage', payload: listas})
         }
     }    
 
     useEffect(() => {
 
-        if (listasQuestoes.length !== 0) {
-            
-            const lista = obterListaQuestoes(listasQuestoes, disciplina);
+        if (listasAvaliacoes.length !== 0) {
+
+            const lista = storageAvaliacao.obterLista(listasAvaliacoes, disciplina);
 
             if(lista) {
-                setQuestoes(lista);
+                setAvaliacoes(lista);
+            } else {
+                setAvaliacoes(false);
             }
 
         } else {
 
-            fetchQuestoes();   
+            fetchAvaliacoes();   
         }
 
     }, [disciplina]);
@@ -42,31 +45,18 @@ const ListaAvaliacoes = ( { prova }) => {
         setDisciplina(event.target.value);
     }
 
-    function handleQuestaoAvaliacao(idQuestao, nomeQuestao) {
-
-        dispatchAvaliacaoAtual(
-            {   type: 'adicionarQuestaoAvaliacaoAtual', 
-                payload: {
-                    nome: nomeQuestao, 
-                    id: idQuestao
-            }}
-        );
-    }
-
     return (
         <div className="lista">
-            <h2>Questões {prova && "Disponiveis"}</h2>
+            <h2>Avaliações</h2>
             <SelectDisciplinas handleFunction={handleDisciplinaChange} />
             <ul>
-                {questoes && questoes.map((questao, index) => (
-                    <li key={index} value={questao.nome}>
-                        <span>{questao.nome}</span>
-                        {prova && <button onClick={() => handleQuestaoAvaliacao(questao.id, questao.nome)}>+</button>}
+                {avaliacoes && avaliacoes.map((avaliacao, index) => (
+                    <li key={index} value={avaliacao.nome}>
+                        <span>{avaliacao.nome}</span>
                     </li>
                 ))}
             </ul>
-            <button onClick={() => setModal(true)}>Criar nova questao</button>
-            {modal && <ModalCriarQuestao setModal={setModal}/>}
+            <button type="button">Criar nova avaliaçao</button>
         </div>
     )
 }
