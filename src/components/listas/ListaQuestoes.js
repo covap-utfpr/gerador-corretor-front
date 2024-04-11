@@ -19,7 +19,7 @@ const ListaQuestoes = ( { prova }) => {
 
     async function fetchQuestoes() {
 
-        const listas = await requisitarListas(listaDisciplinas, "questoes");
+        const listas = await requisitarListas(listaDisciplinas, "questao");
 
         if(listas) {
             dispatchListasQuestoes({type: 'atualizarStorage', payload: listas})

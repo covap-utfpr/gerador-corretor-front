@@ -14,6 +14,7 @@ const Editar = () => {
             <div className="modulo" id="avaliacoes">
                 <ListaAvaliacoes />
             </div>   
+            
         </main>   
     )
 }

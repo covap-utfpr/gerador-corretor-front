@@ -2,11 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { lerVariosDiretorios } from "../../api/diretorio";
 import { GlobalContext } from "../gerais/Global";
 import ModalCriarDisciplina from "../modais/ModalCriarDisciplina";
+import ModalExcluir from "../modais/ModalExcluir";
 
 const ListaDisciplinas = () => {
 
     const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas } = useContext(GlobalContext);
-    const [ modal, setModal ] = useState(false);
+    const [ modalCriar, setModalCriar ] = useState(false);
+    const [ modalDeletar, setModalDeletar ] = useState(false);
 
     async function fetchDisciplinas() {
 
@@ -37,12 +39,13 @@ const ListaDisciplinas = () => {
                 {listaDisciplinas && listaDisciplinas.map((disciplina, index) => (
                     <li key={index} value={disciplina.nome}>
                         {disciplina.nome}
-                        <button>excluir</button>
+                        <button onClick={() => setModalDeletar({id: disciplina.id, nome: disciplina.nome})}>excluir</button>
                     </li>
                 ))}
             </ul>
-            <button onClick={() => setModal(true)}>Criar nova disciplina</button>
-            { modal && <ModalCriarDisciplina setModal={setModal}/>}
+            <button onClick={() => setModalCriar(true)}>Criar nova disciplina</button>
+            { modalCriar && <ModalCriarDisciplina setModal={setModalCriar}/>}
+            { modalDeletar && <ModalExcluir setModal={setModalDeletar} id={modalDeletar.id} nome={modalDeletar.nome} />}
         </div>
     )
 }

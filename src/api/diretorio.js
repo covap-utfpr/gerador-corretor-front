@@ -13,7 +13,7 @@ export async function criarUmDiretorio(nome, pai) {
         // Convertendo o objeto de dados em uma string JSON
         body: JSON.stringify({
             'nome': nome,
-            'pai': pai
+            'IDdiretorioPai': pai
         }), 
     };
 
@@ -73,3 +73,24 @@ export async function lerVariosDiretorios(pai, inicial) {
     )
 }
 
+export async function deletarUmDiretorio(id, pai) {
+    
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/diretorio/deletar/${id}?IDdiretorioPai=${pai}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw new ServerException(res.statusText, res.status);
+            }
+            
+            return res.text();
+        })
+    )
+}
