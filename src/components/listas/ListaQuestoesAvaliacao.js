@@ -17,8 +17,6 @@ const ListaQuestoesAvaliacao = () => {
                 soma += +questao.valor;
         });
 
-        console.log(soma);
-
         const valorMaxQuestao = valorTotalAvaliacao - soma;
 
         return valor > valorMaxQuestao ? false : true;
@@ -64,11 +62,11 @@ const ListaQuestoesAvaliacao = () => {
             <ul>
                 <form className="form" >
                     {avaliacaoAtual.questoes && avaliacaoAtual.questoes.map((questao, index) => (
-                        <li key={index} value={questao.nome}>
+                        <li id={index} key={index} value={questao.nome}>
                             <span>{index}</span>
                             <span>{questao.nome}</span> 
                             <div className="campo-form">
-                                <select name="tipo" id="tipo" value={questao.tipo} onChange={(event) => { handleTipo(event, index)}}>
+                                <select name="tipo" id={"select-"+index} value={questao.tipo} onChange={(event) => { handleTipo(event, index)}}>
                                     <option key={1} value="vf">V/F</option>
                                     <option key={2} value="escolha">a,b</option>
                                     <option key={3} value="descritiva">desc</option>
@@ -79,7 +77,7 @@ const ListaQuestoesAvaliacao = () => {
                                     value={questao.valor}
                                     type="number"
                                     name="valor"
-                                    id="valor"
+                                    id={"input-"+index} 
                                     min="0"
                                     onChange={(event) => {handleValor(event, index)}}
                                 />

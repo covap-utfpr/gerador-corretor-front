@@ -1,9 +1,9 @@
-import ListaQuestoes from "../components/listas/ListaQuestoes";
-import ListaQuestoesAvaliacao from "../components/listas/ListaQuestoesAvaliacao";
-import FormularioCabecalho from "../components/avaliacao/FormularioCabecalho";
-import FormularioConfiguracoes from "../components/avaliacao/FormularioConfiguracoes";
-import { criarUmaAvaliacao } from "../api/avaliacao";
-import { GlobalContext } from "../components/gerais/Global";
+import ListaQuestoes from "../listas/ListaQuestoes";
+import ListaQuestoesAvaliacao from "../listas/ListaQuestoesAvaliacao";
+import FormularioCabecalho from "../avaliacao/FormularioCabecalho";
+import FormularioConfiguracoes from "../avaliacao/FormularioConfiguracoes";
+import { criarUmaAvaliacao } from "../../api/avaliacao";
+import { GlobalContext } from "../gerais/Global";
 import { useContext } from "react";
 
 const CriarAvaliacao = () => {

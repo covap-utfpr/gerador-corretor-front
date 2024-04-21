@@ -4,7 +4,7 @@ import { GlobalContext } from "../gerais/Global";
 
 const ModalCriarDisciplina = ( {setModal} ) => {
 
-    const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas  } = useContext(GlobalContext);
+    const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas, dispatchListasQuestoes, dispatchListasAvaliacoes } = useContext(GlobalContext);
     const [nome, setNome] = useState();
 
     async function handleSubmit(event) {
@@ -32,7 +32,28 @@ const ModalCriarDisciplina = ( {setModal} ) => {
                         }
                     }
                 );
+                
+                dispatchListasQuestoes(
+                    {
+                        type: 'adicionarLista',
+                        payload: {
+                            idDisciplina: idDisciplina.data,
+                            lista: [],
+                            qnt: 0,
+                        }
+                    }
+                )
 
+                dispatchListasAvaliacoes(
+                    {
+                        type: 'adicionarLista',
+                        payload: {
+                            idDisciplina: idDisciplina.data,
+                            lista: [],
+                            qnt: 0,
+                        }
+                    }
+                )
             } else if (idDiretorioQuestoes.error) {
         
                 console.error(idDiretorioQuestoes.error);

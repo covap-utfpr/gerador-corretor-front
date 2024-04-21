@@ -24,6 +24,14 @@ const ListaAvaliacoes = () => {
 
     useEffect(() => {
 
+        if (listasAvaliacoes.length === 0) {
+            fetchAvaliacoes();  
+        }
+
+    }, []);
+
+    useEffect(() => {
+
         if (listasAvaliacoes.length !== 0) {
 
             const lista = storageAvaliacao.obterLista(listasAvaliacoes, disciplina);
@@ -36,13 +44,13 @@ const ListaAvaliacoes = () => {
 
         } else {
 
-            fetchAvaliacoes();   
+            setAvaliacoes(false);
         }
 
-    }, [disciplina]);
+    }, [ disciplina]);
 
-    function handleDisciplinaChange(event) {
-        setDisciplina(event.target.value);
+    function handleDisciplinaChange(valor) {
+        setDisciplina(valor);
     }
 
     return (
@@ -56,6 +64,7 @@ const ListaAvaliacoes = () => {
                     </li>
                 ))}
             </ul>
+           
             <button type="button">Criar nova avaliaçao</button>
         </div>
     )

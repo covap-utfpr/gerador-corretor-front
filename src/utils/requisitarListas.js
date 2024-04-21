@@ -25,7 +25,13 @@ export const requisitarListas = async (listaDisciplinas, entidade) => {
 
         } else if (res.error) {
     
-            console.error(res.error);
+            const lista = {
+                idDisciplina: disciplina.id,
+                qnt: 0,
+                lista: []
+            }
+
+            return lista;
         } 
     });
 

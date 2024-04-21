@@ -27,6 +27,10 @@ class StorageListas {
             case 'adicionarElementoLista':
     
                 return this.adicionarElementoLista(state, action);
+
+            case 'excluirLista':
+    
+                return this.excluirLista(state, action);
     
             default:
                 return state;
@@ -83,6 +87,19 @@ class StorageListas {
         return novoEstado;
     }
     
+    excluirLista = ( state, action ) => {
+
+        const novoEstado = [...state]; 
+
+        const index = novoEstado.findIndex(lista => lista.idDisciplina == action.payload);
+    
+        novoEstado.splice(index, 1);
+    
+        localStorage.setItem(this.storageKey, JSON.stringify(novoEstado));
+    
+        return novoEstado;
+    }
+
     //Getters
 
     obterValorInicial = () => {

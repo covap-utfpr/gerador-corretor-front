@@ -1,7 +1,8 @@
 class QuestaoAvaliacao {
     
-    constructor(idQuestao, nome, tipo, valor, ordem) {
+    constructor(idDisciplina, idQuestao, nome, tipo, valor, ordem) {
 
+        this.idDisciplina = idDisciplina;
         this.idQuestao = idQuestao;
         this.nome = nome;
         this.tipo = tipo;
