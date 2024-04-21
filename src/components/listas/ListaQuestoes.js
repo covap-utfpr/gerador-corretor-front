@@ -28,6 +28,15 @@ const ListaQuestoes = ( { prova }) => {
 
     useEffect(() => {
 
+        if (listasQuestoes.length === 0) {
+            fetchQuestoes();  
+        }
+
+    }, []);
+
+
+    useEffect(() => {
+
         if (listasQuestoes.length !== 0) {
 
             const lista = storageQuestao.obterLista(listasQuestoes, disciplina);
@@ -39,21 +48,20 @@ const ListaQuestoes = ( { prova }) => {
             }
 
         } else {
-
-            fetchQuestoes();   
+            setQuestoes(false);
         }
 
-    }, [disciplina]);
+    }, [ disciplina ])
 
-    function handleDisciplinaChange(event) {
-        setDisciplina(event.target.value);
+    function handleDisciplinaChange(valor) {
+        setDisciplina(valor);
     }
 
-    function handleQuestaoAvaliacao(idQuestao, nomeQuestao) {
+    function handleQuestaoAvaliacao(idDisciplina, idQuestao, nomeQuestao) {
 
         dispatchAvaliacaoAtual(
             {   type: 'adicionarQuestao', 
-                payload: new QuestaoAvaliacao(idQuestao, nomeQuestao, "", "", "")
+                payload: new QuestaoAvaliacao(idDisciplina, idQuestao, nomeQuestao, "", "", "")
             }
         );
     }
@@ -66,13 +74,11 @@ const ListaQuestoes = ( { prova }) => {
                 {questoes && questoes.map((questao, index) => (
                     <li key={index} value={questao.nome}>
                         <span>{questao.nome}</span>
-                        {prova && <button onClick={() => handleQuestaoAvaliacao(questao.id, questao.nome)}>+</button>}
+                        {prova && <button onClick={() => handleQuestaoAvaliacao(disciplina, questao.id, questao.nome)}>+</button>}
                     </li>
                 ))}
             </ul>
-            {!questoes && 
-                <p>Sem questoes</p>
-            }
+  
             <button onClick={() => setModal(true)}>Criar nova questao</button>
             {modal && <ModalCriarQuestao setModal={setModal}/>}
         </div>

@@ -88,12 +88,13 @@ const ModalCriarQuestao = ( { setModal } ) => {
         );
     }
 
-    function handleDisciplinaChange(event) {
+    function handleDisciplinaChange(valor) {
+
         dispatchQuestaoAtual(
             {
                 type: 'adicionarSecao', 
                 payload: {
-                    conteudo: event.target.value,
+                    conteudo: valor,
                     secao: 'idDisciplina'
                 }
             }

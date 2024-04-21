@@ -1,4 +1,4 @@
-import ListaAvaliacoes from "../components/listas/ListaAvaliacoes";
+import ListaAvaliacoes from "../listas/ListaAvaliacoes";
 
 const Home = () => {
 

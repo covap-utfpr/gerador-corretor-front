@@ -19,7 +19,11 @@ class StorageDisciplina {
         case 'adicionarDisciplina':
   
           return this.adicionarDisciplina(action, state);
-  
+
+        case 'excluirDisciplina': 
+
+          return this.excluirDisciplina(action, state);
+
         default:    
           return state;
     }
@@ -37,6 +41,18 @@ class StorageDisciplina {
       
     localStorage.setItem(this.storageKey, JSON.stringify([...state, action.payload]));      
     return [...state, action.payload];
+  }
+
+  excluirDisciplina = (action, state) => {
+
+    const novoEstado = [...state]; 
+    const index = novoEstado.findIndex(disciplina => disciplina.id == action.payload);
+
+    novoEstado.splice(index, 1);
+
+    localStorage.setItem(this.storageKey, JSON.stringify(novoEstado));
+
+    return novoEstado;
   }
 
   //Getters

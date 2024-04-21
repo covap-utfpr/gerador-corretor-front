@@ -20,8 +20,8 @@ const FormularioCabecalho = () => {
     function handleInstituicao(event) {
         setInstituicao(event.target.value);
     }
-    function handleDisciplina(event) {
-        setDisciplina(event.target.value);
+    function handleDisciplina(valor) {
+        setDisciplina(valor);
     }
     function handleData(event) {
         setData(event.target.value);

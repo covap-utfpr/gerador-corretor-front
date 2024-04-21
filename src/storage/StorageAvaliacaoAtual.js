@@ -28,6 +28,10 @@ class StorageAvaliacaoAtual {
             case 'atualizarQuestao':
     
                 return this.atualizarQuestao(state, action);
+            
+            case 'excluirQuestoesDisciplina':
+
+                return this.excluirQuestoesDisciplina(state, action);
     
             default:
                 return state;
@@ -84,6 +88,21 @@ class StorageAvaliacaoAtual {
         localStorage.setItem(this.storageKey, JSON.stringify(novoEstado));
     
         return novoEstado;
+    }
+
+    excluirQuestoesDisciplina = (state, action) => {
+        
+        const novoEstado = {...state}
+        
+        let index = 0;
+
+        while (index != -1) {
+
+            index = novoEstado.questoes.findIndex(questao => questao.idDisciplina == action.payload);
+            novoEstado.questoes.splice(index, 1);        
+        }
+    
+        localStorage.setItem(this.storageKey, JSON.stringify(novoEstado));
     }
 
     // Getters

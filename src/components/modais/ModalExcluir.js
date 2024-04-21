@@ -5,11 +5,10 @@ import { deletarUmDiretorio } from "../../api/diretorio";
 
 const ModalExcluir = ({ setModal, id, nome}) => {
 
-
     const storageListasQuestoes = new StorageListas("listasQuestoes");
     const storageListasAvaliacoes = new StorageListas("listasAvaliacoes");
 
-    const { listasQuestoes, listasAvaliacoes, idDiretorioRaiz, setMensagem} = useContext(GlobalContext);
+    const { listasQuestoes, listasAvaliacoes, idDiretorioRaiz, setMensagem, dispatchListaDisciplinas, dispatchListasQuestoes, dispatchListasAvaliacoes, dispatchAvaliacaoAtual} = useContext(GlobalContext);
 
     const qntQuestoes = storageListasQuestoes.obterQuantidade(listasQuestoes, id);
     const qntAvaliacoes = storageListasAvaliacoes.obterQuantidade(listasAvaliacoes, id);
@@ -27,9 +26,41 @@ const ModalExcluir = ({ setModal, id, nome}) => {
                 }
             );
 
+            dispatchListaDisciplinas( 
+                {
+                    type: 'excluirDisciplina',
+                    payload: id
+                }
+            );
+
+            dispatchListasQuestoes( 
+                {
+                    type: 'excluirLista',
+                    payload: id
+                }
+            );
+
+            dispatchListasAvaliacoes( 
+                {
+                    type: 'excluirLista',
+                    payload: id
+                }
+            );
+            
+            // dispatchAvaliacaoAtual( 
+            //     {
+            //         type: 'excluirQuestoesDisciplina',
+            //         payload: id
+            //     }
+            // );
+
+            setModal(false);
+
         } else if(idDiretorioExcluido.error) {
 
             console.error(idDiretorioExcluido.error);
+
+            setModal(false);
         }
     }
 

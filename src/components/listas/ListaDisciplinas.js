@@ -30,7 +30,7 @@ const ListaDisciplinas = () => {
             fetchDisciplinas();
         }
         
-    }, [ listaDisciplinas ]);
+    }, [ listaDisciplinas, idDiretorioRaiz ]);
 
     return (
         <div className="lista">

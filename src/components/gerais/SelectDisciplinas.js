@@ -4,7 +4,7 @@ import { GlobalContext } from './Global';
 
 const SelectDisciplinas = ({ handleFunction }) => {
 
-    const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas } = useContext(GlobalContext);
+    const { listasQuestoes, listasAvaliacoes, idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas } = useContext(GlobalContext);
 
     async function fetchDisciplinas() {
 
@@ -26,12 +26,32 @@ const SelectDisciplinas = ({ handleFunction }) => {
             fetchDisciplinas();
         }
         
-    }, [ listaDisciplinas ]);
+    }, [ idDiretorioRaiz ]);
+
+    useEffect(() => {
+        
+        if(listasQuestoes.length !== 0) {
+            handleFunction(listasQuestoes[0].idDisciplina);
+        } else {
+            handleFunction(false);
+        }
+
+    }, [listasQuestoes]);
+
+    useEffect(() => {
+        
+        if(listasAvaliacoes.length !== 0) {
+            handleFunction(listasAvaliacoes[0].idDisciplina);
+        } else {
+            handleFunction(false);
+        }
+
+    }, [listasAvaliacoes]);
 
     return (
         <div className="select-disciplinas">
             <h3>Disciplina</h3>
-            <select name="disciplinas" id="disciplinas" onChange={(event) => { handleFunction(event) }}>
+            <select name="disciplinas" onChange={(event) => { handleFunction(event.target.value) }}>
                 {listaDisciplinas.map((disciplina, index) => (
                     <option key={index} value={disciplina.id}>
                         {disciplina.nome}
