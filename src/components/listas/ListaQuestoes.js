@@ -6,6 +6,8 @@ import ModalCriarQuestao from "../modais/ModalCriarQuestao";
 import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
 import StorageListas from "../../storage/StorageListas";
 
+import { deletarUmaQuestao } from "../../api/questao";
+
 const ListaQuestoes = ( { prova }) => {
 
     const storageQuestao = new StorageListas("listasQuestoes");
@@ -75,6 +77,7 @@ const ListaQuestoes = ( { prova }) => {
                     <li key={index} value={questao.nome}>
                         <span>{questao.nome}</span>
                         {prova && <button onClick={() => handleQuestaoAvaliacao(disciplina, questao.id, questao.nome)}>+</button>}
+                        <button onClick={() => deletarUmaQuestao(questao.id, null)}>excluir</button>
                     </li>
                 ))}
             </ul>

@@ -55,3 +55,25 @@ export async function lerVariasQuestoes(idDisciplina, inicial) {
         })
     )
 }
+
+export async function deletarUmaQuestao(id, pai) {
+    
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/questao/deletar/${id}?IDdiretorioPai=${pai}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw new ServerException(res.statusText, res.status);
+            }
+            
+            return res.text();
+        })
+    )
+}
