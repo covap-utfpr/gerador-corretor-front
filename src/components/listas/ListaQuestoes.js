@@ -5,8 +5,7 @@ import { requisitarListas } from "../../utils/requisitarListas";
 import ModalCriarQuestao from "../modais/ModalCriarQuestao";
 import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
 import StorageListas from "../../storage/StorageListas";
-
-import { deletarUmaQuestao } from "../../api/questao";
+import ModalExcluirQuestao from "../modais/ModalExcluirQuestao";
 
 const ListaQuestoes = ( { prova }) => {
 
@@ -18,6 +17,7 @@ const ListaQuestoes = ( { prova }) => {
 
     const [ disciplina, setDisciplina ] = useState();
     const [ questoes, setQuestoes ] = useState();
+    const [ modalDeletar, setModalDeletar ] = useState(false);
 
     async function fetchQuestoes() {
 
@@ -77,13 +77,14 @@ const ListaQuestoes = ( { prova }) => {
                     <li key={index} value={questao.nome}>
                         <span>{questao.nome}</span>
                         {prova && <button onClick={() => handleQuestaoAvaliacao(disciplina, questao.id, questao.nome)}>+</button>}
-                        <button onClick={() => deletarUmaQuestao(questao.id, null)}>excluir</button>
+                        <button onClick={() => setModalDeletar({ idDisciplina: disciplina, idQuestao: questao.id, nome: questao.nome})}>excluir</button>
                     </li>
                 ))}
             </ul>
   
             <button onClick={() => setModal(true)}>Criar nova questao</button>
             {modal && <ModalCriarQuestao setModal={setModal}/>}
+            { modalDeletar && <ModalExcluirQuestao setModal={setModalDeletar} idDisciplina={modalDeletar.idDisciplina} idQuestao={modalDeletar.idQuestao} nome={modalDeletar.nome} />}
         </div>
     )
 }
