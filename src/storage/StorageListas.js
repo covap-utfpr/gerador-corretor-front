@@ -31,6 +31,9 @@ class StorageListas {
             case 'excluirLista':
     
                 return this.excluirLista(state, action);
+
+            case 'excluirElementoLista':
+                return this.excluirElementoLista(state, action);
     
             default:
                 return state;
@@ -91,12 +94,29 @@ class StorageListas {
 
         const novoEstado = [...state]; 
 
-        const index = novoEstado.findIndex(lista => lista.idDisciplina == action.payload);
+        const index = novoEstado.findIndex(lista => lista.idDisciplina === action.payload);
     
         novoEstado.splice(index, 1);
     
         localStorage.setItem(this.storageKey, JSON.stringify(novoEstado));
     
+        return novoEstado;
+    }
+
+    excluirElementoLista = (state, action) => {
+
+        const novoEstado = [...state];
+
+        const indexLista = this.encontrarIndexLista(novoEstado, action);
+    
+        const indexElemento = novoEstado[indexLista].lista.findIndex((questao) => questao.id === action.payload.idQuestao);
+
+        novoEstado[indexLista].lista.splice(indexElemento, 1);
+
+        novoEstado[indexLista].qnt--;
+
+        localStorage.setItem(this.storageKey, JSON.stringify(novoEstado));
+
         return novoEstado;
     }
 
