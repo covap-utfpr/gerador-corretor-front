@@ -3,6 +3,7 @@ import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
 import { requisitarListas } from "../../utils/requisitarListas";
 import StorageListas from "../../storage/StorageListas";
+import ModalExcluirQuestaoEAvaliacao from "../modais/ModalExcluirQuestaoEAvaliacao";
 
 const ListaAvaliacoes = () => {
 
@@ -12,6 +13,7 @@ const ListaAvaliacoes = () => {
 
     const [ disciplina, setDisciplina ] = useState();
     const [ avaliacoes, setAvaliacoes ] = useState();
+    const [ modalDeletar, setModalDeletar ] = useState(false);
 
     async function fetchAvaliacoes() {
 
@@ -61,11 +63,13 @@ const ListaAvaliacoes = () => {
                 {avaliacoes && avaliacoes.map((avaliacao, index) => (
                     <li key={index} value={avaliacao.nome}>
                         <span>{avaliacao.nome}</span>
+                        <button onClick={() => setModalDeletar({ idDisciplina: disciplina, idAvaliacao: avaliacao.id, nome: avaliacao.nome})}>excluir</button>
                     </li>
                 ))}
             </ul>
            
-            <button type="button">Criar nova avaliaçao</button>
+            <button type="button">Criar nova avaliação</button>
+            { modalDeletar && <ModalExcluirQuestaoEAvaliacao setModal={setModalDeletar} idDisciplina={modalDeletar.idDisciplina} idElemento={modalDeletar.idAvaliacao} nome={modalDeletar.nome} type = "avaliação"/>}
         </div>
     )
 }

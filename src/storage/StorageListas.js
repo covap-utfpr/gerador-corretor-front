@@ -109,7 +109,7 @@ class StorageListas {
 
         const indexLista = this.encontrarIndexLista(novoEstado, action);
     
-        const indexElemento = novoEstado[indexLista].lista.findIndex((questao) => questao.id === action.payload.idQuestao);
+        const indexElemento = novoEstado[indexLista].lista.findIndex((elemento) => elemento.id === action.payload.idElemento);
 
         novoEstado[indexLista].lista.splice(indexElemento, 1);
 
