@@ -6,20 +6,19 @@ class StorageLogin {
     
         switch (action.type) {
     
-            case 'verificarLogin':
-                return this.verificarLogin()
+            case 'atualizarLogin':
+                return this.atualizarLogin(action)
     
             default:
-                return state;
+                return action;
         }
     }
     
-    verificarLogin = () => {
+    atualizarLogin = () => {
 
         const token = Cookies.get("token");
         return token ? true : false;
     }
-    
 }
 
 export default StorageLogin;
