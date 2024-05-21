@@ -6,7 +6,8 @@ class StorageQuestaoAtual {
 
     constructor() {
 
-        this.storageKey = "QuestaoAtual";
+        this.storageKey = "questaoAtual";
+        this.valorBase = new Questao("", "", "", ["","","","",""], "", "");
     }
 
     reducer = ( state, action ) => {
@@ -24,7 +25,11 @@ class StorageQuestaoAtual {
             case 'atualizarAlternativa':
     
                 return this.atualizarAlternativa(state, action);
-    
+      
+            case 'deletarStorage': 
+
+                return this.deletarStorage();
+      
             default:
                 return state;
         }
@@ -66,7 +71,13 @@ class StorageQuestaoAtual {
     
         const storage = JSON.parse(localStorage.getItem(this.storageKey));
     
-        return storage ? storage : new Questao("", "", "", ["","","","",""], "", "");
+        return storage ? storage : this.valorBase;
+    }
+
+    deletarStorage = () => {
+
+        localStorage.setItem(this.storageKey, JSON.stringify(this.valorBase));
+        return this.valorBase;
     }
 }
 

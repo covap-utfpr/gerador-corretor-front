@@ -18,7 +18,7 @@ const Global = ({ children }) => {
     const storageListasAvaliacoes = new StorageListas('listasAvaliacoes');
     const storageAvaliacaoAtual = new StorageAvaliacaoAtual();
    
-    const [ logado, dispatchLogado ] = useReducer(storageLogin.reducer, storageLogin.atualizarLogin());
+    const [ logado, dispatchLogado ] = useReducer(storageLogin.reducer, storageLogin.verificarLogin());
     const [ idDiretorioRaiz, dispatchDiretorioRaiz ] = useReducer(storageDiretorioRaiz.reducer, 
                                                                   storageDiretorioRaiz.obterValorInicial());
     const [ listaDisciplinas, dispatchListaDisciplinas ] = useReducer(storageDisciplina.reducer, 

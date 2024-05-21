@@ -6,7 +6,8 @@ class StorageAvaliacaoAtual {
 
     constructor() {
 
-        this.storageKey = "AvaliacaoAtual";
+        this.storageKey = "avaliacaoAtual";
+        this.valorBase = new AvaliacaoAtual("", "", "", "", "", 0, "", "", "", "", "");
     }
 
     reducer = ( state, action ) => {
@@ -32,7 +33,11 @@ class StorageAvaliacaoAtual {
             case 'excluirQuestoesDisciplina':
 
                 return this.excluirQuestoesDisciplina(state, action);
-    
+            
+            case 'deletarStorage': 
+
+                return this.deletarStorage();
+                
             default:
                 return state;
         }
@@ -110,9 +115,14 @@ class StorageAvaliacaoAtual {
     
         const storage = JSON.parse(localStorage.getItem(this.storageKey));
     
-        return storage ? storage : new AvaliacaoAtual("", "", "", "", "", 0, "", "", "", "", "");
+        return storage ? storage : this.valorBase;
     }
     
+    deletarStorage = () => {
+
+        localStorage.setItem(this.storageKey, JSON.stringify(this.valorBase));
+        return this.valorBase;
+    }
 }
 
 export default StorageAvaliacaoAtual;

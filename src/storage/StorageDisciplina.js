@@ -5,7 +5,8 @@ class StorageDisciplina {
 
   constructor() {
 
-      this.storageKey = "ListaDisciplinas";
+      this.storageKey = "listaDisciplinas";
+      this.valorBase = [];
   }
 
   reducer = ( state, action ) => {
@@ -23,6 +24,10 @@ class StorageDisciplina {
         case 'excluirDisciplina': 
 
           return this.excluirDisciplina(action, state);
+          
+        case 'deletarStorage': 
+
+          return this.deletarStorage();
 
         default:    
           return state;
@@ -60,13 +65,19 @@ class StorageDisciplina {
   obterValorInicial = () => {
         
     const storage = JSON.parse(localStorage.getItem(this.storageKey));
-    return storage ? storage : [];
+    return storage ? storage : this.valorBase;
   }
 
   obterNomeDisciplina = (state, idDisciplina) => {
 
     const disciplina = state.find(disciplina => disciplina.id == idDisciplina);
     return disciplina.nome;
+  }
+
+  deletarStorage = () => {
+
+    localStorage.setItem(this.storageKey, JSON.stringify(this.valorBase));
+    return this.valorBase;
   }
 }
 

@@ -12,7 +12,7 @@ const Home = () => {
     useEffect(() => {
         
        if (window.location.search === "?login_success") {
-            dispatchLogado({type: 'atualizarLogin'});
+            dispatchLogado({type: 'verificarLogin'});
        } 
 
     }, []);

@@ -1,4 +1,6 @@
 import Cookies from 'js-cookie';
+import StorageAvaliacaoAtual from './StorageAvaliacaoAtual';
+import StorageListas from './StorageListas';
 
 class StorageLogin {
 
@@ -7,17 +9,26 @@ class StorageLogin {
         switch (action.type) {
     
             case 'atualizarLogin':
-                return this.atualizarLogin(action)
+                return this.verificarLogin(action)
+    
+            case 'deslogar':
+                return this.deslogar();
     
             default:
                 return action;
         }
     }
     
-    atualizarLogin = () => {
+    verificarLogin = () => {
 
         const token = Cookies.get("token");
         return token ? true : false;
+    }
+
+    deslogar = () => {
+
+        Cookies.set("token", "");
+        return false;
     }
 }
 
