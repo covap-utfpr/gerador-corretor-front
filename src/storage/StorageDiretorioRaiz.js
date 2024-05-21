@@ -6,6 +6,7 @@ class StorageDiretorioRaiz {
 
         this.storageKey = "idDiretorioRaiz";
         this.atualizarDiretorioRaiz = this.atualizarDiretorioRaiz.bind(this);
+        this.valorBase = "";
     }
     
     reducer = (state, action) => {
@@ -13,8 +14,13 @@ class StorageDiretorioRaiz {
         switch (action.type) {
     
             case 'atualizarDiretorioRaiz':
+
                 return this.atualizarDiretorioRaiz(action);
-    
+
+            case 'deletarStorage': 
+
+                return this.deletarStorage();
+                
             default:
                 return state;
         }
@@ -30,7 +36,13 @@ class StorageDiretorioRaiz {
     obterValorInicial = () => {
         
         const storage = JSON.parse(localStorage.getItem(this.storageKey));
-        return storage ? storage : "";
+        return storage ? storage : this.valorBase;
+    }
+
+    deletarStorage = () => {
+
+        localStorage.setItem(this.storageKey, JSON.stringify(this.valorBase));
+        return this.valorBase;
     }
 }
 

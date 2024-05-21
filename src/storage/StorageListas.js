@@ -6,6 +6,7 @@ class StorageListas {
     constructor(storageKey) {
 
         this.storageKey = storageKey;
+        this.valorBase = [];
     }
 
     reducer = ( state, action ) => {
@@ -33,8 +34,13 @@ class StorageListas {
                 return this.excluirLista(state, action);
 
             case 'excluirElementoLista':
+            
                 return this.excluirElementoLista(state, action);
-    
+      
+            case 'deletarStorage': 
+
+                return this.deletarStorage();
+
             default:
                 return state;
         }
@@ -125,7 +131,7 @@ class StorageListas {
     obterValorInicial = () => {
         
         const storage = JSON.parse(localStorage.getItem(this.storageKey));
-        return storage ? storage : [];
+        return storage ? storage : this.valorBase;
     }
 
     encontrarLista = ( state, idDisciplina ) => {
@@ -157,6 +163,12 @@ class StorageListas {
         const elemento = lista.lista.find(el => el.id = idElementoLista)
 
         return elemento;
+    }
+
+    deletarStorage = () => {
+
+        localStorage.setItem(this.storageKey, JSON.stringify(this.valorBase));
+        return this.valorBase;
     }
 }
 

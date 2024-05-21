@@ -1,31 +1,37 @@
 import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getUrlLogin } from '../../api/autenticacao';
 import { GlobalContext } from './Global';
+import handleLogin from '../../utils/handleLogin';
+import { logout } from '../../api/autenticacao';
 
 const Header = () => {
 
-    const { logado } = useContext(GlobalContext);
+    const { logado, dispatchLogado, dispatchDiretorioRaiz, dispatchListaDisciplinas, dispatchListasQuestoes, dispatchListasAvaliacoes, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
-    //ao clicar no botao login
-    async function handleLogin() {
+    const handleLogout = async () => {
 
         //chama funçao que retorna a url externa para login com google
-        const url = await getUrlLogin();
+        const res = await logout();
         
         //se retornou url, redireciona o usuario para fazer login
-        if(url.data) { 
-            
-            window.location.href = url.data;
+        if(res.data) { 
 
-        } else if(url.error) {
+            dispatchLogado({type: 'deslogar'});
+            dispatchDiretorioRaiz({type: 'deletarStorage'});
+            dispatchListaDisciplinas({type: 'deletarStorage'});
+            dispatchListasAvaliacoes({type: 'deletarStorage'});
+            dispatchListasQuestoes({type: 'deletarStorage'});
+            dispatchAvaliacaoAtual({type: 'deletarStorage'});
 
-            console.error(url.error);
+            console.log("Deslogado");
+
+        } else if(res.error) {
+
+            console.error("Erro ao realizar logout");
         } 
         
     }
-
-   
+    
     return (
         <header className="header">
             <Link id='title' to="/"><img id='logo' src="logo.png" alt="" /><h1>Gerador e Corretor de Avaliações</h1></Link>
@@ -34,7 +40,8 @@ const Header = () => {
                 { logado && <Link to="editar">Editar</Link> }
                 { logado && <Link to="corretor">Corretor</Link> }
                 <Link to="sobre">Sobre</Link>
-                <button className="login" onClick={() => handleLogin()}>Login</button>
+                {logado && <button className="login" onClick={() => handleLogout()}>Logout</button>}
+                {logado && <button className="login" onClick={() => handleLogin()}>Login</button>}
             </nav>
         </header>
     )

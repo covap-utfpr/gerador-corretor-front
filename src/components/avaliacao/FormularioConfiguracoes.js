@@ -54,11 +54,11 @@ const FormularioConfiguracoes = () => {
                     <fieldset value={disposicao} onChange={(event) => {handleDisposicaoChange(event)}}>
                         <legend>Disposição das questões</legend>
                         <div>
-                            <input type="radio" id="duas" name="duas" value="2" />
+                            <input type="radio" id="duas" name="disposicao" value="2" />
                             <label htmlFor="duas">Duas colunas</label>  
                         </div>
                         <div>
-                            <input type="radio" id="uma" name="uma" value="1" />
+                            <input type="radio" id="uma" name="disposicao" value="1" />
                             <label htmlFor="uma">Uma coluna</label>  
                         </div>
                     </fieldset>
@@ -68,11 +68,11 @@ const FormularioConfiguracoes = () => {
                     <fieldset value={gabarito} onChange={(event) => {handleGabarito(event)}}>
                         <legend>Posição do gabarito</legend>
                         <div>
-                            <input type="radio" id="inicio" name="inicio" value="inicio" />
+                            <input type="radio" id="inicio" name="posicao" value="inicio" />
                             <label htmlFor="inicio">Inicio</label>  
                         </div>
                         <div>
-                            <input type="radio" id="fim" name="fim" value="fim" />
+                            <input type="radio" id="fim" name="posicao" value="fim" />
                             <label htmlFor="fim">Fim</label>  
                         </div>
                     </fieldset>
