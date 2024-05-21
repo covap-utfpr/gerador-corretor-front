@@ -5,7 +5,8 @@ import { requisitarListas } from "../../utils/requisitarListas";
 import ModalCriarQuestao from "../modais/ModalCriarQuestao";
 import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
 import StorageListas from "../../storage/StorageListas";
-import ModalExcluirQuestao from "../modais/ModalExcluirQuestao";
+import ModalExcluirQuestaoEAvaliacao from "../modais/ModalExcluirQuestaoEAvaliacao";
+
 
 const ListaQuestoes = ( { prova }) => {
 
@@ -82,9 +83,9 @@ const ListaQuestoes = ( { prova }) => {
                 ))}
             </ul>
   
-            <button onClick={() => setModal(true)}>Criar nova questao</button>
+            <button onClick={() => setModal(true)}>Criar nova questão</button>
             {modal && <ModalCriarQuestao setModal={setModal}/>}
-            { modalDeletar && <ModalExcluirQuestao setModal={setModalDeletar} idDisciplina={modalDeletar.idDisciplina} idQuestao={modalDeletar.idQuestao} nome={modalDeletar.nome} />}
+            { modalDeletar && <ModalExcluirQuestaoEAvaliacao setModal={setModalDeletar} idDisciplina={modalDeletar.idDisciplina} idElemento={modalDeletar.idQuestao} nome={modalDeletar.nome} type="questão"/>}
         </div>
     )
 }

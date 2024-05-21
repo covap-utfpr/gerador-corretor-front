@@ -52,3 +52,25 @@ export async function lerVariasAvaliacoes(idDisciplina, inicial) {
         })
     )
 }
+
+export async function deletarUmaAvaliacao(id, pai) {
+    
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/avaliacao/deletar/${id}?IDdiretorioPai=${pai}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw new ServerException(res.statusText, res.status);
+            }
+            
+            return res.text();
+        })
+    )
+}
