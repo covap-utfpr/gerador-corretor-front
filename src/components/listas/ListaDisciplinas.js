@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { lerVariosDiretorios } from "../../api/diretorio";
 import { GlobalContext } from "../gerais/Global";
 import ModalCriarDisciplina from "../modais/ModalCriarDisciplina";
-import ModalExcluir from "../modais/ModalExcluir";
+import ModalExcluirDisciplina from "../modais/ModalExcluirDisciplina";
 
 const ListaDisciplinas = () => {
 
@@ -45,7 +45,7 @@ const ListaDisciplinas = () => {
             </ul>
             <button onClick={() => setModalCriar(true)}>Criar nova disciplina</button>
             { modalCriar && <ModalCriarDisciplina setModal={setModalCriar}/>}
-            { modalDeletar && <ModalExcluir setModal={setModalDeletar} id={modalDeletar.id} nome={modalDeletar.nome} />}
+            { modalDeletar && <ModalExcluirDisciplina setModal={setModalDeletar} id={modalDeletar.id} nome={modalDeletar.nome} />}
         </div>
     )
 }

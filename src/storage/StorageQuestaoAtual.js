@@ -4,9 +4,9 @@ class StorageQuestaoAtual {
 
     storageKey;
 
-    constructor() {
+    constructor(storageKey) {
 
-        this.storageKey = "questaoAtual";
+        this.storageKey = storageKey;
         this.valorBase = new Questao("", "", "", ["","","","",""], "", "");
     }
 

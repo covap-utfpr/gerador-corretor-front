@@ -6,7 +6,7 @@ import { logout } from '../../api/autenticacao';
 
 const Header = () => {
 
-    const { logado, dispatchLogado, dispatchDiretorioRaiz, dispatchListaDisciplinas, dispatchListasQuestoes, dispatchListasAvaliacoes, dispatchAvaliacaoAtual } = useContext(GlobalContext);
+    const { logado, dispatchLogado, dispatchDiretorioRaiz, dispatchListaDisciplinas, dispatchListasQuestoes, dispatchListasAvaliacoes, dispatchAvaliacaoAtual, dispatchQuestaoCriando, dispatchQuestaoEditando} = useContext(GlobalContext);
 
     const handleLogout = async () => {
 
@@ -22,6 +22,8 @@ const Header = () => {
             dispatchListasAvaliacoes({type: 'deletarStorage'});
             dispatchListasQuestoes({type: 'deletarStorage'});
             dispatchAvaliacaoAtual({type: 'deletarStorage'});
+            dispatchQuestaoCriando({type: 'deletarStorage'});
+            dispatchQuestaoEditando({type: 'deletarStorage'});
 
             console.log("Deslogado");
 

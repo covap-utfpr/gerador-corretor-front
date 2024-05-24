@@ -56,6 +56,27 @@ export async function lerVariasQuestoes(idDisciplina, inicial) {
     )
 }
 
+export async function lerUmaQuestao(idQuestao) {
+    
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Authorization': Cookies.get('token')
+        },
+    };
+
+    return await resolver(fetch(`http://localhost:8080/questao/ler/${idQuestao}`, requestOptions)
+        
+        .then(res => {
+            
+            if(!res.ok) {
+                throw new ServerException(res.statusText, res.status);
+            }
+            return res.json();
+        })
+    )
+}
+
 export async function deletarUmaQuestao(id, pai) {
     
     const requestOptions = {

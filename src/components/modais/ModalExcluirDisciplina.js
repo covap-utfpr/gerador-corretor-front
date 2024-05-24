@@ -3,7 +3,7 @@ import StorageListas from "../../storage/StorageListas";
 import { GlobalContext } from "../gerais/Global";
 import { deletarUmDiretorio } from "../../api/diretorio";
 
-const ModalExcluir = ({ setModal, id, nome}) => {
+const ModalExcluirDisciplina = ({ setModal, id, nome}) => {
 
     const storageListasQuestoes = new StorageListas("listasQuestoes");
     const storageListasAvaliacoes = new StorageListas("listasAvaliacoes");
@@ -73,4 +73,4 @@ const ModalExcluir = ({ setModal, id, nome}) => {
     )
 }
 
-export default ModalExcluir;
+export default ModalExcluirDisciplina;

@@ -20,7 +20,7 @@ const ModalExcluirQuestaoEAvaliacao = ({ setModal, idDisciplina, idElemento, nom
                 }
             );
 
-            const acaoExcluirElemento = {
+            const objetoExcluirElemento = {
                 type: 'excluirElementoLista',
                 payload: {
                     idDisciplina: idDisciplina,
@@ -29,9 +29,9 @@ const ModalExcluirQuestaoEAvaliacao = ({ setModal, idDisciplina, idElemento, nom
             }
 
             if(type == "questão")
-                dispatchListasQuestoes(acaoExcluirElemento);
+                dispatchListasQuestoes(objetoExcluirElemento);
              else
-                dispatchListasAvaliacoes(acaoExcluirElemento);
+                dispatchListasAvaliacoes(objetoExcluirElemento);
     
             setModal(false);
 

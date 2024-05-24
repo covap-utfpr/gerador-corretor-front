@@ -6,6 +6,7 @@ import StorageListas from '../../storage/StorageListas';
 import StorageDiretorioRaiz from '../../storage/StorageDiretorioRaiz';
 import StorageAvaliacaoAtual from '../../storage/StorageAvaliacaoAtual';
 import MensagemConfirmacao from '../modais/MensagemConfirmacao';
+import StorageQuestaoAtual from '../../storage/StorageQuestaoAtual';
 
 const GlobalContext = createContext();
 
@@ -17,7 +18,9 @@ const Global = ({ children }) => {
     const storageListasQuestoes = new StorageListas('listasQuestoes');
     const storageListasAvaliacoes = new StorageListas('listasAvaliacoes');
     const storageAvaliacaoAtual = new StorageAvaliacaoAtual();
-   
+    const storageQuestaoCriando = new StorageQuestaoAtual('questaoCriando');
+    const storageQuestaoEditando = new StorageQuestaoAtual('questaoEditando');
+
     const [ logado, dispatchLogado ] = useReducer(storageLogin.reducer, storageLogin.verificarLogin());
     const [ idDiretorioRaiz, dispatchDiretorioRaiz ] = useReducer(storageDiretorioRaiz.reducer, 
                                                                   storageDiretorioRaiz.obterValorInicial());
@@ -29,6 +32,10 @@ const Global = ({ children }) => {
                                                                       storageListasAvaliacoes.obterValorInicial()); 
     const [ avaliacaoAtual, dispatchAvaliacaoAtual ] = useReducer(storageAvaliacaoAtual.reducer, 
                                                                   storageAvaliacaoAtual.obterValorInicial());
+    const [ questaoCriando, dispatchQuestaoCriando ] = useReducer(storageQuestaoCriando.reducer, 
+                                                            storageQuestaoCriando.obterValorInicial());
+    const [ questaoEditando, dispatchQuestaoEditando ] = useReducer(storageQuestaoEditando.reducer, 
+                                                           storageQuestaoEditando.obterValorInicial());
     const [ mensagem, setMensagem ] = useState(false);
 
     useEffect(() => {
@@ -48,7 +55,7 @@ const Global = ({ children }) => {
     }, []);
 
     return (
-        <GlobalContext.Provider value={{ logado, dispatchLogado, idDiretorioRaiz, dispatchDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas, listasQuestoes, dispatchListasQuestoes, listasAvaliacoes, dispatchListasAvaliacoes, avaliacaoAtual, dispatchAvaliacaoAtual, mensagem, setMensagem }}>    
+        <GlobalContext.Provider value={{ logado, dispatchLogado, idDiretorioRaiz, dispatchDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas, listasQuestoes, dispatchListasQuestoes, listasAvaliacoes, dispatchListasAvaliacoes, avaliacaoAtual, dispatchAvaliacaoAtual, questaoCriando, dispatchQuestaoCriando, questaoEditando, dispatchQuestaoEditando, mensagem, setMensagem }}>    
             { children }
             { mensagem && <MensagemConfirmacao /> }
         </GlobalContext.Provider>
