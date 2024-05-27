@@ -12,12 +12,12 @@ const TestsList = () => {
     // Importando contextos necessarios     
     const { subjectList } = useContext(SubjectListContext);
     const { testLists, dispatchTestLists} = useContext(TestListsContext);
-    const { currentEditTest } = useContext(CurrentTestContext)
+    const { currentEditTest } = useContext(CurrentTestContext);
 
     // Criando estados locais 
     const [ subjectId, setSubjectId] = useState(""); 
     const [ tests, setTests ] = useState([]);
-    const [ modalDeletar, setModalDeletar ] = useState(false);
+    const [ delete, setDelete ] = useState(false);
 
     async function fetchTests() {
 
@@ -60,22 +60,20 @@ const TestsList = () => {
             <h2>Avaliações</h2>
             <SubjectSelect setParentSubject={handleSubjectChange} />
             <ul>
-                {tests && tests.map((avaliacao, index) => (
-                    <li key={index} value={avaliacao.nome}>
-                        <span>{avaliacao.nome}</span>
-                        <button onClick={() => setModalDeletar(
-                            {   
-                                idDisciplina: disciplina, 
-                                idAvaliacao: avaliacao.id, 
-                                nome: avaliacao.nome
-                            })}
-                        >excluir</button>
+                {tests && tests.map((test, index) => (
+                    <li key={index} value={test.name}>
+                        <span>{test.name}</span>
+                        <button onClick={() => setDelete(true)}>excluir</button>
+                        { delete && <ModalExcluirQuestaoEAvaliacao setDelete={setDelete} props={
+                            {
+                                subjectId: subjectId,
+                                test: test,
+                            }
+                        }/>}
                     </li>
                 ))}
-            </ul>
-           
+            </ul>           
             <button type="button">Criar nova avaliação</button>
-            { modalDeletar && <ModalExcluirQuestaoEAvaliacao setModal={setModalDeletar} idDisciplina={modalDeletar.idDisciplina} idElemento={modalDeletar.idAvaliacao} nome={modalDeletar.nome} type = "avaliação"/>}
         </div>
     )
 }

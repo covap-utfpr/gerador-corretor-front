@@ -1,16 +1,26 @@
 import { useContext } from "react";
-import { GlobalContext } from "../gerais/Global";
 import { deletarUmaQuestao } from "../../api/questionCalls";
 import { deletarUmaAvaliacao } from "../../api/testeCalls";
+import { LoginContext } from "../../contexts/LoginContext";
+import { QuestionListsContext } from "../../contexts/QuestionListsContext";
+import { TestListsContext } from "../../contexts/TestListsContext";
+import FileCalls from "../../api/FileCalls";
 
-const ModalExcluirQuestaoEAvaliacao = ({ setModal, idDisciplina, idElemento, nome, type}) => {
+const DeleteModal = ({ setDelete, props }) => {
 
-    const { idDiretorioRaiz, setMensagem, dispatchListasQuestoes, dispatchListasAvaliacoes} = useContext(GlobalContext);
-   
+    // Contextos necessarios
+    const { rootDirectoryId } = useContext(LoginContext);
+    const { dispatchQuestionLists } = useContext(QuestionListsContext);
+    const { dispatchTestsLists } = useContext(TestListsContext);
+
+    const type = 
+    const element = props['test'] || props['question'];
+
     async function handleExcluir() {
 
-        const idElementoExcluido = (type === "questão") ? await deletarUmaQuestao(idElemento, null) : await deletarUmaAvaliacao(idElemento, null);
+        const fileCalls = new FileCalls("");
 
+        const idElementoExcluido =  await deletarUmaQuestao(element.id, null);
         if(idElementoExcluido.data) {
 
             setMensagem(
@@ -52,4 +62,4 @@ const ModalExcluirQuestaoEAvaliacao = ({ setModal, idDisciplina, idElemento, nom
     )
 }
 
-export default ModalExcluirQuestaoEAvaliacao;
+export default DeleteModal;

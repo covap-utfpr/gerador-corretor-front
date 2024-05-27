@@ -5,6 +5,7 @@ import { LoginContext } from "../../contexts/LoginContext";
 import { SubjectListContext } from "../../contexts/SubjectListContex";
 import DirectoryCalls from "../../api/DirectoryCalls";
 
+// Recebe função de atualização do state do componente pai
 const SubjectSelect = ({ setParentSubject }) => {
 
     //Importando contextos necessarios
