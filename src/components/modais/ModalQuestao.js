@@ -1,9 +1,9 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import { criarUmaQuestao } from '../../api/questao';
-import SelectDisciplinas from "../gerais/SelectDisciplinas";
-import { GlobalContext } from "../gerais/Global";
+import { criarUmaQuestao } from '../../api/questionCalls';
+import SelectDisciplinas from "../globals/SubjectSelect";
+import { GlobalContext } from "../globals/Global";
 import StorageQuestaoAtual from "../../storage/StorageQuestaoAtual";
-import Questao from "../../modelos/Questao";
+import Questao from "../../models/Questao";
 
 const ModalQuestao = ( { setModal, acao, id } ) => {
 

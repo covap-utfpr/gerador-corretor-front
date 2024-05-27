@@ -6,34 +6,48 @@ import CriarAvaliacao from "./components/pages/CriarAvaliacao";
 import Corretor from './components/pages/Corretor'
 import Sobre from "./components/pages/Sobre";
 import { Global } from "./components/gerais/Global";
-import RotaPrivada from "./components/gerais/rotaPrivada";
-
+import PrivateRoute from "./components/globals/PrivateRoute";
+import { SubjectListProvider } from "./contexts/SubjectListContex";
+import { LoginProvider } from "./contexts/LoginContext";
+import { CurrentTestProvider } from "./contexts/CurrentTestContext";
+import { QuestionListsProvider } from "./contexts/QuestionListsContext";
+import { CurrentQuestionProvider } from "./contexts/CurrentQuestionContext";
 
 function App() {
   
   return (
-    <Global id="app">
+    <LoginProvider id="app">
       <Header/>
       <Routes>
-          <Route exact path="/" element = { <Home /> } />     
-          <Route path="criar-avaliacao" element = { 
-            <RotaPrivada>
-              <CriarAvaliacao /> 
-            </RotaPrivada> 
-          } />
-          <Route path="editar" element = { 
-            <RotaPrivada>
-              <Editar /> 
-            </RotaPrivada> 
-          } />
-          <Route path="corretor" element = {  
-            <RotaPrivada>
-              <Corretor /> 
-            </RotaPrivada>
-          } />
-          <Route path="sobre" element = { <Sobre /> } />
+        <Route path="/*"  element={
+          <SubjectListProvider>
+             <Routes>
+                <Route path="/*"  element={
+                  <TestListsContext><CurrentTestProvider><QuestionListsProvider><CurrentQuestionProvider>
+                    <Route exact path="/" element = { <Home /> } />    
+                    <Route path="criar-avaliacao" element = { 
+                      <PrivateRoute>
+                        <CriarAvaliacao /> 
+                      </PrivateRoute> 
+                    } />
+                    <Route path="editar" element = { 
+                      <PrivateRoute>
+                        <Editar /> 
+                      </PrivateRoute> 
+                    } />
+                  </CurrentQuestionProvider></QuestionListsProvider></CurrentTestProvider></TestListsContext>
+                }/>
+             </Routes>
+          </SubjectListProvider>
+        }/>
+        <Route path="corretor" element = {  
+          <PrivateRoute>
+            <Corretor /> 
+          </PrivateRoute>
+        } />
+        <Route path="sobre" element = { <Sobre /> } />
       </Routes>
-    </Global>
+    </LoginProvider>
   );
 }
 

@@ -1,36 +1,36 @@
 import Cookies from 'js-cookie';
-import StorageAvaliacaoAtual from './StorageAvaliacaoAtual';
+import StorageAvaliacaoAtual from './CurrentTestStorage';
 import StorageListas from './StorageListas';
 
-class StorageLogin {
+class LoginStorage {
 
     reducer = ( state, action ) => {
     
         switch (action.type) {
     
-            case 'atualizarLogin':
-                return this.verificarLogin(action)
+            case 'updateLogin':
+                return this.updateLogin(action)
     
-            case 'deslogar':
-                return this.deslogar();
+            case 'logout':
+                return this.logout();
     
             default:
                 return action;
         }
     }
     
-    verificarLogin = () => {
+    updateLogin = () => {
 
         const token = Cookies.get("token");
         return token ? true : false;
     }
 
-    deslogar = () => {
+    logout = () => {
 
         Cookies.set("token", "");
         return false;
     }
 }
 
-export default StorageLogin;
+export default LoginStorage;
 

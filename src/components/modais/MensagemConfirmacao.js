@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GlobalContext } from "../gerais/Global";
+import { GlobalContext } from "../globals/Global";
 
 const MensagemConfirmacao = () => {
 

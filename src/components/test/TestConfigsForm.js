@@ -1,43 +1,19 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../gerais/Global";
-import ConfiguracoesAvaliacao from "../../modelos/ConfiguracoesAvaliacao";
+import { GlobalContext } from "../globals/Global";
+import ConfiguracoesAvaliacao from "../../models/ConfiguracoesAvaliacao";
 
 const FormularioConfiguracoes = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
-    const [ disposicao, setDisposicao ] = useState(avaliacaoAtual.configuracoes.disposicao);
-    const [ gabarito, setGabarito ] = useState(avaliacaoAtual.configuracoes.gabarito);
-    const [ fonte, setFonte ] = useState(avaliacaoAtual.configuracoes.fonte);
-    const [ tamanhoFonte, setTamanhoFonte ] = useState(avaliacaoAtual.configuracoes.tamanhoFonte);
-    const  [espaco, setEspaco ] = useState(avaliacaoAtual.configuracoes.espaco);
-
-    function handleDisposicaoChange(event) {
-        setDisposicao(event.target.value);
-    }
-    function handleGabarito(event) {
-        setGabarito(event.target.value);
-    }
-    function handleFonte(event) {
-        setFonte(event.target.value);
-    }
-    function handleTamanhoFonte(event) {
-        setTamanhoFonte(event.target.value);
-    }
-    function handleEspaco(event) {
-        setEspaco(event.target.value)
-    }
-    
-    function handleSubmit(event) {
-
-        event.preventDefault();
-        
+    function handleChange(event, prop) {
         dispatchAvaliacaoAtual(
             {
-                type: 'adicionarSecao', 
+                type: 'updateSection', 
                 payload: {
-                    secao: 'configuracoes',
-                    conteudo: new ConfiguracoesAvaliacao(disposicao, gabarito, fonte, tamanhoFonte, espaco) 
+                    section: 'configs',
+                    prop: prop,
+                    content: event.target.value,
                 }
             }
         );
@@ -48,10 +24,10 @@ const FormularioConfiguracoes = () => {
 
             <h2>Configurações Gerais</h2>
 
-            <form onSubmit={(event) => handleSubmit(event)}>
+            <form>
                 
                 <div className="campo-form">
-                    <fieldset value={disposicao} onChange={(event) => {handleDisposicaoChange(event)}}>
+                    <fieldset value={} onChange={(event) => handleChange(event, 'order')}>
                         <legend>Disposição das questões</legend>
                         <div>
                             <input type="radio" id="duas" name="disposicao" value="2" />
@@ -65,7 +41,7 @@ const FormularioConfiguracoes = () => {
                 </div>
 
                 <div className="campo-form">
-                    <fieldset value={gabarito} onChange={(event) => {handleGabarito(event)}}>
+                    <fieldset value={} onChange={(event) => handleChange(event, 'answCardPosition')}>
                         <legend>Posição do gabarito</legend>
                         <div>
                             <input type="radio" id="inicio" name="posicao" value="inicio" />
@@ -80,7 +56,7 @@ const FormularioConfiguracoes = () => {
 
                 <div className="campo-form">
                     <label htmlFor="fonte">Fonte</label>
-                    <select value={fonte} name="fonte" id="fonte" onChange={(event) => {handleFonte(event)}} >
+                    <select value={} name="fonte" id="fonte" onChange={(event) => handleChange(event, 'font')} >
                         <option key={1} value="Arial">Arial</option>
                         <option key={2} value="Arial">Times New Roman</option>
                     </select>
@@ -89,26 +65,26 @@ const FormularioConfiguracoes = () => {
                 <div className="campo-form">
                     <label htmlFor="font-size">Tamanho da fonte</label>
                     <input 
-                        value={tamanhoFonte}
+                        value={}
                         type="number"
                         name="font-size"
                         id="font-size"
                         min="6" max="18"
                         required
-                        onChange={(event) => handleTamanhoFonte(event)}
+                        onChange={(event) => handleChange(event, 'fontSize')}
                     /> px
                 </div>
 
                 <div className="campo-form">
                     <label htmlFor="espaco">Espaço para rascunho</label>
                     <input 
-                        value={espaco}
+                        value={}
                         type="number"
                         name="espaco"
                         id="espaco"
                         min="1" max="20"
                         required
-                        onChange={(event) => handleEspaco(event)}
+                        onChange={(event) => handleChange(event, 'lines')}
                     /> linhas
                 </div>
                 <button type="submit">Enviar</button>

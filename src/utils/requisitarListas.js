@@ -1,5 +1,5 @@
-import { lerVariasAvaliacoes } from "../api/avaliacao";
-import { lerVariasQuestoes } from "../api/questao";
+import { lerVariasAvaliacoes } from "../api/testeCalls";
+import { lerVariasQuestoes } from "../api/questionCalls";
 
 export const requisitarListas = async (listaDisciplinas, entidade) => {
 

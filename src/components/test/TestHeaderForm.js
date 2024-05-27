@@ -1,36 +1,22 @@
 import { useContext, useState } from "react";
-import SelectDisciplinas from "../gerais/SelectDisciplinas";
-import { GlobalContext } from "../gerais/Global";
-import CabecalhoAvaliacao from "../../modelos/CabecalhoAvalicao";
+import SelectDisciplinas from "../globals/SubjectSelect";
+import { GlobalContext } from "../globals/Global";
 
 const FormularioCabecalho = () => {
 
     const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
 
-    const [titulo, setTitulo ] = useState(avaliacaoAtual.cabecalho.titulo)
-    const [instituicao, setInstituicao ] = useState(avaliacaoAtual.cabecalho.instituicao)
-    const [disciplina, setDisciplina ] = useState(avaliacaoAtual.cabecalho.disciplina)
-    const [data, setData ] = useState(avaliacaoAtual.cabecalho.data)
-    const [instrucoes, setInstrucoes] = useState(avaliacaoAtual.cabecalho.instrucoes)
-    const [valor, setValor] = useState(avaliacaoAtual.cabecalho.valor)
-
-    function handleTitulo(event) {
-        setTitulo(event.target.value);
-    }  
-    function handleInstituicao(event) {
-        setInstituicao(event.target.value);
-    }
-    function handleDisciplina(valor) {
-        setDisciplina(valor);
-    }
-    function handleData(event) {
-        setData(event.target.value);
-    }
-    function handleInstrucoes(event) {
-        setInstrucoes(event.target.value);
-    }
-    function handleValor(event) {
-        setValor(event.target.value);
+    function handleChange(event, prop) {
+        dispatchAvaliacaoAtual(
+            {
+                type: 'updateSection', 
+                payload: {
+                    section: 'header',
+                    prop: prop,
+                    content: event.target.value,
+                }
+            }
+        );
     }
     
     function handleSubmit(event) {
@@ -48,15 +34,6 @@ const FormularioCabecalho = () => {
             })
         })
 
-        dispatchAvaliacaoAtual(
-            {
-                type: 'adicionarSecao', 
-                payload: {
-                    secao: 'cabecalho',
-                    conteudo: new CabecalhoAvaliacao(titulo, instituicao, disciplina, data, instrucoes, valor)
-                }
-            }
-        )
     }
 
     return (
@@ -64,7 +41,7 @@ const FormularioCabecalho = () => {
 
             <h2>Cabeçalho</h2>
 
-            <form onSubmit={(event) => handleSubmit(event)} >
+            <form>
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 
@@ -73,7 +50,7 @@ const FormularioCabecalho = () => {
                         name="titulo"
                         id="titulo"
                         required
-                        onChange={(event) => handleTitulo(event)}
+                        onChange={(event) => handleChange(event, 'title')}
                     />
                 </div>
                 <div className="campo-form">
@@ -83,11 +60,11 @@ const FormularioCabecalho = () => {
                         type="text"
                         name="instituicao"
                         id="instituicao"
-                        onChange={(event) => handleInstituicao(event)}
+                        onChange={(event) => handleChange(event, 'institution')}
                     />
                 </div>
                 <div className="campo-form">
-                    <SelectDisciplinas handleFunction={handleDisciplina}/>
+                    <SelectDisciplinas handleFunction={}/>
                 </div>
                 <div className="campo-form">
                     <label htmlFor="data">Data de realização / Prazo</label>

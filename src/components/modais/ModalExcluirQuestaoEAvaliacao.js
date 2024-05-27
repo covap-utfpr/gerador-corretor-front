@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GlobalContext } from "../gerais/Global";
-import { deletarUmaQuestao } from "../../api/questao";
-import { deletarUmaAvaliacao } from "../../api/avaliacao";
+import { deletarUmaQuestao } from "../../api/questionCalls";
+import { deletarUmaAvaliacao } from "../../api/testeCalls";
 
 const ModalExcluirQuestaoEAvaliacao = ({ setModal, idDisciplina, idElemento, nome, type}) => {
 

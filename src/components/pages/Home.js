@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ListaAvaliacoes from "../listas/ListaAvaliacoes";
+import ListaAvaliacoes from "../lists/TestLists";
 import { GlobalContext } from "../gerais/Global";
 import handleLogin from "../../utils/handleLogin";
 import { useEffect } from "react";

@@ -3,10 +3,10 @@ import SelectDisciplinas from "../gerais/SelectDisciplinas";
 import { GlobalContext } from "../gerais/Global";
 import { requisitarListas } from "../../utils/requisitarListas";
 import ModalQuestao from "../modais/ModalQuestao";
-import QuestaoAvaliacao from "../../modelos/QuestaoAvaliacao";
+import QuestaoAvaliacao from "../../models/QuestaoAvaliacao";
 import StorageListas from "../../storage/StorageListas";
 import ModalExcluirQuestaoEAvaliacao from "../modais/ModalExcluirQuestaoEAvaliacao";
-import { lerUmaQuestao } from "../../api/questao";
+import { lerUmaQuestao } from "../../api/questionCalls";
 
 const ListaQuestoes = ( { prova }) => {
 

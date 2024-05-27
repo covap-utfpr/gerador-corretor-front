@@ -1,5 +1,5 @@
-import ListaQuestoes from "../listas/ListaQuestoes";
-import ListaQuestoesAvaliacao from "../listas/ListaQuestoesAvaliacao";
+import ListaQuestoes from "../lists/ListaQuestoes";
+import ListaQuestoesAvaliacao from "../lists/ListaQuestoesAvaliacao";
 import FormularioCabecalho from "../avaliacao/FormularioCabecalho";
 import FormularioConfiguracoes from "../avaliacao/FormularioConfiguracoes";
 import { criarUmaAvaliacao } from "../../api/avaliacao";

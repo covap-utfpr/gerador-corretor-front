@@ -1,4 +1,4 @@
-const Sobre = () => {
+const About = () => {
 
     return (
         <main>
@@ -7,4 +7,4 @@ const Sobre = () => {
     )
 }
 
-export default Sobre;
+export default About;

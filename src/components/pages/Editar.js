@@ -1,6 +1,6 @@
-import ListaQuestoes from "../listas/ListaQuestoes";
-import ListaDisciplinas from "../listas/ListaDisciplinas";
-import ListaAvaliacoes from "../listas/ListaAvaliacoes";
+import ListaQuestoes from "../lists/ListaQuestoes";
+import ListaDisciplinas from "../lists/ListaDisciplinas";
+import ListaAvaliacoes from "../lists/TestLists";
 const Editar = () => {
 
     return (

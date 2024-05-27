@@ -1,4 +1,4 @@
-import { criarUmDiretorio, lerUmDiretorio } from '../api/diretorio';
+import { criarUmDiretorio, lerUmDiretorio } from '../api/DirectoryCalls';
 
 //verifica existencia do diretorio raiz do app
 export async function checarDiretorioRaiz() {
