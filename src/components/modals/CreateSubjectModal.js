@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
 import { criarUmDiretorio } from "../../api/diretorio";
-import { GlobalContext } from "../gerais/Global";
 
-const ModalCriarDisciplina = ( {setModal} ) => {
+const CreateSubjectModal = ( { setModal } ) => {
 
     const { idDiretorioRaiz, listaDisciplinas, dispatchListaDisciplinas, dispatchListasQuestoes, dispatchListasAvaliacoes } = useContext(GlobalContext);
     const [nome, setNome] = useState();
@@ -97,4 +96,4 @@ const ModalCriarDisciplina = ( {setModal} ) => {
     )
 }
 
-export default ModalCriarDisciplina;
+export default CreateSubjectModal;

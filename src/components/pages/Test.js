@@ -6,7 +6,7 @@ import { criarUmaAvaliacao } from "../../api/avaliacao";
 import { GlobalContext } from "../gerais/Global";
 import { useContext } from "react";
 
-const CriarAvaliacao = () => {
+const Test = () => {
 
     const { avaliacaoAtual, dispatchListasAvaliacoes, setMensagem} = useContext(GlobalContext);
 
@@ -71,5 +71,5 @@ const CriarAvaliacao = () => {
     )
 }
 
-export default CriarAvaliacao;
+export default Test;
 

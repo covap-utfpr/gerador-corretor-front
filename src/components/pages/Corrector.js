@@ -1,4 +1,4 @@
-const Corretor = () => {
+const Corrector = () => {
 
     return (
         <main>
@@ -7,4 +7,4 @@ const Corretor = () => {
     )
 }
 
-export default Corretor;
+export default Corrector;

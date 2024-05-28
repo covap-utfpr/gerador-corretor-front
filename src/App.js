@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Header from './components/gerais/Header';
 import Home from './components/pages/Home';
-import Editar from "./components/pages/Editar";
-import CriarAvaliacao from "./components/pages/CriarAvaliacao";
+import Editar from "./components/pages/Edit";
+import Test from "./components/pages/Test";
 import Corretor from './components/pages/Corretor'
 import Sobre from "./components/pages/Sobre";
 import { Global } from "./components/gerais/Global";
@@ -26,6 +26,11 @@ function App() {
                   <TestListsContext><CurrentTestProvider><QuestionListsProvider><CurrentQuestionProvider>
                     <Route exact path="/" element = { <Home /> } />    
                     <Route path="criar-avaliacao" element = { 
+                      <PrivateRoute>
+                        <CriarAvaliacao /> 
+                      </PrivateRoute> 
+                    } />
+                    <Route path="editar-avaliacao" element = { 
                       <PrivateRoute>
                         <CriarAvaliacao /> 
                       </PrivateRoute> 

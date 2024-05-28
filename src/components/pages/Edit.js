@@ -1,7 +1,8 @@
 import ListaQuestoes from "../lists/ListaQuestoes";
 import ListaDisciplinas from "../lists/ListaDisciplinas";
 import ListaAvaliacoes from "../lists/TestLists";
-const Editar = () => {
+
+const Edit = () => {
 
     return (
         <main>
@@ -19,4 +20,4 @@ const Editar = () => {
     )
 }
 
-export default Editar;
+export default Edit;

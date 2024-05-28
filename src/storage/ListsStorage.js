@@ -60,9 +60,9 @@ class ListsStorage {
         return [...state, action.payload];
     }
 
-    findListIndex = ( estado, action ) => {
+    findListIndex = ( state, action ) => {
 
-        const listIndex = estado.findIndex((list) => list.idDisciplina === action.payload.idDisciplina)
+        const listIndex = state.findIndex((list) => list.subjectId === action.payload.subjectId)
         return listIndex;
     }
     

@@ -5,7 +5,7 @@ import { GlobalContext } from "../globals/Global";
 import StorageQuestaoAtual from "../../storage/StorageQuestaoAtual";
 import Questao from "../../models/Questao";
 
-const ModalQuestao = ( { setModal, acao, id } ) => {
+const QuestionModal = ( { setModal, acao, id } ) => {
 
     const {  dispatchListasQuestoes, setMensagem, questaoCriando, dispatchQuestaoCriando, questaoEditando, dispatchQuestaoEditando } = useContext(GlobalContext);
     let [ questaoAtual, setQuestaoAtual ] = useState(new Questao("", "", "", [], "", ""));
@@ -211,4 +211,4 @@ const ModalQuestao = ( { setModal, acao, id } ) => {
     )
 }
 
-export default ModalQuestao;
+export default QuestionModal;
