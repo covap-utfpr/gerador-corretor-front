@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import TestLists from "../lists/TestLists";
+import TestList from "../lists/TestList";
 import { useEffect } from "react";
 import { LoginContext } from "../../contexts/LoginContext";
 import AuthenticationCalls from "../../api/AuthenticationCalls";
@@ -34,7 +34,7 @@ const Home = () => {
             }
             { logged && 
                 <div className="modulo" id="avaliacoes">
-                    <TestLists />
+                    <TestList />
                 </div>
             }
         </main>

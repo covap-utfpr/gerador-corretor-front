@@ -17,4 +17,4 @@ const SubjectListProvider = ({ children }) => {
     );
 }
 
-export {SubjectListContext, SubjectListProvider};
+export { SubjectListContext, SubjectListProvider };

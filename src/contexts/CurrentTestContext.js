@@ -1,5 +1,5 @@
 import { createContext, useReducer, useState } from "react";
-import { CurrentTestStorage } from "../storage/CurrentTestStorage";
+import CurrentTestStorage from "../storage/CurrentTestStorage";
 
 const CurrentTestContext = createContext();
 
@@ -12,10 +12,10 @@ const CurrentTestProvider = ({ children }) => {
         createStorage.getBaseValue());
     const [ currentEditTest, dispatchCurrentEditTest ] = useReducer(editStorage.reducer, 
         editStorage.getBaseValue());
-    const [ testAction, setTestAction ] = useState("create");
+    const [ editInfos, setEditInfos ] = useState({});
 
     return(
-        <CurrentTestContext.Provider value={{currentCreateTest, dispatchCurrentCreateTest, currentEditTest, dispatchCurrentEditTest, testAction, setTestAction}}>
+        <CurrentTestContext.Provider value={{currentCreateTest, dispatchCurrentCreateTest, currentEditTest, dispatchCurrentEditTest, editInfos, setEditInfos }}>
             { children }
         </CurrentTestContext.Provider>
     );

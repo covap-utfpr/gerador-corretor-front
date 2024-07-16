@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { requisitarListas } from "../../utils/requisitarListas";
+import requestLists from "../../utils/requestLists";
 import { SubjectListContext } from "../../contexts/SubjectListContex";
 import { TestListsContext } from "../../contexts/TestListsContext";
 import { CurrentTestContext } from "../../contexts/CurrentTestContext";
@@ -13,7 +13,7 @@ const TestsList = () => {
     // Importando contextos necessarios     
     const { subjectList } = useContext(SubjectListContext);
     const { testLists, dispatchTestLists} = useContext(TestListsContext);
-    const { dispatchCurrentEditTest, currentEditTest, dispatchCurrentCreateTest, currentCreateTest, setTestAction } = useContext(CurrentTestContext);
+    const { dispatchCurrentEditTest, currentEditTest, dispatchCurrentCreateTest, currentCreateTest, setEditInfos } = useContext(CurrentTestContext);
 
     // Instancia da classe ListsStorage para obter getters de questoes
     const testStorage = new ListsStorage('testLists');
@@ -26,9 +26,9 @@ const TestsList = () => {
     async function fetchTests() {
 
         // requisita as listas de avaliacoes correspondentes às disciplinas em storage
-        const lists = await requisitarListas(subjectList, "avaliacao");
+        const lists = await requestLists(subjectList, "test");
 
-        if(lists) dispatchListasAvaliacoes({type: 'updateStorage', payload: lists})
+        if(lists) dispatchTestLists({type: 'updateStorage', payload: lists})
     }    
 
     useEffect(() => {
@@ -56,19 +56,20 @@ const TestsList = () => {
         setSubjectId(id);
     }
 
-    // marca evento de ediçao e redireciona o usuario para criar-avaliacao
-    async function handleEditTest(testId) {
+    // seta informaçoes de ediçao e redireciona o usuario para editar-avaliacao
+    async function handleEditTest(subjectId, testId) {
 
-        setTestAction("edit");
+        setEditInfos({
+            subjectId: subjectId,
+            testId: testId  
+        });
+
         window.location.href = '/editar-avaliacao'
     }
 
     function handleCreateTest() {
 
-        setTestAction("create");
-        dispatchCurrentCreateTest({
-
-        })
+        window.location.href = '/criar-avaliacao'
     }
 
     return (
@@ -79,7 +80,7 @@ const TestsList = () => {
                 {tests && tests.map((test, index) => (
                     <li key={index} value={test.name}>
                         <span>{test.name}</span>
-                        <button onClick={() => handleEditTest(test.id)}>editar</button>
+                        <button onClick={() => handleEditTest(subjectId, test.id)}>editar</button>
                         <button onClick={() => setDelete(true)}>excluir</button>
                         { deleteModal && <DeleteModal setDeleteModal={setDeleteModal} props={
                             {
@@ -90,7 +91,7 @@ const TestsList = () => {
                     </li>
                 ))}
             </ul>           
-            <button type="button" onClick={() => handleCreateTest("create")}>Criar nova avaliação</button>
+            <button type="button" onClick={() => handleCreateTest()}>Criar nova avaliação</button>
         </div>
     )
 }

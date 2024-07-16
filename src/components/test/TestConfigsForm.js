@@ -1,22 +1,40 @@
-import { useContext, useState } from "react";
-import { GlobalContext } from "../globals/Global";
-import ConfiguracoesAvaliacao from "../../models/ConfiguracoesAvaliacao";
+import { useContext, useEffect, useState } from "react";
+import { CurrentTestContext } from "../../contexts/CurrentTestContext";
 
-const FormularioConfiguracoes = () => {
+const TestConfigsForm = ({ action }) => {
 
-    const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
+    const { currentEditTest, dispatchCurrentEditTest, currentCreateTest, dispatchCurrentCreateTest, editInfos } = useContext(CurrentTestContext);
+    const [ test, setTest ] = useState({});
+
+    if(action == 'create'){
+        setTest(currentCreateTest);
+    } else if( action == 'edit') {
+        setTest(currentEditTest);
+    }
+
+    useEffect(() => {
+        setTest(currentCreateTest);
+    }, [currentCreateTest]);
+
+    useEffect(() => {
+        setTest(currentEditTest);
+    }, [currentEditTest]);
 
     function handleChange(event, prop) {
-        dispatchAvaliacaoAtual(
-            {
-                type: 'updateSection', 
-                payload: {
-                    section: 'configs',
-                    prop: prop,
-                    content: event.target.value,
-                }
+
+        const objChange =   {
+            type: 'updateSection', 
+            payload: {
+                section: 'configs',
+                prop: prop,
+                content: event.target.value,
             }
-        );
+        }
+       
+        if(action == 'create')
+            dispatchCurrentCreateTest(objChange);
+        else if(action == 'edit')
+            dispatchCurrentEditTest(objChange);
     }
 
     return (
@@ -27,7 +45,7 @@ const FormularioConfiguracoes = () => {
             <form>
                 
                 <div className="campo-form">
-                    <fieldset value={} onChange={(event) => handleChange(event, 'order')}>
+                    <fieldset value={test.order} onChange={(event) => handleChange(event, 'order')}>
                         <legend>Disposição das questões</legend>
                         <div>
                             <input type="radio" id="duas" name="disposicao" value="2" />
@@ -41,7 +59,7 @@ const FormularioConfiguracoes = () => {
                 </div>
 
                 <div className="campo-form">
-                    <fieldset value={} onChange={(event) => handleChange(event, 'answCardPosition')}>
+                    <fieldset value={test.answCardPosition} onChange={(event) => handleChange(event, 'answCardPosition')}>
                         <legend>Posição do gabarito</legend>
                         <div>
                             <input type="radio" id="inicio" name="posicao" value="inicio" />
@@ -56,7 +74,7 @@ const FormularioConfiguracoes = () => {
 
                 <div className="campo-form">
                     <label htmlFor="fonte">Fonte</label>
-                    <select value={} name="fonte" id="fonte" onChange={(event) => handleChange(event, 'font')} >
+                    <select value={test.font} name="fonte" id="fonte" onChange={(event) => handleChange(event, 'font')} >
                         <option key={1} value="Arial">Arial</option>
                         <option key={2} value="Arial">Times New Roman</option>
                     </select>
@@ -65,7 +83,7 @@ const FormularioConfiguracoes = () => {
                 <div className="campo-form">
                     <label htmlFor="font-size">Tamanho da fonte</label>
                     <input 
-                        value={}
+                        value={test.fontSize}
                         type="number"
                         name="font-size"
                         id="font-size"
@@ -78,7 +96,7 @@ const FormularioConfiguracoes = () => {
                 <div className="campo-form">
                     <label htmlFor="espaco">Espaço para rascunho</label>
                     <input 
-                        value={}
+                        value={test.lines}
                         type="number"
                         name="espaco"
                         id="espaco"
@@ -87,10 +105,9 @@ const FormularioConfiguracoes = () => {
                         onChange={(event) => handleChange(event, 'lines')}
                     /> linhas
                 </div>
-                <button type="submit">Enviar</button>
             </form>
         </div>
     );
 }
 
-export default FormularioConfiguracoes;
+export default TestConfigsForm;

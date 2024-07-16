@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { requisitarListas } from "../../utils/requisitarListas";
+import requestLists from "../../utils/requestLists";
 import ModalQuestao from "../modals/QuestionModal";
-import QuestaoAvaliacao from "../../models/QuestaoAvaliacao";
 import { SubjectListContext } from "../../contexts/SubjectListContex";
 import { QuestionListsContext } from "../../contexts/QuestionListsContext";
 import { CurrentTestContext } from "../../contexts/CurrentTestContext";
@@ -22,16 +21,15 @@ const QuestionList = ( { test }) => {
     // Se valer "editar" ou "criar", ativa o modal Questao para a acao designada
     const [ subjectId, setSubjectId] = useState(""); 
     const [ questions, setQuestions ] = useState([]);
-    const [ modal, setModal ] = useState("");
+    const [ questionModal, setQuestionModal ] = useState("");
+    const [ questionModalProps, setQuestionModalProps ] = useState("");
     const [ deleteModal, setDeleteModal ] = useState(false);
 
     async function fetchQuestions() {
 
         // requisita as listas de questoes correspondentes às disciplinas em storage
-        const lists = await requisitarListas(subjectList, "questao");
-
+        const lists = await requestLists(subjectList, "question");
         if(lists) dispatchQuestionLists({type: 'updateStorage', payload: lists})
-
     }    
 
     useEffect(() => {
@@ -62,13 +60,18 @@ const QuestionList = ( { test }) => {
 
     function handleCurrentCreateTest(subjectId, question) {
 
-        //Problema: pode ser a avaliaçao em ediçao ou  avaliaçao em ediçao
+        //Problema: pode ser a avaliaçao em ediçao ou  avaliaçao em criaçao
         dispatchCurrentCreateTest(
             {   
                 type: 'addQuestion', 
                 payload: new TestQuestion(subjectId, question.id, question.name, "", 0, 0)
             }
         );
+    }
+
+    function handleQuestionModal(props) {
+        setQuestionModalProps(props);
+        setQuestionModal(true);
     }
 
     return (
@@ -81,18 +84,13 @@ const QuestionList = ( { test }) => {
                         <span>{question.name}</span>
                         {test && <button onClick={() => handleCurrentCreateTest(subjectId, question)}>+</button>}
                         <button onClick={() => setDeleteModal(true)}>excluir</button>
-                        <button onClick={() => setModal("editar")}>Editar</button>
-                        { deleteModal && <DeleteModal setDeleteModal={setDeleteModal} props={
-                            {
-                                subjectId: subjectId,
-                                question: question,
-                            }
-                        }/>}
+                        <button onClick={() => handleQuestionModal({action: "edit", id: question.id})}>editar</button>
+                        { deleteModal && <DeleteModal setDeleteModal={setDeleteModal} props={{ subjectId: subjectId, question: question}}/>}
                     </li>
                 ))}
             </ul>
-            <button onClick={() => setModal("criar")}>Criar nova questão</button>
-            {modal && <ModalQuestao setModal={setModal} acao={modal} idElemento=""/>}
+            <button onClick={() => handleQuestionModal({action: "create", id:""})}>Criar nova questão</button>
+            {questionModal && <ModalQuestao setQuestionModal={setQuestionModal} props={questionModalProps}/>}
         </div>
     )
 }

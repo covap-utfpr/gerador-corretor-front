@@ -6,4 +6,4 @@ class ServerException extends Error {
     }
   }
   
-  module.exports = ServerException;
+  export default ServerException;

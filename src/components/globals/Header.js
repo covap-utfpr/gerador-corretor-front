@@ -5,12 +5,14 @@ import AuthenticationCalls from '../../api/AuthenticationCalls';
 
 const Header = () => {
 
+    // Importando contexto necessario    
     const { logged, dispatchLogged } = useContext(LoginContext);
 
     async function handleLogin() {
 
         const authCalls = new AuthenticationCalls();
 
+        // requisita url de autenticaçao do google
         const googleUrl = authCalls.getLoginUrl();
 
         if(googleUrl.data) {

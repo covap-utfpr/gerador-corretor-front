@@ -18,7 +18,7 @@ const SubjectSelect = ({ setParentSubject }) => {
     async function fetchSubjects() {
 
         const dirCalls = new DirectoryCalls();
-
+        
         const list = await dirCalls.readDirectories({parent: rootDirectoryId, start: 0});
 
         if(list.data) {

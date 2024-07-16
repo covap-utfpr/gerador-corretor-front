@@ -1,6 +1,6 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import LoginStorage from "../storage/LoginStorage";
-import { checarDiretorioRaiz } from "../utils/checarDiretorioRaiz";
+import checkRootDirectory from "../utils/checkRootDirectory";
 import RootDirectoryStorage from "../storage/RootDirectoryStorage";
 
 const LoginContext = createContext();
@@ -20,7 +20,7 @@ const LoginProvider = ({ children }) => {
         const verifyRootDirectory = async () => {
             if (logged) {
                 try {
-                    const directoryId = await checarDiretorioRaiz();
+                    const directoryId = await checkRootDirectory();
                     dispatchrootDirectoryId({ type: 'updateStorage', payload: directoryId });
                 } catch (error) {
                     console.log(error);

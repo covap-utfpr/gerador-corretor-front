@@ -3,7 +3,7 @@ import { LoginContext } from "../../contexts/LoginContext";
 import { SubjectListContext } from "../../contexts/SubjectListContex";
 import DeleteSubjectModal from "../modals/DeleteSubjectModal";
 import DirectoryCalls from "../../api/DirectoryCalls";
-import CreateSubjectModal from "../modals/CreateSubjectModal";
+import SubjectModal from "../modals/SubjectModal";
 
 const SubjectList = () => {
 
@@ -50,7 +50,7 @@ const SubjectList = () => {
                 ))}
             </ul>
             <button onClick={() => setCreateModal(true)}>Criar nova disciplina</button>
-            { createModal && <CreateSubjectModal setModal={setCreateModal}/>}
+            { createModal && <SubjectModal setModal={setCreateModal}/>}
         </div>
     )
 }

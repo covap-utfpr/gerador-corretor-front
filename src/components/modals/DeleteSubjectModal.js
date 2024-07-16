@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ListsStorage from "../../storage/ListsStorage";
 import { TestListsContext } from "../../contexts/TestListsContext";
 import { QuestionListsContext } from "../../contexts/QuestionListsContext";
@@ -36,7 +36,7 @@ const DeleteSubjectModal = ({ setDeleteModal, props }) => {
 
             dispatchQuestionLists({ type: 'deleteList', payload: props.id });
 
-            dispatchListasAvaliacoes({ type: 'deleteList', payload: props.id });
+            // dispatchListasAvaliacoes({ type: 'deleteList', payload: props.id });
             
             // CASTRO
             // dispatchAvaliacaoAtual( 

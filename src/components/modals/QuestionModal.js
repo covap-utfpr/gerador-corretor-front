@@ -1,177 +1,170 @@
 import { useContext, useEffect, useReducer, useState } from "react";
-import { criarUmaQuestao } from '../../api/questionCalls';
-import SelectDisciplinas from "../globals/SubjectSelect";
-import { GlobalContext } from "../globals/Global";
-import StorageQuestaoAtual from "../../storage/StorageQuestaoAtual";
-import Questao from "../../models/Questao";
+import { QuestionListsContext } from "../../contexts/QuestionListsContext";
+import { CurrentQuestionContext } from "../../contexts/CurrentQuestionContext";
+import FileCalls from "../../api/FileCalls";
+import SubjectSelect from "../globals/SubjectSelect";
+import ConfirmationPopUp from "./ConfirmationPopUp";
 
-const QuestionModal = ( { setModal, acao, id } ) => {
+const QuestionModal = ( { setQuestionModal, props} ) => {
 
-    const {  dispatchListasQuestoes, setMensagem, questaoCriando, dispatchQuestaoCriando, questaoEditando, dispatchQuestaoEditando } = useContext(GlobalContext);
-    let [ questaoAtual, setQuestaoAtual ] = useState(new Questao("", "", "", [], "", ""));
+    const  { currentCreateQuestion, 
+            dispatchCurrentCreateQuestion, 
+            currentEditQuestion, 
+            dispatchCurrentEditQuestion} = useContext(CurrentQuestionContext);
+    const  { dispatchQuestionLists } = useContext(QuestionListsContext);
     
-    // async function handleEditar(idQuestao) {
-        
-    //     const questao = await lerUmaQuestao(idQuestao);
+    const [ question, setQuestion ] = useState({});
+    const [ confirmationPopUp, setConfirmationPopUp ] = useState("");
 
-    //     if(questao.data) {
+    const isEditMode = props.action === 'edit';
 
-    //         setModal("editar")
+    let action;
 
-    //         dispatchQuestaoEditando({type: 'atualizarStorage', payload: questao.data});
+    if(isEditMode) {
+        action = "editar";
+        setQuestion(currentEditQuestion);
+    } else {
+        action = "criar";
+        setQuestion(currentCreateQuestion);
+    }
 
-    //     } else if (questao.error){
-
-    //         console.log(questao.error);
-    //     }
-    // }
     useEffect(() => {
+        setQuestion(currentCreateQuestion);
+    }, [currentCreateQuestion]);
 
-        console.log("aqui")
-        
-        if(acao === "criar")
-            setQuestaoAtual(questaoCriando);
-        else if(acao === "editar")
-            setQuestaoAtual(questaoEditando);
-    }, [questaoEditando, questaoCriando]);
+    useEffect(() => {
+        setQuestion(currentEditQuestion);
+    }, [currentEditQuestion]);
+
+    async function fetchQuestionToEdit() {
+
+        const fileCalls = new FileCalls('question');
+
+        const retQuestion = await fileCalls.readFile({id: props.id});
+
+        if(retQuestion.data) {
+
+            dispatchCurrentEditQuestion({
+                type: 'updateStorage',
+                payload: retQuestion.data
+            });
+
+        } else if(retQuestion.error) {
+
+            console.log(retQuestion.error)
+        }
+    }
+
+    useEffect(() => {
+    
+        if(isEditMode) {
+            fetchQuestionToEdit();
+        }
+    }, []);
 
     async function handleSubmit(event) {
         
         event.preventDefault();
 
-        const paramsQuestao = [
-            questaoAtual.idDisciplina,
-            questaoAtual.titulo,
-            questaoAtual.enunciado,
-            questaoAtual.alternativas,
-            "",
-            "",
-        ]
-        
-        let idQuestao;
+        const fileCalls = new FileCalls('question');
 
-        if(acao === "criar") {
-            idQuestao = await criarUmaQuestao(paramsQuestao);
-        } else if (acao === "editar") {
-            //idQuestao = await editarUmaQuestao();
-        }
+        let questionId;
 
-        if(idQuestao.data) {
+        if(isEditMode) questionId = await fileCalls.updateFile({question: currentEditQuestion, id: props.id});
+        else questionId = await fileCalls.createFile(currentCreateQuestion);
 
-            setMensagem({
-                acao: acao,
-                entidade: 'questao'
-            });
+        if(questionId.data) {
 
-            if(acao === "criar") {
-                dispatchListasQuestoes(
-                    {
-                        type: 'adicionarElementoLista', 
-                        payload: { 
-                            idDisciplina: questaoAtual.idDisciplina, 
-                            elementoLista: {
-                                nome: questaoAtual.titulo, 
-                                id: idQuestao.data
-                            }
+            if(isEditMode) {
+                //dispatch current create com valor nulo
+                dispatchQuestionLists({
+                    type: 'updateListElement', 
+                    payload: { 
+                        subjectId: currentEditQuestion.subjectId, 
+                        element: {
+                            name: currentEditQuestion.title, 
+                            id: questionId.data
                         }
                     }
-                );
-            } else if(acao === "editar") {
+                });
 
-                // fazer esse case de ediçao de titulo
-                // dispatchListasQuestoes({
-                //     type: 'editarQuestao'
-                // })
+                //problema
+                //dispatch current edit com valor nulo
+
+            } else {
+
+                dispatchQuestionLists({
+                    type: 'addListElement', 
+                    payload: { 
+                        subjectId: currentCreateQuestion.subjectId, 
+                        element: {
+                            name: currentCreateQuestion.title, 
+                            id: questionId.data
+                        }
+                    }
+                });
+                //problema
             }
-        
-        } else if(idQuestao.error){
+            
+            setConfirmationPopUp(true);
 
-            console.error(idQuestao.error);
+            console.log(questionId.data)
+        
+        } else if(questionId.error){
+
+            console.error(questionId.error);
         }
     }
 
     //funçao que reseta o state titulo a cada mudança ocorrida no campo
-    function handleTituloChange(event) {
+    function handleChange(event, prop) {
 
-        const objetoQuestao = {
-            type: 'adicionarSecao', 
+        const objChange =   {
+            type: 'addSection', 
             payload: {
-                conteudo: event.target.value,
-                secao: 'titulo'
+                section: prop,
+                content: event.target.value,
             }
         }
-        if(acao === "criar") 
-            dispatchQuestaoCriando(objetoQuestao);
-        else if(acao === "editar")
-            dispatchQuestaoEditando(objetoQuestao);
+       
+        if(isEditMode) dispatchCurrentEditQuestion(objChange);
+        else  dispatchCurrentCreateQuestion(objChange);
 
     }
-
-    //funçao que reseta o state enunciado a cada mudança ocorrida no campo
-    function handleEnunciadoChange(event) {
-
-        const objetoQuestao = {
-            type: 'adicionarSecao', 
+    function handleSubjectChange(id) {
+        
+        const objChange =   {
+            type: 'addSection', 
             payload: {
-                conteudo: event.target.value,
-                secao: 'enunciado'
+                section: "subjectId",
+                content: id,
             }
         }
-        if(acao === "criar") 
-            dispatchQuestaoCriando(objetoQuestao);
-        else if(acao === "editar")
-            dispatchQuestaoEditando(objetoQuestao);
+       
+        if(isEditMode) dispatchCurrentEditQuestion(objChange);
+        else  dispatchCurrentCreateQuestion(objChange);
     }
 
-    function handleAlternativasChange(event) {
+    function handleAlternativasChange() {
 
-        const objetoQuestao =  {
-            type:'atualizarAlternativa', 
-            payload: {
-                alternativa: event.target.value, 
-                id: event.target.id}
-        }
-
-        if(acao === "criar") 
-            dispatchQuestaoCriando(objetoQuestao);
-        else if(acao === "editar")
-            dispatchQuestaoEditando(objetoQuestao);
-    }
-
-    function handleDisciplinaChange(valor) {
-
-        const objetoQuestao =   {
-            type: 'adicionarSecao', 
-            payload: {
-                conteudo: valor,
-                secao: 'idDisciplina'
-            }
-        }
-
-        if(acao === "criar") 
-            dispatchQuestaoCriando(objetoQuestao);
-        else if(acao === "editar")
-            dispatchQuestaoEditando(objetoQuestao);
     }
 
     return (
         <div className="modal">
             
-            <h2>{acao} Questao</h2>
+            <h2>{action} Questao</h2>
 
             <form onSubmit={(event) => handleSubmit(event)}>
-
-                <SelectDisciplinas handleFunction={handleDisciplinaChange}/>
-               
+                <SubjectSelect setParentSubject={handleSubjectChange}/>               
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da Questao</label>
                     <input 
                         type="text"
                         name="titulo"
                         id="titulo"
-                        value={questaoAtual.titulo}
+                        value={question.title}
                         required
-                        onChange={(event) => handleTituloChange(event)}
+                        onChange={(event) => handleChange(event, "title")}
                     />
                 </div>
 
@@ -182,9 +175,9 @@ const QuestionModal = ( { setModal, acao, id } ) => {
                         id="enunciado" 
                         cols="30" 
                         rows="10"
-                        value={questaoAtual.enunciado}
+                        value={question.stem}
                         required
-                        onChange={(event) => handleEnunciadoChange(event)}
+                        onChange={(event) =>  handleChange(event, "enunciado")}
                     ></textarea>
                 </div>
 
@@ -197,15 +190,16 @@ const QuestionModal = ( { setModal, acao, id } ) => {
                             id={i} 
                             cols="30" 
                             rows="3"
-                            value={questaoAtual.alternativas[i]}
+                            value={question.alternativas[i]}
                             required
                             onChange={(event) => handleAlternativasChange(event)}
                         ></textarea> 
                     )}
                 </div>
 
-                <button type="submit">{acao}</button>
-                <button type="button" className="fechar" onClick={() => {setModal(false)}}>Fechar</button>
+                <button type="submit">{action}</button>
+                <button type="button" className="fechar" onClick={() => {setQuestionModal(false)}}>fechar</button>
+                {confirmationPopUp && <ConfirmationPopUp setConfirmationPopUp={setConfirmationPopUp} props={{type: 'question', action: props.action}}/>}
             </form>
         </div>
     )

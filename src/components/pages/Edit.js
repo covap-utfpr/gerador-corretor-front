@@ -1,19 +1,19 @@
-import ListaQuestoes from "../lists/ListaQuestoes";
-import ListaDisciplinas from "../lists/ListaDisciplinas";
-import ListaAvaliacoes from "../lists/TestLists";
+import QuestionList from "../lists/QuestionList";
+import SubjectList from "../lists/SubjectList";
+import TestList from "../lists/TestList";
 
 const Edit = () => {
 
     return (
         <main>
             <div className="modulo" id="disciplinas">
-                <ListaDisciplinas />
+                <SubjectList />
             </div>    
             <div className="modulo" id="questoes">
-                <ListaQuestoes />
+                <QuestionList />
             </div>
             <div className="modulo" id="avaliacoes">
-                <ListaAvaliacoes />
+                <TestList />
             </div>   
             
         </main>   

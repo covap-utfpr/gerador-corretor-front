@@ -8,6 +8,7 @@ export default class FileCalls {
 
     // recebe tipo de arquivo: test ou question
     constructor(type) {
+        this.type = type;
         // url para a rota backend
         this.server = `http://localhost:8080/${type}`;
         // url completa com parametros
@@ -44,6 +45,29 @@ export default class FileCalls {
         this.requestOptions.body = JSON.stringify(params);
 
         //recebe id da questao criada
+        return await this.fetchFunction('text');
+    }
+    
+    //Problema: arrumat parametros recebido do json
+    // params: 
+    //question 
+        // subject - disciplina
+        // title - titulo
+        // stem - enunciado
+        // alternatives 
+        // picture
+        // correct
+        // parent - id da disciplina
+    // id
+    async updateFile(params) {
+
+        this.url = `${this.server}/editar`;
+        this.requestOptions.method = 'PUT';
+        this.requestOptions.headers['Content-Type'] = 'application/json';
+
+        this.requestOptions.body = JSON.stringify(params);
+
+        //recebe id da questao editada
         return await this.fetchFunction('text');
     }
 

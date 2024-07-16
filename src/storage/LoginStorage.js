@@ -1,6 +1,4 @@
 import Cookies from 'js-cookie';
-import StorageAvaliacaoAtual from './CurrentTestStorage';
-import StorageListas from './StorageListas';
 
 class LoginStorage {
 

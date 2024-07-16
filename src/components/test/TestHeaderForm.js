@@ -1,51 +1,113 @@
-import { useContext, useState } from "react";
-import SelectDisciplinas from "../globals/SubjectSelect";
-import { GlobalContext } from "../globals/Global";
+import { useContext, useEffect, useState } from "react";
+import { CurrentTestContext } from "../../contexts/CurrentTestContext";
+import SubjectSelect from "../globals/SubjectSelect";
 
-const FormularioCabecalho = () => {
+const TestHeaderForm = ({action}) => {
 
-    const { avaliacaoAtual, dispatchAvaliacaoAtual } = useContext(GlobalContext);
+    const { currentEditTest, dispatchCurrentEditTest, currentCreateTest, dispatchCurrentCreateTest, editInfos } = useContext(CurrentTestContext);
+    const [ test, setTest ] = useState({});
+
+    if(action == 'create'){
+        setTest(currentCreateTest);
+    } else if( action == 'edit') {
+        setTest(currentEditTest);
+    }
+
+    useEffect(() => {
+        setTest(currentCreateTest);
+    }, [currentCreateTest]);
+
+    useEffect(() => {
+        setTest(currentEditTest);
+    }, [currentEditTest]);
 
     function handleChange(event, prop) {
-        dispatchAvaliacaoAtual(
-            {
+
+        const objChange =   {
+            type: 'updateSection', 
+            payload: {
+                section: 'header',
+                prop: prop,
+                content: event.target.value,
+            }
+        }
+       
+        if(action == 'create')
+            dispatchCurrentCreateTest(objChange);
+        else if(action == 'edit')
+            dispatchCurrentEditTest(objChange);
+    }
+    
+    function handleSubjectChange(id) {
+
+        const objChange =   {
+            type: 'updateSection', 
+            payload: {
+                section: 'header',
+                prop: 'subject',
+                content: id,
+            }
+        }
+       
+        if(action == 'create')
+            dispatchCurrentCreateTest(objChange);
+        else if(action == 'edit')
+            dispatchCurrentEditTest(objChange);
+    }
+
+    function handleValueChange(event) {
+
+        if(action == 'create') {
+
+            dispatchCurrentCreateTest({
                 type: 'updateSection', 
                 payload: {
                     section: 'header',
-                    prop: prop,
+                    prop: 'value',
                     content: event.target.value,
                 }
-            }
-        );
-    }
-    
-    function handleSubmit(event) {
+            })
 
-        event.preventDefault();
+            currentCreateTest.questions.forEach((question, index) => {
+                dispatchCurrentCreateTest({
+                    type: 'updateQuestion',
+                    payload: {
+                        index: index,
+                        valor: '0'
+                    }
+                });
+            })
+        } else if(action == 'edit'){
 
-        avaliacaoAtual.questoes.forEach((questao, index) => {
-
-            dispatchAvaliacaoAtual({
-                type: 'atualizarQuestao',
+            dispatchCurrentEditTest({
+                type: 'updateSection', 
                 payload: {
-                    index: index,
-                    valor: '0'
+                    section: 'header',
+                    prop: 'value',
+                    content: event.target.value,
                 }
             })
-        })
 
+            currentEditTest.questions.forEach((question, index) => {
+                dispatchCurrentEditTest({
+                    type: 'updateQuestion',
+                    payload: {
+                        index: index,
+                        valor: '0'
+                    }
+                });
+            })
+        }
     }
 
     return (
         <div className="form">
-
             <h2>Cabeçalho</h2>
-
             <form>
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 
-                        value={titulo}
+                        value={test.title}
                         type="text"
                         name="titulo"
                         id="titulo"
@@ -56,7 +118,7 @@ const FormularioCabecalho = () => {
                 <div className="campo-form">
                     <label htmlFor="instituicao">Instituição de Ensino</label>
                     <input 
-                        value={instituicao} 
+                        value={test.institution} 
                         type="text"
                         name="instituicao"
                         id="instituicao"
@@ -64,46 +126,45 @@ const FormularioCabecalho = () => {
                     />
                 </div>
                 <div className="campo-form">
-                    <SelectDisciplinas handleFunction={}/>
+                    <SubjectSelect setParentSubject={handleSubjectChange}/>
                 </div>
                 <div className="campo-form">
                     <label htmlFor="data">Data de realização / Prazo</label>
                     <input 
-                        value={data}
+                        value={test.date}
                         type="date"
                         name="data"
                         id="data"
                         required
-                        onChange={(event) => handleData(event)}
+                        onChange={(event) => handleChange(event, 'date')}
                     />
                 </div>
                 <div className="campo-form">
                     <label htmlFor="valor">Valor</label>
                     <input 
-                        value={valor}
+                        value={test.value}
                         type="number"
                         name="valor"
                         id="valor"
                         required
-                        onChange={(event) => handleValor(event)}
+                        onChange={(event) => handleValueChange(event)}
                     />
                 </div>
                 <div className="campo-form">
                     <label htmlFor="instrucoes">Instruções para os alunos</label>
                     <textarea 
-                        value={instrucoes}
+                        value={test.instructions}
                         name="instrucoes" 
                         id="instrucoes" 
                         cols="30" 
                         rows="10"
                         required
-                        onChange={(event) => handleInstrucoes(event)}
+                        onChange={(event) => handleChange(event)}
                     ></textarea>
                 </div>
-                <button type="submit">Enviar</button>
             </form>
         </div>
     );
 }
 
-export default FormularioCabecalho;
+export default TestHeaderForm;
