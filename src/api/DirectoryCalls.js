@@ -1,4 +1,4 @@
-import resolver from "../utils/resolver";
+import resolve from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
 
@@ -27,13 +27,14 @@ export default class DirectoryCalls {
     // params: 
         // name - nome do arquivo
         // parent - id do diretorio pai
-    async createDirectory({ name, parent }) {
-
+    async createDirectory({ name, parentId }) {
+        
         this.url = `${this.server}/criar`;
         this.requestOptions.method = 'POST';
         this.requestOptions.headers['Content-Type'] = 'application/json';
         // pode receber parametro parent (id do diretorio raiz) ou nao
-        this.requestOptions.body = JSON.stringify({ name, parent });
+        console.log( name, parentId );
+        this.requestOptions.body = JSON.stringify({ name, parentId });
 
         // recebe id do diretorio criado
         return await this.fetchFunction('text');
@@ -41,14 +42,14 @@ export default class DirectoryCalls {
 
     //Problema: arrumar parametros recebido do json
     // params: name, id
-    async updateDirectory({ name, id, parent }) {
+    async updateDirectory({ name, id, parentId }) {
 
         this.url = `${this.server}/editar`;
         this.requestOptions.method = 'PUT';
         this.requestOptions.headers['Content-Type'] = 'application/json';
 
         // deve receber parametro parent (id da disciplina)
-        this.requestOptions.body = JSON.stringify({ name, id, parent });
+        this.requestOptions.body = JSON.stringify({ name, id, parentId });
 
         // recebe id do diretorio editado
         return await this.fetchFunction('text');
@@ -57,10 +58,10 @@ export default class DirectoryCalls {
     // obtém o id do diretorio com o nome especificado
     // params: 
         // name 
-        // parent: id do diretorio pai
-    async readDirectoryId({ name, parent }) {
+        // parentId: id do diretorio pai
+    async readDirectoryId({ name, parentId }) {
 
-        this.url = `${this.server}/ler/${name}?IDdiretorioPai=${parent}`;
+        this.url = `${this.server}/ler/${name}?parentId=${parentId}`;
         this.requestOptions.method = 'GET';
         this.requestOptions.headers['Content-Type'] = 'text/html';
 
@@ -70,12 +71,12 @@ export default class DirectoryCalls {
 
     // obtém lista de objetos, cada um com nome e id do diretorio
     // params: 
-        // parent: id do diretorio pai
+        // parentId: id do diretorio pai
         // quantidade: tamanho da pagina de diretorios
         // inicial: indice inicial de busca nos diretorios
-    async readDirectories({ parent, start = 0 }) {
+    async readDirectories({ parentId, start = 0 }) {
 
-        this.url = `${this.server}/ler?IDdiretorioPai=${parent}&quantidade=50&inicial=${start}`;
+        this.url = `${this.server}/ler?parentId=${parentId}&qnt=50&start=${start}`;
         this.requestOptions.method = 'GET';
         this.requestOptions.headers['Content-Type'] = 'application/json';
 
@@ -85,7 +86,7 @@ export default class DirectoryCalls {
 
     // deleta diretorio
     async deleteDirectory({ id }) {
-        this.url = `${this.server}/${id}`;
+        this.url = `${this.server}/deletar/${id}`;
         this.requestOptions.method = 'DELETE';
         this.requestOptions.headers['Content-Type'] = 'text/html';
 
@@ -95,7 +96,7 @@ export default class DirectoryCalls {
 
     // realiza açao assincrona de chamada de api
     async fetchFunction(responseType) {
-        return await resolver(
+        return await resolve(
             fetch(this.url, this.requestOptions)
                 .then(res => {
                     if (!res.ok) {

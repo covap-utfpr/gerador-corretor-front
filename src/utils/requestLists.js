@@ -7,7 +7,7 @@ const requestLists = async (subjectList, type) => {
 
     const listsPromises = subjectList.map( async (subject) => {
 
-        const res = await fileCalls.readFiles({parent: subject.id, start: 0});
+        const res = await fileCalls.readFiles({parentId: subject.id, start: 0});
 
         if(res.data) {
 

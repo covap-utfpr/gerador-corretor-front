@@ -5,7 +5,7 @@ async function checkRootDirectory() {
 
     const directoryCalls = new DirectoryCalls();
 
-    let dirId = await directoryCalls.readDirectoryId({name: "Gerador-Corretor-Avaliacoes", parent: ""});
+    let dirId = await directoryCalls.readDirectoryId({name: "Gerador-Corretor-Avaliacoes", parentId: ""});
     
     if (dirId.data) {
         //retorna id do diretorio raiz
@@ -15,7 +15,7 @@ async function checkRootDirectory() {
     } else if (dirId.error) {
         
         //cria novo diretorio raiz
-        dirId = await  directoryCalls.createDirectory({name: "Gerador-Corretor-Avaliacoes", parent: ""});
+        dirId = await  directoryCalls.createDirectory({name: "Gerador-Corretor-Avaliacoes", parentId: ""});
 
         if(dirId.data) 
             return dirId.data;

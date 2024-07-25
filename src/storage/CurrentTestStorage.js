@@ -54,7 +54,7 @@ class CurrentTestStorage {
   
         const newState = {...state}
 
-        newState[action.payload.sction][action.payload.prop] = action.payload.content;
+        newState[action.payload.section][action.payload.prop] = action.payload.content;
     
         localStorage.setItem(this.storageKey, JSON.stringify(newState));
     

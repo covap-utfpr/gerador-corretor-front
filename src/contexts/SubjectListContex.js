@@ -7,11 +7,11 @@ const SubjectListProvider = ({ children }) => {
 
     const subjectListStorage = new SubjectListStorage();
 
-    const [ subjectList, dispatchsubjectList ] = useReducer(subjectListStorage.reducer, 
+    const [ subjectList, dispatchSubjectList ] = useReducer(subjectListStorage.reducer, 
         subjectListStorage.getBaseValue());
 
     return(
-        <SubjectListContext.Provider value={{subjectList, dispatchsubjectList}}>
+        <SubjectListContext.Provider value={{subjectList, dispatchSubjectList}}>
             { children }
         </SubjectListContext.Provider>
     );

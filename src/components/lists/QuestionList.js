@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import requestLists from "../../utils/requestLists";
-import ModalQuestao from "../modals/QuestionModal";
 import { SubjectListContext } from "../../contexts/SubjectListContex";
 import { QuestionListsContext } from "../../contexts/QuestionListsContext";
 import { CurrentTestContext } from "../../contexts/CurrentTestContext";
 import ListsStorage from "../../storage/ListsStorage";
 import DeleteModal from "../modals/DeleteModal";
 import TestQuestion from "../../models/TestQuestion";
+import SubjectSelect from "../globals/SubjectSelect";
+import CreateQuestion from "../modals/CreateQuestion";
+import EditQuestion from "../modals/EditQuestion";
     
-const QuestionList = ( { test }) => {
+const QuestionList = ( { testType }) => {
 
     // Importando contextos necessarios     
     const { subjectList } = useContext(SubjectListContext);
@@ -18,11 +20,10 @@ const QuestionList = ( { test }) => {
     // Instancia da classe ListsStorage para obter getters de questoes
     const questionStorage = new ListsStorage('questionLists');
     
-    // Se valer "editar" ou "criar", ativa o modal Questao para a acao designada
     const [ subjectId, setSubjectId] = useState(""); 
     const [ questions, setQuestions ] = useState([]);
-    const [ questionModal, setQuestionModal ] = useState("");
-    const [ questionModalProps, setQuestionModalProps ] = useState("");
+    const [ editModal, setEditModal ] = useState(false);
+    const [ createModal, setCreateModal ] = useState(false);
     const [ deleteModal, setDeleteModal ] = useState(false);
 
     async function fetchQuestions() {
@@ -58,40 +59,41 @@ const QuestionList = ( { test }) => {
         setSubjectId(id);
     }
 
-    function handleCurrentCreateTest(subjectId, question) {
+    function handleCurrentTest(subjectId, question) {
+        
+        let options = {   
+            type: 'addQuestion', 
+            payload: new TestQuestion(subjectId, question.id, question.name, "", 0, 0)
+        }
 
-        //Problema: pode ser a avaliaçao em ediçao ou  avaliaçao em criaçao
-        dispatchCurrentCreateTest(
-            {   
-                type: 'addQuestion', 
-                payload: new TestQuestion(subjectId, question.id, question.name, "", 0, 0)
-            }
-        );
-    }
+        if(testType === "Criar") {
+            dispatchCurrentCreateTest(options);
+            return;
+        }
 
-    function handleQuestionModal(props) {
-        setQuestionModalProps(props);
-        setQuestionModal(true);
+        dispatchCurrentEditTest(options);
     }
 
     return (
         <div className="lista">
-            <h2>Questões {test && "Disponiveis"}</h2>
+            <h2>Questões {testType && "Disponiveis"}</h2>
             <SubjectSelect setParentSubject={handleSubjectChange} />
             <ul>
                 {questions && questions.map((question, index) => (
                     <li key={index} value={question.name}>
                         <span>{question.name}</span>
-                        {test && <button onClick={() => handleCurrentCreateTest(subjectId, question)}>+</button>}
+                        {testType && <button onClick={() => handleCurrentTest(subjectId, question)}>+</button>}
                         <button onClick={() => setDeleteModal(true)}>excluir</button>
-                        <button onClick={() => handleQuestionModal({action: "edit", id: question.id})}>editar</button>
-                        { deleteModal && <DeleteModal setDeleteModal={setDeleteModal} props={{ subjectId: subjectId, question: question}}/>}
+                        <button onClick={() => setEditModal(true)}>editar</button>
+                        { deleteModal && <DeleteModal setDeleteModal={setDeleteModal} props={{ subjectId: subjectId, element:question, type:"question"}}/>}
+                        { editModal && <EditQuestion setQuestionModal={setEditModal} id={question.id}/>}
                     </li>
                 ))}
             </ul>
-            <button onClick={() => handleQuestionModal({action: "create", id:""})}>Criar nova questão</button>
-            {questionModal && <ModalQuestao setQuestionModal={setQuestionModal} props={questionModalProps}/>}
+            <button onClick={() => setCreateModal(true)}>Criar nova questão</button>
+            {createModal && <CreateQuestion setQuestionModal={setCreateModal}/>}
         </div>
+
     )
 }
 

@@ -11,9 +11,8 @@ const Header = () => {
     async function handleLogin() {
 
         const authCalls = new AuthenticationCalls();
-
         // requisita url de autenticaçao do google
-        const googleUrl = authCalls.getLoginUrl();
+        const googleUrl = await authCalls.getLoginUrl();
 
         if(googleUrl.data) {
             window.location.href = googleUrl.data;
@@ -46,7 +45,7 @@ const Header = () => {
                 { logged && <Link to="corretor">Corretor</Link> }
                 <Link to="sobre">Sobre</Link>
                 {logged && <button className="login" onClick={() => handleLogout()}>Logout</button>}
-                {logged && <button className="login" onClick={() => handleLogin()}>Login</button>}
+                { <button className="login" onClick={() => handleLogin()}>Login</button>}
             </nav>
         </header>
     )

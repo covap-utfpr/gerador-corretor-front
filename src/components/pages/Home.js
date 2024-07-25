@@ -12,7 +12,7 @@ const Home = () => {
 
         const authCalls = new AuthenticationCalls();
 
-        const googleUrl = authCalls.getLoginUrl();
+        const googleUrl = await authCalls.getLoginUrl();
 
         if(googleUrl.data) {
             window.location.href = googleUrl.data;

@@ -1,40 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { CurrentTestContext } from "../../contexts/CurrentTestContext";
-
-const TestConfigsForm = ({ action }) => {
-
-    const { currentEditTest, dispatchCurrentEditTest, currentCreateTest, dispatchCurrentCreateTest, editInfos } = useContext(CurrentTestContext);
-    const [ test, setTest ] = useState({});
-
-    if(action == 'create'){
-        setTest(currentCreateTest);
-    } else if( action == 'edit') {
-        setTest(currentEditTest);
-    }
-
-    useEffect(() => {
-        setTest(currentCreateTest);
-    }, [currentCreateTest]);
-
-    useEffect(() => {
-        setTest(currentEditTest);
-    }, [currentEditTest]);
-
+const TestConfigsForm = ({ test, dispatch }) => {
     function handleChange(event, prop) {
 
-        const objChange =   {
+        dispatch({
             type: 'updateSection', 
             payload: {
                 section: 'configs',
                 prop: prop,
                 content: event.target.value,
             }
-        }
-       
-        if(action == 'create')
-            dispatchCurrentCreateTest(objChange);
-        else if(action == 'edit')
-            dispatchCurrentEditTest(objChange);
+        });
     }
 
     return (
@@ -45,7 +19,7 @@ const TestConfigsForm = ({ action }) => {
             <form>
                 
                 <div className="campo-form">
-                    <fieldset value={test.order} onChange={(event) => handleChange(event, 'order')}>
+                    <fieldset value={test.configs.order} onChange={(event) => handleChange(event, 'order')}>
                         <legend>Disposição das questões</legend>
                         <div>
                             <input type="radio" id="duas" name="disposicao" value="2" />
@@ -59,7 +33,7 @@ const TestConfigsForm = ({ action }) => {
                 </div>
 
                 <div className="campo-form">
-                    <fieldset value={test.answCardPosition} onChange={(event) => handleChange(event, 'answCardPosition')}>
+                    <fieldset value={test.configs.answCardPosition} onChange={(event) => handleChange(event, 'answCardPosition')}>
                         <legend>Posição do gabarito</legend>
                         <div>
                             <input type="radio" id="inicio" name="posicao" value="inicio" />
@@ -74,7 +48,7 @@ const TestConfigsForm = ({ action }) => {
 
                 <div className="campo-form">
                     <label htmlFor="fonte">Fonte</label>
-                    <select value={test.font} name="fonte" id="fonte" onChange={(event) => handleChange(event, 'font')} >
+                    <select value={test.configs.font} name="fonte" id="fonte" onChange={(event) => handleChange(event, 'font')} >
                         <option key={1} value="Arial">Arial</option>
                         <option key={2} value="Arial">Times New Roman</option>
                     </select>
@@ -83,7 +57,7 @@ const TestConfigsForm = ({ action }) => {
                 <div className="campo-form">
                     <label htmlFor="font-size">Tamanho da fonte</label>
                     <input 
-                        value={test.fontSize}
+                        value={test.configs.fontSize}
                         type="number"
                         name="font-size"
                         id="font-size"
@@ -96,7 +70,7 @@ const TestConfigsForm = ({ action }) => {
                 <div className="campo-form">
                     <label htmlFor="espaco">Espaço para rascunho</label>
                     <input 
-                        value={test.lines}
+                        value={test.configs.lines}
                         type="number"
                         name="espaco"
                         id="espaco"

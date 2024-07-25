@@ -1,4 +1,4 @@
-import resolver from "../utils/resolver";
+import resolve from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
 
@@ -8,9 +8,9 @@ export default class FileCalls {
 
     // recebe tipo de arquivo: test ou question
     constructor(type) {
-        this.type = type;
+        this.type = type === 'test' ? 'avaliacao' : 'questao';
         // url para a rota backend
-        this.server = `http://localhost:8080/${type}`;
+        this.server = `http://localhost:8080/${this.type}`;
         // url completa com parametros
         this.url = "";
         // segundo parametro de fetch, definiçao de metodo, headers e body
@@ -87,12 +87,12 @@ export default class FileCalls {
     // obtém objeto com o id da disciplina, quantidade de questoes e lista de questoes. 
     // Cada questao é um objeto com nome e id
     // params: 
-        // parent: id da disciplina
+        // parentId: id da disciplina
         // quantidade: tamanho da pagina de diretorios
         // inicial: indice inicial de busca nos diretorios
     async readFiles(params) {
 
-        this.url = `${this.server}/ler?idDisciplina=${params['parent']}&quantidade=10&inicial=${params['start']}`;
+        this.url = `${this.server}/ler?parentId=${params['parentId']}&qnt=10&start=${params['start']}`;
         this.requestOptions.method = 'GET';
         this.requestOptions.headers['Content-Type'] = 'application/json';
 
@@ -101,7 +101,7 @@ export default class FileCalls {
 
     // deleta arquivo
     async deleteFile(params) {
-        this.url = `${this.server}/${params['id']}`;
+        this.url = `${this.server}/deletar/${params['id']}`;
         this.requestOptions.method = 'DELETE';
         this.requestOptions.headers['Content-Type'] = 'text/html';
 
@@ -111,7 +111,7 @@ export default class FileCalls {
 
     async fetchFunction(responseType) {
 
-        return await resolver(fetch(this.url, this.requestOptions)
+        return await resolve(fetch(this.url, this.requestOptions)
         
         .then(res => {
             

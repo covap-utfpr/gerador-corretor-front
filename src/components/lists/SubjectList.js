@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../contexts/LoginContext";
 import { SubjectListContext } from "../../contexts/SubjectListContex";
-import DeleteSubjectModal from "../modals/DeleteSubjectModal";
+import DeleteSubject from "../modals/DeleteSubject";
 import DirectoryCalls from "../../api/DirectoryCalls";
-import SubjectModal from "../modals/SubjectModal";
+import CreateSubject from "../modals/CreateSubject";
 
 const SubjectList = () => {
 
@@ -22,7 +22,6 @@ const SubjectList = () => {
         const list = await directoryCalls.readDirectories(rootDirectoryId);
 
         if(list.data) {
-            
             dispatchSubjectList({type:'updateStorage', payload: list.data});
     
         } else if (list.error) {
@@ -36,7 +35,7 @@ const SubjectList = () => {
         if(subjectList.length === 0) fetchSubjects();
         
     }, [ subjectList, rootDirectoryId ]);
-
+    
     return (
         <div className="lista">
             <h2>Disciplinas</h2>
@@ -45,12 +44,12 @@ const SubjectList = () => {
                     <li key={index} value={subject.name}>
                         {subject.name}
                         <button onClick={() => setDeleteModal(true)}>excluir</button>
-                        { deleteModal && <DeleteSubjectModal setDeleteModal={setDeleteModal} props={subject}/>}
+                        { deleteModal && <DeleteSubject setDeleteModal={setDeleteModal} props={subject}/>}
                     </li>
                 ))}
             </ul>
             <button onClick={() => setCreateModal(true)}>Criar nova disciplina</button>
-            { createModal && <SubjectModal setModal={setCreateModal}/>}
+            { createModal && <CreateSubject setModal={setCreateModal} />}
         </div>
     )
 }

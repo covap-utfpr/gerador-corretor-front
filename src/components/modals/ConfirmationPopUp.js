@@ -1,7 +1,7 @@
 
 //props = {type, action}
 const ConfirmationPopUp = ({ setConfirmationPopUp, props }) => {
-
+    console.log(props)
     let type, action;
 
     if(props.type == 'question')
@@ -11,11 +11,11 @@ const ConfirmationPopUp = ({ setConfirmationPopUp, props }) => {
     else if (props.type == 'subject')
         type = 'disciplina'
 
-    if(props.action == 'delete')
+    if(props.action == 'Deletar')
         action = 'deletada'
-    else if (props.action == 'create')
+    else if (props.action == 'Criar')
         action = 'criada'
-    else if (props.action == 'edit')
+    else if (props.action == 'Editar')
         action = 'editada'
 
     setTimeout(() => {

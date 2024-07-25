@@ -1,6 +1,6 @@
-import resolver from "../utils/resolver";
 import Cookies from 'js-cookie';
 import ServerException from "../utils/serverException";
+import resolve from '../utils/resolver';
 
 export default class AuthenticationCalls {
     
@@ -43,16 +43,16 @@ export default class AuthenticationCalls {
     // realiza açao assincrona de chamada de api
     async fetchFunction(responseType) {
 
-        return await resolver(fetch(this.url, this.requestOptions)
+        return await resolve(fetch(this.url, this.requestOptions)
         
-        .then(res => {
-            
-            if(!res.ok) {
-                throw new ServerException(res.statusText, res.status);
-            }
-            
-            return responseType == 'text' ? res.text(): res.json();
-        })
-        )
+            .then(res => {
+
+                if(!res.ok) {
+                    throw new ServerException(res.statusText, res.status);
+                }
+                
+                return responseType == 'text' ? res.text(): res.json();
+            })
+        );
     }
 }

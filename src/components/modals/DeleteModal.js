@@ -11,7 +11,7 @@ const DeleteModal = ({ setDeleteModal, props }) => {
     
     // Contextos necessarios
     const { dispatchQuestionLists } = useContext(QuestionListsContext);
-    const { dispatchTestsLists } = useContext(TestListsContext);
+    const { dispatchTestLists } = useContext(TestListsContext);
 
     // Estados necessarios
     const [ confirmationPopUp, setConfirmationPopUp ] = useState(false);
@@ -19,8 +19,8 @@ const DeleteModal = ({ setDeleteModal, props }) => {
     // Fragmentando props
     const subjectId = props.subjectId;
     // guarda key 'test' ou 'question'
-    const type = Object.keys(props)[1];
-    const element = props[type];
+    const type = props.type;
+    const element = props.element;
 
     async function handleDelete() {
 
@@ -28,6 +28,7 @@ const DeleteModal = ({ setDeleteModal, props }) => {
 
         const idDeleted = await fileCalls.deleteFile({id: element.id});
 
+        console.log(idDeleted)
         if(idDeleted.data) {
 
             const deleteParam = {
@@ -38,10 +39,11 @@ const DeleteModal = ({ setDeleteModal, props }) => {
                 }
             }
 
-            if(type === 'question')
+            if(type === 'question') {
+                console.log(deleteParam)
                 dispatchQuestionLists(deleteParam);
-            else if(type === 'test')
-                dispatchTestsLists(deleteParam);
+            } else if(type === 'test')
+                dispatchTestLists(deleteParam);
 
             setConfirmationPopUp(true);
             setDeleteModal(false);
@@ -58,7 +60,7 @@ const DeleteModal = ({ setDeleteModal, props }) => {
             <p> Tem certeza que deseja excluir a {type} {element.name}?</p>
             <button type="button" onClick={() => handleDelete()}>Excluir</button>
             <button type="button" onClick={() => setDeleteModal(false)}>Cancelar</button>
-            {confirmationPopUp && <ConfirmationPopUp setConfirmationPopUp={setConfirmationPopUp} props={{ type: type, action: 'delete' } }/>}
+            {confirmationPopUp && <ConfirmationPopUp setConfirmationPopUp={setConfirmationPopUp} props={{ type: type, action: 'Deletar' } }/>}
         </div>
     )
 }

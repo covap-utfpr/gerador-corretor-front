@@ -1,103 +1,52 @@
-import { useContext, useEffect, useState } from "react";
-import { CurrentTestContext } from "../../contexts/CurrentTestContext";
+
 import SubjectSelect from "../globals/SubjectSelect";
 
-const TestHeaderForm = ({action}) => {
-
-    const { currentEditTest, dispatchCurrentEditTest, currentCreateTest, dispatchCurrentCreateTest, editInfos } = useContext(CurrentTestContext);
-    const [ test, setTest ] = useState({});
-
-    if(action == 'create'){
-        setTest(currentCreateTest);
-    } else if( action == 'edit') {
-        setTest(currentEditTest);
-    }
-
-    useEffect(() => {
-        setTest(currentCreateTest);
-    }, [currentCreateTest]);
-
-    useEffect(() => {
-        setTest(currentEditTest);
-    }, [currentEditTest]);
+const TestHeaderForm = ({ test, dispatch }) => {
 
     function handleChange(event, prop) {
 
-        const objChange =   {
+        dispatch({
             type: 'updateSection', 
             payload: {
                 section: 'header',
                 prop: prop,
                 content: event.target.value,
             }
-        }
-       
-        if(action == 'create')
-            dispatchCurrentCreateTest(objChange);
-        else if(action == 'edit')
-            dispatchCurrentEditTest(objChange);
+        });
     }
     
     function handleSubjectChange(id) {
-
-        const objChange =   {
+    
+        dispatch( {
             type: 'updateSection', 
             payload: {
                 section: 'header',
                 prop: 'subject',
                 content: id,
             }
-        }
-       
-        if(action == 'create')
-            dispatchCurrentCreateTest(objChange);
-        else if(action == 'edit')
-            dispatchCurrentEditTest(objChange);
+        });
     }
 
     function handleValueChange(event) {
 
-        if(action == 'create') {
+        dispatch({
+            type: 'updateSection', 
+            payload: {
+                section: 'header',
+                prop: 'value',
+                content: event.target.value,
+            }
+        })
 
-            dispatchCurrentCreateTest({
-                type: 'updateSection', 
+        test.questions.forEach((question, index) => {
+            dispatch({
+                type: 'updateQuestion',
                 payload: {
-                    section: 'header',
-                    prop: 'value',
-                    content: event.target.value,
+                    index: index,
+                    valor: '0'
                 }
-            })
-
-            currentCreateTest.questions.forEach((question, index) => {
-                dispatchCurrentCreateTest({
-                    type: 'updateQuestion',
-                    payload: {
-                        index: index,
-                        valor: '0'
-                    }
-                });
-            })
-        } else if(action == 'edit'){
-
-            dispatchCurrentEditTest({
-                type: 'updateSection', 
-                payload: {
-                    section: 'header',
-                    prop: 'value',
-                    content: event.target.value,
-                }
-            })
-
-            currentEditTest.questions.forEach((question, index) => {
-                dispatchCurrentEditTest({
-                    type: 'updateQuestion',
-                    payload: {
-                        index: index,
-                        valor: '0'
-                    }
-                });
-            })
-        }
+            });
+        })
     }
 
     return (
@@ -107,7 +56,7 @@ const TestHeaderForm = ({action}) => {
                 <div className="campo-form">
                     <label htmlFor="titulo">Titulo da avaliação</label>
                     <input 
-                        value={test.title}
+                        value={test.header.title}
                         type="text"
                         name="titulo"
                         id="titulo"
@@ -118,7 +67,7 @@ const TestHeaderForm = ({action}) => {
                 <div className="campo-form">
                     <label htmlFor="instituicao">Instituição de Ensino</label>
                     <input 
-                        value={test.institution} 
+                        value={test.header.institution} 
                         type="text"
                         name="instituicao"
                         id="instituicao"
@@ -131,7 +80,7 @@ const TestHeaderForm = ({action}) => {
                 <div className="campo-form">
                     <label htmlFor="data">Data de realização / Prazo</label>
                     <input 
-                        value={test.date}
+                        value={test.header.date}
                         type="date"
                         name="data"
                         id="data"
@@ -142,7 +91,7 @@ const TestHeaderForm = ({action}) => {
                 <div className="campo-form">
                     <label htmlFor="valor">Valor</label>
                     <input 
-                        value={test.value}
+                        value={test.header.value}
                         type="number"
                         name="valor"
                         id="valor"
@@ -153,13 +102,13 @@ const TestHeaderForm = ({action}) => {
                 <div className="campo-form">
                     <label htmlFor="instrucoes">Instruções para os alunos</label>
                     <textarea 
-                        value={test.instructions}
+                        value={test.header.instructions}
                         name="instrucoes" 
                         id="instrucoes" 
                         cols="30" 
                         rows="10"
                         required
-                        onChange={(event) => handleChange(event)}
+                        onChange={(event) => handleChange(event, 'instructions')}
                     ></textarea>
                 </div>
             </form>

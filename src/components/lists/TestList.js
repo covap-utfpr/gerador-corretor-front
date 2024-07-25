@@ -13,7 +13,7 @@ const TestsList = () => {
     // Importando contextos necessarios     
     const { subjectList } = useContext(SubjectListContext);
     const { testLists, dispatchTestLists} = useContext(TestListsContext);
-    const { dispatchCurrentEditTest, currentEditTest, dispatchCurrentCreateTest, currentCreateTest, setEditInfos } = useContext(CurrentTestContext);
+    const { setEditInfos } = useContext(CurrentTestContext);
 
     // Instancia da classe ListsStorage para obter getters de questoes
     const testStorage = new ListsStorage('testLists');
@@ -81,11 +81,12 @@ const TestsList = () => {
                     <li key={index} value={test.name}>
                         <span>{test.name}</span>
                         <button onClick={() => handleEditTest(subjectId, test.id)}>editar</button>
-                        <button onClick={() => setDelete(true)}>excluir</button>
+                        <button onClick={() => setDeleteModal(true)}>excluir</button>
                         { deleteModal && <DeleteModal setDeleteModal={setDeleteModal} props={
                             {
                                 subjectId: subjectId,
-                                test: test,
+                                element: test,
+                                type: "test"
                             }
                         }/>}
                     </li>

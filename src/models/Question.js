@@ -1,11 +1,11 @@
 class Question {
     
-    constructor(subjectId, title, stem, alternatives, imagem, correct) {
+    constructor(subjectId, title, stem, alternatives, picture, correct) {
 
         this.subjectId = subjectId;
         this.title = title;
         this.stem = stem;
-        this.imagem = imagem;
+        this.picture = picture;
         this.alternatives = alternatives;
         this.correct = correct;
     }
